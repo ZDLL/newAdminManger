@@ -1,0 +1,25 @@
+.avatar-uploader {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 28px;
+    color: #8c939d;
+    width: 128px;
+    height: 128px;
+    line-height: 128px;
+    text-align: center;
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+    }
+  }
+  .avatar-uploader:hover {
+    border-color: #409eff;
+  }

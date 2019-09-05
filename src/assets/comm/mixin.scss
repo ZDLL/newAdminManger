@@ -1,0 +1,31 @@
+//变量
+$background-clor:#fff;
+$padding:20px;
+$boder:1px #ebeef5 solid;
+
+
+//混合器
+@mixin border-radius($pixel) {
+    -moz-border-radius: $pixel;
+    -webkit-border-radius: $pixel;
+    border-radius: $pixel;
+}
+
+//插值
+
+
+//可继承的class
+%extreme {//占位符
+    padding: 20px 20px;
+    @include border-radius(8px);
+    overflow: hidden;
+    background-color: #fff;
+    margin-top: 20px;
+};
+%tableborder{
+    border-top: 1px solid #ebeef5;
+    border-left: 1px solid #ebeef5;
+    @include border-radius(8px);
+    overflow: hidden;
+    margin-top: 30px;
+}
