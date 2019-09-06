@@ -24,7 +24,13 @@ export default new Router({
         path: '/menu',
         name: 'menu',
         component: ()=>import('./views/home/menuModule/menu.vue')
-      }]
+      },
+      {
+        path: '/userManage',
+        name: 'userManage',
+        component: ()=>import('./views/home/userManage/userList.vue')
+      }
+    ]
     }
   ]
 })

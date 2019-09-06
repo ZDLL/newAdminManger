@@ -18,7 +18,7 @@
                    <i :class='ixm.menuIcon'></i>
                   {{ittm.menuName}}
                 </template>
-                <el-menu-item :menuId='ixm.menuId' v-if='ittm.children.length>0' >
+                <el-menu-item :menuId='ixm.menuId' v-if='ittm.children.length>0' :index='ixm.menuUrl'>
                     <i :class='ixm.menuIcon'></i>
                       {{ixm.menuName}}
                 </el-menu-item>

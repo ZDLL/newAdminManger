@@ -5,8 +5,8 @@
              <div class="left">
                   <el-divider content-position="left">系统菜单</el-divider>
                   <div class="left-cont">
-                      <el-button type="primary" plain>添加根菜单</el-button>
-                      <el-button type="primary" plain>添加子菜单</el-button>
+                      <el-button type="primary" plain @click="mainMenuClick">添加根菜单</el-button>
+                      <el-button type="primary" plain @click="childMenuClick">添加子菜单</el-button>
                       <!-- <el-tree
                         :data="myMenu"
                         show-checkbox
@@ -172,11 +172,43 @@ export default {
         handleNodeClick(data){
             this.menuData = data
             this.parentId = data.parentMenuId;
+        },
+        mainMenuClick(){
+            this.menuData={
+                actionType: "",
+                authCode: "",
+                // insertUserId: '',
+                menuIcon: "",
+                menuId: "",
+                menuName: "",
+                menuOrder: "",
+                menuType: "",
+                // menuUrl: "",
+                // nodeLv: "",
+                parentMenuId: "",
+                status: "",
+            }
+        },
+        childMenuClick(){
+             this.menuData={
+                actionType: "",
+                authCode: "",
+                // insertUserId: '',
+                menuIcon: "",
+                menuId: "",
+                menuName: "",
+                menuOrder: "",
+                menuType: "",
+                // menuUrl: "",
+                // nodeLv: "",
+                parentMenuId: "",
+                status: "",
+            }
         }
     },
     created(){
         this.getMenu();
-        this.getCodeValue("actionType")
+        this.getCodeValue("actionType,menuType,status")
     },
     mounted(){}
 }

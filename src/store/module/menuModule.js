@@ -16,7 +16,7 @@ const actions ={
         cxt.commit(types.MENU_GET_LIST,await sendRequest(apiUrl.queryMenus,qs.stringify(postData),"post"))
     },
     async [types.GET_CODE_VALUE](cxt,postData){
-        cxt.commit(types.GET_CODE_VALUE,await sendRequest(apiUrl.queryCodeValue,{in:{postData}},"post"))
+        cxt.commit(types.GET_CODE_VALUE,await sendRequest(apiUrl.queryCodeValue,{in:postData},"post"))
     }
 }
 const mutations = {

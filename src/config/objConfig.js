@@ -4,6 +4,11 @@ let sidebarConfig=[
       menuId:"R01.4",
       url: "/menu",
       text: "菜单管理"
+    },
+    {
+      menuId:"R01.1.1",
+      url: "/userManage",
+      text:"用户管理"
     }
   ]
 

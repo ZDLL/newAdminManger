@@ -197,25 +197,26 @@ let menuSetData=function(data){
     threeMenu=[],
     allMenu=[]
     if(data && data.length>0){
-      sidebarConfig.map((subVal,ix)=>{
-        data.map((val,index)=>{
+      data.map((val,index)=>{
+        // val.menuUrl =val.menuId
+        val.menuUrl =val.menuId
+          sidebarConfig.map((subVal,ix)=>{
             if(val.menuId == subVal.menuId){
               val.menuUrl = subVal.url
-            }else{
-              val.menuUrl = val.menuId
-            }
-        // console.log(val)
-            if(val.nodeLv == 1){
-              allMenu.push(val);
-            };
-            if(val.nodeLv == 2){
-                twoMenu.push(val)
-            };
-            if(val.nodeLv == 3){
-              threeMenu.push(val)
+              return
             }
           })
-      })
+
+          if(val.nodeLv == 1){
+            allMenu.push(val);
+          };
+          if(val.nodeLv == 2){
+              twoMenu.push(val)
+          };
+          if(val.nodeLv == 3){
+            threeMenu.push(val)
+          }
+    })
       
     }else{
       alert("无权限！")
