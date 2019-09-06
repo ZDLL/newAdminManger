@@ -2,8 +2,6 @@ import apiUrl from '../../config/api.js'
 import {sendRequest} from '../../comm/until.js'
 import * as types from '../type.js';
 import qs from 'qs'
-console.log( [types.USER_GET_MENU])
-
    const state = {
         [types.USER_GET_LOGIN]:{},
         [types.USER_GET_MENU]:{},

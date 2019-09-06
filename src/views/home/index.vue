@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <el-container>
-        <el-aside width="200px">
+        <el-aside width="260px">
             <div class='logo'>
                 <img src='../../assets/logo.png' />
             </div>
@@ -17,7 +17,7 @@
                    
                 </div>
             </el-header>
-            <el-main id='searchBar'>
+            <el-main>
                 <router-view/>
                 <!-- <my-page :page-total='total' @handleCurrent='handleCurrentFun'/> -->
             </el-main>

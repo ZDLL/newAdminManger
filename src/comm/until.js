@@ -190,6 +190,54 @@ let  myConfirm = function(_this,txt,fn) {
   });
 }
 
+import { sidebarConfig} from '../config/objConfig.js';
+let menuSetData=function(data){
+    let fisteMenu=[],
+    twoMenu=[],
+    threeMenu=[],
+    allMenu=[]
+    if(data && data.length>0){
+      sidebarConfig.map((subVal,ix)=>{
+        data.map((val,index)=>{
+            if(val.menuId == subVal.menuId){
+              val.menuUrl = subVal.url
+            }else{
+              val.menuUrl = val.menuId
+            }
+        // console.log(val)
+            if(val.nodeLv == 1){
+              allMenu.push(val);
+            };
+            if(val.nodeLv == 2){
+                twoMenu.push(val)
+            };
+            if(val.nodeLv == 3){
+              threeMenu.push(val)
+            }
+          })
+      })
+      
+    }else{
+      alert("无权限！")
+      return
+      // this.$message.warning("该账号无权限")
+    }
+    allMenu.map((cv,inx)=>{
+      allMenu[inx].children=[];
+      twoMenu.map((nv,ix)=>{
+        if(cv.menuId == nv.parentMenuId){
+              nv.children=[];
+            allMenu[inx].children.push(nv)
+              threeMenu.map((ccv,ccinx)=>{
+                if(ccv.parentMenuId == nv.menuId){
+                    nv.children.push(ccv)
+                }
+              })
+        }
+      });
+    })
+    return allMenu
+}
 export{
   getAES,
   getDAes,
@@ -200,4 +248,5 @@ export{
   axiosFromData,
   sendRequest,
   myConfirm,
+  menuSetData
 }

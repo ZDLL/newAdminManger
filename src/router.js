@@ -19,8 +19,12 @@ export default new Router({
       path:'/home',
       name:"home",
       component:()=>import('./views/home/index.vue'),
-      // redirect:"/user",
-      // children:[]
+      redirect:"/menu",
+      children:[{
+        path: '/menu',
+        name: 'menu',
+        component: ()=>import('./views/home/menuModule/menu.vue')
+      }]
     }
   ]
 })

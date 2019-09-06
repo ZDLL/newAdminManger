@@ -1,8 +1,9 @@
 let bannerTypeConfig=[];
 let sidebarConfig=[
     {
-      url: "/user",
-      text: "用户管理"
+      menuId:"R01.4",
+      url: "/menu",
+      text: "菜单管理"
     }
   ]
 
