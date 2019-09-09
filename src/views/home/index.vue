@@ -13,8 +13,16 @@
             <el-header>
                 <div class='header-cont'>
                     <span class='exit' @click="exitBtn">退出</span>
-                    <span class='exit' style="margin-right:20px">{{userName}}</span>
-                   
+                    <div class='exit' style="width:80px">
+                        <el-dropdown @command='goUser'  trigger="click">
+                        <span class="el-dropdown-link">
+                            {{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu style="top:30px" slot="dropdown">
+                            <el-dropdown-item command='/userCenter'>修改密码</el-dropdown-item>
+                        </el-dropdown-menu>
+                        </el-dropdown>
+                    </div>
                 </div>
             </el-header>
             <el-main>
@@ -59,6 +67,11 @@ export default {
         },
         goBack(){
              this.$router.go(-1);//返回上一层
+        },
+        goUser(command){
+            this.$router.push({
+                path:command
+            })
         }
     },
     mounted(){
@@ -133,5 +146,19 @@ export default {
                 }
             }
         }
+       
+        .el-dropdown-link {
+            cursor: pointer;
+            // color: #409EFF;
+        }
+        .el-icon-arrow-down {
+            font-size: 12px;
+        }
+    }
+    .el-popper[x-placement^=bottom]{
+         margin-top: -10px;
+    }
+    .el-dropdown-menu__item{
+        line-height: 24px;
     }
 </style>

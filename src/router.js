@@ -34,7 +34,13 @@ export default new Router({
         path: '/role',
         name: 'roleManage',
         component: ()=>import('./views/home/roleManage/roleList.vue')
+      },
+      {
+        path: '/userCenter',
+        name: 'userCenter',
+        component: ()=>import('./views/home/userCenter/setPwd.vue')
       }
+
     ]
     }
   ]

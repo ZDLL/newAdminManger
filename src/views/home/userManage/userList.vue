@@ -40,8 +40,8 @@
                    <!--<el-input class='search-cont' v-model="params.isDel" placeholder="请输入内容"></el-input>-->
                </div>
                <div class='userSearch'>
-                   <el-button type="primary" @click="getUsers">查询用户</el-button>
-                    <el-button type="primary" @click="addUsers" plain>添加用户</el-button>
+                   <el-button type="primary" @click="getUsers" plain>查询用户</el-button>
+                    <el-button type="primary" @click="addUsers" >添加用户</el-button>
                </div>
             </div>
             <div class='userList-table'>
@@ -58,6 +58,11 @@
                             :prop="itm.prop"
                             :label="itm.label"
                         >
+                        </el-table-column>
+                        <el-table-column label="角色状态">
+                            <template slot-scope="scope" >
+                                {{scope.row.isDel ==1?"冻结":"正常"}}
+                            </template>
                         </el-table-column>
                         <el-table-column
                             fixed="right"
@@ -120,7 +125,7 @@
 
 </template>
 <script>
-import {menuSetData} from '../../../comm/until'
+import {menuSetData,myConfirm} from '../../../comm/until'
 import myBrea from "../../../components/breadcrumb.vue"
 import myPackage from "../../../components/package.vue"
 export default {
@@ -175,20 +180,30 @@ export default {
                 this.packTotal = data.out.totalSize;
             }
         },
-        async userStatusClick(row){
+        async userStatusChange(row){
             let isDel = row.isDel;
             let target = 1;
+            let txt = '启用该角色'
             if (isDel == 1) {
                 target = 2;
+                txt='启用该角色成功'
             } else if (isDel == 2) {
                 target = 1;
+                txt='禁用该角色成功'
             }
             await this.$store.dispatch("UserModule/USER_CHANGE_STATUS",{userId: row.userId, isDel: target});
             let  data = this.$store.state.UserModule.USER_CHANGE_STATUS;
             if (data.success) {
-                console.log("操作成功");
+                this.$message.success(txt)
                 this.getUsers();
             }
+        },
+        userStatusClick(row){
+            let _this = this;
+             myConfirm(_this,row.isDel ==2?"是否禁用该角色？":"是否启用该角色",function(){
+                    _this.userStatusChange(row);
+            })
+            
         },
         userEditorClick(row){
             this.operator = {};
@@ -196,6 +211,7 @@ export default {
             this.roleIds = '';
             this.roleIds = row.roleId;
             this.dialogVisible = true;
+           
         },
         async addUsers() {
             this.operator = {};
@@ -208,18 +224,25 @@ export default {
             await this.$store.dispatch("UserModule/USER_SAVE", this.operator);
             let  data = this.$store.state.UserModule.USER_SAVE;
             if (data.success) {
-                console.log('添加用户成功');
+                this.$message.success("添加用户成功")
                 this.getUsers();
             }
         },
-        async userResetPwdClick(row){
-            console.log(row);
+        async userResetPwd(row){
             await this.$store.dispatch("UserModule/USER_RESET_PWD",row.userId);
             let  data = this.$store.state.UserModule.USER_RESET_PWD;
             if (data.success) {
                 //console.log(data)
+                this.$message.success("重置密码成功")
             }
         },
+        userResetPwdClick(row){
+            let _this = this;
+            myConfirm(_this,"是否重置该用户密码？",function(){
+                _this.userResetPwd(row)
+            })
+        },
+         
         async queryRoles() {
             await this.$store.dispatch("UserModule/ROLES_GET_LIST",{});
             let  data = this.$store.state.UserModule.ROLES_GET_LIST;
