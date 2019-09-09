@@ -132,7 +132,7 @@ export default {
             operators:[],
             roles: [],
             params:{
-                pageNo: 0,
+                pageNo: 1,
                 pageSize: 10,
                 realName: '',
                 username: '',
@@ -187,6 +187,7 @@ export default {
             let  data = this.$store.state.UserModule.USER_CHANGE_STATUS;
             if (data.success) {
                 console.log("操作成功");
+                this.getUsers();
             }
         },
         userEditorClick(row){
@@ -208,6 +209,7 @@ export default {
             let  data = this.$store.state.UserModule.USER_SAVE;
             if (data.success) {
                 console.log('添加用户成功');
+                this.getUsers();
             }
         },
         async userResetPwdClick(row){
@@ -228,7 +230,7 @@ export default {
         },
         handleCurrentFunc(pageNo){
             console.log(pageNo);
-            this.params.pageNo = pageNo - 1;
+            this.params.pageNo = pageNo;
             this.getUsers();
         },
         handleClose(done) {
