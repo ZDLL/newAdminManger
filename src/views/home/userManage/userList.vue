@@ -49,7 +49,6 @@
                             :label="itm.label"
                         >
                         </el-table-column>
-
                         <el-table-column
                         fixed="right"
                         label="操作"

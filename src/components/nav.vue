@@ -33,7 +33,6 @@
 <script>
 
 import {getStore,menuSetData} from '../comm/until.js'
-console.log(getStore)
 export default {
   name: "mynav",
   data() {

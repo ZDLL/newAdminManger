@@ -5,18 +5,8 @@
              <div class="left">
                   <el-divider content-position="left">系统菜单</el-divider>
                   <div class="left-cont">
-                      <el-button type="primary" plain @click="mainMenuClick">添加根菜单</el-button>
+                      <!-- <el-button type="primary" plain @click="mainMenuClick">添加根菜单</el-button> -->
                       <el-button type="primary" plain @click="childMenuClick">添加子菜单</el-button>
-                      <!-- <el-tree
-                        :data="myMenu"
-                        show-checkbox
-                        default-expand-all
-                        node-key="id"
-                        ref="tree"
-                        highlight-current
-                        :props="defaultProps">
-
-                        </el-tree> -->
                         <div class='elTree'>
                             <el-tree
                             :data="myMenu"
@@ -24,6 +14,10 @@
                             accordion
                             @node-click="handleNodeClick"
                             >
+                             <span class="custom-tree-node" slot-scope="{ node, data }">
+                                 <span>{{ node.label }}</span>
+                                 <span>{{data.status=='00001001'?" [正常]":" [失效]" }}</span>
+                             </span>
                             </el-tree>
                         </div>
                         
@@ -32,19 +26,19 @@
             <div class="reight">
                  <el-divider content-position="center">菜单详情</el-divider>
                  <div class='reight-cont'>
-                    <el-row class='row-style'>
+                    <!-- <el-row class='row-style'>
                         <el-col :span="6">菜单编号:</el-col>
                         <el-col :span="16"><el-input v-model="menuData.menuId" placeholder="请输入内容"></el-input></el-col>
-                    </el-row>
+                    </el-row> -->
                     <el-row class='row-style'>
                         <el-col :span="6">菜单类型:</el-col>
                         <el-col :span="16">
                               <el-select v-model="menuData.menuType" placeholder="请选择">
                                 <el-option
                                 v-for="item in menuTypeOpn"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                :key="item.codeInfoValue"
+                                :label="item.codeInfoName"
+                                :value="item.codeInfoValue">
                                 </el-option>
                             </el-select>
                         </el-col>
@@ -63,38 +57,42 @@
                             <el-select v-model="menuData.status" placeholder="请选择">
                                 <el-option
                                 v-for="item in menuStatuOpn"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                :key="item.codeInfoValue"
+                                :label="item.codeInfoName"
+                                :value="item.codeInfoValue">
                                 </el-option>
                             </el-select>
 
                         </el-col>
                     </el-row>
-                     <el-row class='row-style'>
+                    <el-row class='row-style'>
                         <el-col :span="6">行为类型:</el-col>
                         <el-col :span="16">
 
                              <el-select v-model="menuData.actionType" placeholder="请选择">
                                 <el-option
                                 v-for="item in actionOpn"
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value">
+                                :key="item.codeInfoValue"
+                                :label="item.codeInfoName"
+                                :value="item.codeInfoValue">
                                 </el-option>
                             </el-select>
                         </el-col>
                     </el-row>
-                     <el-row class='row-style'>
+                      <el-row class='row-style'>
+                        <el-col :span="6">菜单链接:</el-col>
+                        <el-col :span="16"><el-input v-model="menuData.menuUrl" placeholder="请输入内容"></el-input></el-col>
+                    </el-row>
+                    <el-row class='row-style'>
                         <el-col :span="6">授权代码:</el-col>
                         <el-col :span="16"><el-input v-model="menuData.authCode" placeholder="请输入内容"></el-input></el-col>
                     </el-row>
-                     <el-row class='row-style'>
+                    <el-row class='row-style'>
                         <el-col :span="6">菜单序号:</el-col>
                         <el-col :span="16"><el-input v-model="menuData.menuOrder " placeholder="请输入内容"></el-input></el-col>
                     </el-row>
                     <div style="text-align: center;margin-top:40px">
-                        <el-button type="primary">保存菜单</el-button>
+                        <el-button type="primary" @click="addMenuClick">保存菜单</el-button>
                     </div>
                     
                  </div>
@@ -125,13 +123,12 @@ export default {
                     value:2
                 }
             ],
-            actionOpn:[
-                
-            ],
-            menuTypeOpn:[
-                
-            ],
+            actionOpn:[],
+            menuTypeOpn:[],
             parentId:"",
+            menuId:"",
+            nodeLv:"",
+            isRoot:false,
             menuData:{
                 actionType: "",
                 authCode: "",
@@ -147,7 +144,7 @@ export default {
                 status: "",
             },
             input:'',
-            brea:[{"txt":"系统管理","url":"/menu"},{"txt":"菜单管理","url":"/menu"}]
+            brea:[{"txt":"系统管理","url":"/menu"},{"txt":"菜单管理","url":"/"}]
         }
     },
     components:{
@@ -158,22 +155,49 @@ export default {
             await this.$store.dispatch("MenuModule/MENU_GET_LIST",{});
             let  data = this.$store.state.MenuModule.MENU_GET_LIST
             if(data.out.allMenu.length>0){
-                this.myMenu = menuSetData(data.out.allMenu);
+                this.myMenu = menuSetData(data.out.allMenu,'menu');
             }
         },
         async getCodeValue (type){
-            await this.$store.dispatch("MenuModule/GET_CODE_VALUE",{codeTypeId:type});
+            await this.$store.dispatch("MenuModule/GET_CODE_VALUE",{codeTypes:type});
             let  data = this.$store.state.MenuModule.GET_CODE_VALUE
-            console.log(data)
-            // if(data.out.allMenu.length>0){
-            //     this.myMenu = menuSetData(data.out.allMenu);
-            // }
+            if(data.status!=200){
+                this.$message.error(data.message)
+                return;
+            }
+            this.menuStatuOpn =data.out.status
+            this.actionOpn = data.out.actionType
+            this.menuTypeOpn = data.out.menuType
+          
+        },
+        async saveMenu(postData){
+            await this.$store.dispatch("MenuModule/POST_SAVE_MENU",postData);
+            let  data = this.$store.state.MenuModule.POST_SAVE_MENU
+            if(data.status!=200){
+                this.$message.error(data.message)
+                return;
+            }
+            this.$message.success("添加成功");
+            this.getMenu();
+        },
+        async updataMenu(postData){
+             await this.$store.dispatch("MenuModule/UPDAT_POST_MENU",postData);
+            let  data = this.$store.state.MenuModule.UPDAT_POST_MENU
+            if(data.status!=200){
+                this.$message.error(data.message)
+                return;
+            }
+            this.$message.success("更新成功");
+            this.getMenu();
         },
         handleNodeClick(data){
             this.menuData = data
             this.parentId = data.parentMenuId;
+            this.menuId = data.menuId
+            this.nodeLv = data.nodeLv
         },
         mainMenuClick(){
+            this.isRoot = true
             this.menuData={
                 actionType: "",
                 authCode: "",
@@ -204,6 +228,29 @@ export default {
                 parentMenuId: "",
                 status: "",
             }
+        },
+        addMenuClick(){
+           let postData={
+                menuName:this.menuData.menuName,
+                menuUrl:this.menuData.menuUrl,
+                menuType:this.menuData.menuType,
+                actionType:this.menuData.actionType,
+                menuIcon:this.menuData.menuIcon,
+                parentMenuId:this.parentId,
+                status:this.menuData.status,
+                menuOrder:this.menuData.menuOrder,
+                // nodeLv:this.nodeLv,
+                type:this.isRoot?'root':""
+            }
+            if(this.menuData.menuId){
+                postData.menuId = this.menuData.menuId
+                postData.parentMenuId = this.parentId;
+                this.updataMenu(postData);
+            }else{
+               postData.parentMenuId = this.menuId;
+                this.saveMenu(postData);
+            }
+            
         }
     },
     created(){

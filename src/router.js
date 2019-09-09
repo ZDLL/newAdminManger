@@ -26,9 +26,14 @@ export default new Router({
         component: ()=>import('./views/home/menuModule/menu.vue')
       },
       {
-        path: '/userManage',
+        path: '/user',
         name: 'userManage',
         component: ()=>import('./views/home/userManage/userList.vue')
+      },
+      {
+        path: '/role',
+        name: 'roleManage',
+        component: ()=>import('./views/home/roleManage/roleList.vue')
       }
     ]
     }

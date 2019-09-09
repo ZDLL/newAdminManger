@@ -9,10 +9,10 @@ const state = {
 const getters = {//同步
 
 }
-const actions ={
+const actions ={//异步
    
 }
-const mutations = {
+const mutations = { //同步
    
 
 }

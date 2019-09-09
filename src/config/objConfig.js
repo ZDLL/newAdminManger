@@ -7,8 +7,12 @@ let sidebarConfig=[
     },
     {
       menuId:"R01.1.1",
-      url: "/userManage",
+      url: "/user",
       text:"用户管理"
+    },{
+      menuId:"R01.2",
+      url:"/role",
+      text:"角色管理"
     }
   ]
 

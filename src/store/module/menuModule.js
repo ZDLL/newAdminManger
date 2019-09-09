@@ -5,7 +5,9 @@ import qs from 'qs'
 
 const state = {
     [types.MENU_GET_LIST]:{},
-    [types.GET_CODE_VALUE]:{}
+    [types.GET_CODE_VALUE]:{},
+    [types.POST_SAVE_MENU]:{},
+    [types.UPDAT_POST_MENU]:{}
 }
 // getters
 const getters = {//同步
@@ -16,7 +18,13 @@ const actions ={
         cxt.commit(types.MENU_GET_LIST,await sendRequest(apiUrl.queryMenus,qs.stringify(postData),"post"))
     },
     async [types.GET_CODE_VALUE](cxt,postData){
-        cxt.commit(types.GET_CODE_VALUE,await sendRequest(apiUrl.queryCodeValue,{in:postData},"post"))
+        cxt.commit(types.GET_CODE_VALUE,await sendRequest(apiUrl.queryCodeValue,qs.stringify(postData),"post"))
+    },
+    async [types.POST_SAVE_MENU](cxt,postData){
+        cxt.commit(types.POST_SAVE_MENU,await sendRequest(apiUrl.saveMenu,qs.stringify(postData),"post"))
+    },
+    async [types.UPDAT_POST_MENU](cxt,postData){
+        cxt.commit(types.UPDAT_POST_MENU,await sendRequest(apiUrl.updateMenu,qs.stringify(postData),"post"))
     }
 }
 const mutations = {
@@ -25,6 +33,12 @@ const mutations = {
     },
     [types.GET_CODE_VALUE](state,data){
         state[types.GET_CODE_VALUE]= data.data
+    },
+    [types.POST_SAVE_MENU](state,data){
+        state[types.POST_SAVE_MENU]= data.data
+    },
+    [types.UPDAT_POST_MENU](state,data){
+        state[types.UPDAT_POST_MENU]= data.data
     },
 
 }
