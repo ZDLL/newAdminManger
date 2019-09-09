@@ -163,6 +163,10 @@ let sendRequest = function(url,payload,method){
       // headers: {"token":window.localStorage.getItem("token")},
     }).then(data=>{
       endLoading()
+      if(data.data.status !=200){
+        Message.error(data.data.message)
+        return;
+      }
       res(data)
     }).catch(err=>{
       endLoading()
@@ -199,6 +203,9 @@ let menuSetData=function(data){
     if(data && data.length>0){
       data.map((val,index)=>{
         // val.menuUrl =val.menuId
+        if(val.parentMenuId ==''){
+          val.parentMenuId ='1'
+        }
         val.menuUrl =val.menuId
           sidebarConfig.map((subVal,ix)=>{
             if(val.menuId == subVal.menuId){

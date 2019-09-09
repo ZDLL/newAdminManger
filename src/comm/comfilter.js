@@ -1,3 +1,4 @@
+import moment from 'moment'
 const myFilter={
     numFilter:function (value) {
         // 截取当前数据到小数点后两位
@@ -47,6 +48,9 @@ const myFilter={
         case 2:
           return "否"
       }
+    },
+    dateformat(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss'){
+      return moment(dataStr).format(pattern)
     }
 
 }

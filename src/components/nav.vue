@@ -1,33 +1,41 @@
 <template>
-    <div>
-        <el-menu :router="true">
-          <el-submenu v-for='(itm,inx) in allMenu' :key='inx' :index ='itm.menuUrl' >
-            <template slot="title">
-              <i :class='itm.menuIcon'></i>
-              <span :menuId='itm.menuId'>{{itm.menuName}}</span>
-            </template>
-            <el-menu-item-group  v-for='(ittm,innx) in itm.children' :key='innx'>
-             
-              <el-menu-item v-if='ittm.children.length ==0' :index='ittm.menuUrl' :menuId='ittm.menuId'>
-                      <i :class='ittm.menuIcon'></i>
-                      {{ittm.menuName}}
-              </el-menu-item>
+    <div class='menu'>
+       <el-menu :router="true">
+        <el-menu-item-group v-for='(val,inx) in allMenu' :key='inx' :index='val.menuId'>
+          <el-menu-item v-if='val.children.length==0' :index='val.menuUrl'>
+            <i :class='val.menuIcon'></i>
+            {{val.menuName}}
+          </el-menu-item>
 
-              <el-submenu v-else  v-for='(ixm,icdx) in ittm.children' :key='icdx' :index='ixm.menuUrl' :menuId='ittm.menuId'>
-                <template slot="title">
-                   <i :class='ixm.menuIcon'></i>
-                  {{ittm.menuName}}
-                </template>
-                <el-menu-item :menuId='ixm.menuId' v-if='ittm.children.length>0' :index='ixm.menuUrl'>
-                    <i :class='ixm.menuIcon'></i>
-                      {{ixm.menuName}}
+          <el-submenu v-else :index='val.menuUrl'>
+             <template slot="title">
+                <i :class='val.menuIcon'></i>
+                <span>{{val.menuName}}</span>
+              </template>
+              <el-menu-item-group v-for='(vaxl,inxx) in val.children' :key='inxx' :index='vaxl.menuId'>
+                <el-menu-item v-if='vaxl.children.length==0' :index='vaxl.menuUrl'>
+                  <i :class='vaxl.menuIcon'></i>
+                  {{vaxl.menuName}}
                 </el-menu-item>
-              </el-submenu>
+                
+                <el-submenu v-else :index='vaxl.menuId'>
+                  <template slot="title">
+                     <i :class='vaxl.menuIcon'></i>
+                    {{vaxl.menuName}}
+                  </template>
+                  <el-menu-item v-for='(vaxxl,indxx) in vaxl.children' :key='indxx' :index='vaxxl.menuUrl'>
+                     <i :class='vaxxl.menuIcon'></i>
+                    {{vaxxl.menuName}}
+                    </el-menu-item>
+                </el-submenu>
+                
+              </el-menu-item-group>
 
-            </el-menu-item-group>
-          </el-submenu>
-
-        </el-menu>
+             
+            </el-submenu>
+        </el-menu-item-group>
+          
+       </el-menu>
     </div>
 </template>
 <script>
@@ -47,14 +55,7 @@ export default {
     };
   },
   filters:{
-    // navActive(val){
-    //   let newRou = val.replace("/","")
-    //   for(let i =0;i<sidebarConfig.length;i++){
-    //     if(newRou.indexOf(sidebarConfig[i].url.replace("/",""))>-1){
-    //       return sidebarConfig[i].url
-    //     }
-    //   }
-    // }
+   
   },
   methods:{
    async getMenu(){

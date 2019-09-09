@@ -9,7 +9,7 @@
             <div class='userSearch'>
                 <span class='title'> 类型：</span>
                 <div class='search-cont'>
-                     <el-select v-model="searchData.status" placeholder="请选择">
+                     <el-select v-model="searchData.roleType" placeholder="请选择">
                         <el-option
                         v-for="item in roleTypeOpn"
                         :key="item.codeInfoValue"
@@ -51,16 +51,28 @@
                             :label="itm.label"
                         >
                         </el-table-column>
-
-                         <!-- <el-table-column
+                        <el-table-column
+                             label="添加时间"
+                          >
+                             <template v-if='scope.row.insertTime' slot-scope="scope">
+                                 <span>{{scope.row.insertTime | dateformat}}</span>
+                             </template>
+                        </el-table-column>
+                        <el-table-column
                              label="类型"
                           >
-                             <template slot-scope="scope">
-                                 <span>{{scope.row.roleType }}</span>
-                                 {{scope.row.roleType}}
-                                 
+                             <template v-if='scope.row.roleType' slot-scope="scope">
+                                 <span>{{typeChange(scope.row.roleType) }}</span>
                              </template>
-                        </el-table-column> -->
+                        </el-table-column>
+
+                          <el-table-column
+                             label="状态"
+                          >
+                             <template v-if='scope.row.roleType' slot-scope="scope">
+                                 <span>{{statuChange(scope.row.status) }}</span>
+                             </template>
+                        </el-table-column>
                         
                         <el-table-column
                         fixed="right"
@@ -73,6 +85,7 @@
                         </el-table-column>
                     </el-table>
                 </div>
+                <myPackage v-if='packTotal' :key='packTotal' :pageTotal='packTotal' @handleCurrent="handleCurrentFunc"></myPackage>
             </div>
         </div>
         <el-dialog
@@ -107,6 +120,7 @@
 </template>
 <script>
 import {menuSetData,myConfirm} from '../../../comm/until'
+
 import myBrea from "../../../components/breadcrumb.vue"
 import myPackage from '../../../components/package.vue'
 export default {
@@ -139,13 +153,14 @@ export default {
             roleTypeOpn:[],
             tableHeader:[
                 { prop: "roleName", label: "角色" },
-                { prop: "insertTime", label: "添加时间" },
-                { prop: "roleType", label: "类型" },
-                { prop: "status", label: "状态" },
+                // { prop: "insertTime", label: "添加时间" },
+                // { prop: "roleType", label: "类型" },
+                // { prop: "status", label: "状态" },
             ],
             roleEditor:false,
             brea:[{"txt":"系统管理","url":"/menu"},{"txt":"角色管理","url":"/"}],
-            roleId:""
+            roleId:"",
+            packTotal:1
         }
     },
     
@@ -158,6 +173,7 @@ export default {
             await this.$store.dispatch("RoleModule/GET_ROLE_LIST",this.searchData);
             let data = this.$store.state.RoleModule.GET_ROLE_LIST;
             this.tableData = data.out.list
+            this.packTotal = parseInt(data.out.totalSize)
         },
         async getCodeValue (type){
             await this.$store.dispatch("MenuModule/GET_CODE_VALUE",{codeTypes:type});
@@ -258,9 +274,38 @@ export default {
        saveUserMenuClick(){
            let checkId = this.$refs.tree.getCheckedKeys()
            this.saveUserRole(checkId.join(","))
+       },
+       handleCurrentFunc(val){
+           this.searchData.pageNo = val;
+           this.getRoleList();
        }
     },
-    computed: {
+    computed:{
+       typeChange(){
+           let _this = this;
+            return function (data) {
+                let nam=''
+                _this.roleTypeOpn.map((val,index)=>{
+                    if(val.codeInfoValue == data){
+                        nam = val.codeInfoName
+                    }
+                })
+                return nam
+            }
+        },
+        statuChange(){
+            let _this = this;
+             return function (data) {
+                let nam=''
+                _this.roleStatusOpn.map((val,index)=>{
+                    if(val.codeInfoValue == data){
+                        nam = val.codeInfoName
+                    }
+                })
+                return nam
+            }
+
+        }
       // 控制显示的内容
      
     },

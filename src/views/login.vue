@@ -42,8 +42,7 @@ export default {
                 userId:data.currentUserProfile.userId,
                 username: data.currentUserProfile.username
             }
-            // console.log(`登录时获取的token=====：`+token)
-                setStore('userInfo',userData)
+            setStore('userInfo',userData)
             _this.$router.push("/home");
         }
     },

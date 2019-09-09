@@ -33,7 +33,6 @@ import qs from 'qs'
           state[types.USER_GET_LOGIN]= data.data.out
       },
       [types.USER_GET_MENU](state,data){
-        console.log(data)
         state[types.USER_GET_MENU]= data.data.out
       },
       [types.USER_LOGIN_OUT](state,data){
