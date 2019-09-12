@@ -4,7 +4,7 @@
         <div class="role-cont">
             <div class='userSearch'>
                 <span class='title'> 角色：</span>
-                <el-input class='search-cont' v-model="searchData.roleName" placeholder="请输入内容"></el-input>
+                <el-input class='search-cont' clearable v-model="searchData.roleName" placeholder="请输入内容"></el-input>
             </div>
             <div class='userSearch'>
                 <span class='title'> 类型：</span>
@@ -80,7 +80,7 @@
                         width="200">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="RoleStatusClick(scope.row)">禁用/启用</el-button>
-                            <el-button type="text" size="small" @click="RoleEditorClick(scope.row)">编辑</el-button>
+                            <el-button type="text" size="small" @click="RoleEditorClick(scope.row)">菜单编辑</el-button>
                         </template>
                         </el-table-column>
                     </el-table>
@@ -99,6 +99,7 @@
                     :data="myMenu"
                     :props="defaultProps"
                     :default-checked-keys='isRole'
+                    default-expand-all
                     accordion
                     node-key="menuId"
                     ref='tree'
@@ -116,6 +117,42 @@
                 <el-button type="primary" @click="saveUserMenuClick">确 定</el-button>
             </span>
         </el-dialog>
+         <!-- 添加角色 -->
+        <el-dialog
+            title="添加角色"
+            :visible.sync="roleVisible"
+            width="40%"
+           >
+            <div class=''>
+                <el-row class='mt20'>
+                     <el-col class='txt-right' :span="4">
+                        <span class='my-span-notice'>*</span> 角色：
+                     </el-col>
+                      <el-col :span="10">
+                         <el-input class='search-cont' v-model="saveRoleData.roleName" maxlength="16" show-word-limit clearable placeholder="请输入内容"></el-input>
+                     </el-col>
+                </el-row>
+                <el-row class='mt20'>
+                    <el-col class='txt-right' :span="4">
+                    <span class='my-span-notice'>*</span> 类型：
+                    </el-col>
+                    <el-col :span="10">
+                        <el-select v-model="saveRoleData.roleType" placeholder="请选择">
+                            <el-option
+                            v-for="item in roleTypeOpn"
+                            :key="item.codeInfoValue"
+                            :label="item.codeInfoName"
+                            :value="item.codeInfoValue">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                </el-row>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="roleVisible = false">取 消</el-button>
+                <el-button type="primary" @click="addRoleSure">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -127,6 +164,7 @@ export default {
     name:"role",
     data(){
         return{
+            roleVisible:false,
             input:"",
             searchData:{
                 // role:'',
@@ -160,7 +198,11 @@ export default {
             roleEditor:false,
             brea:[{"txt":"系统管理","url":"/menu"},{"txt":"角色管理","url":"/"}],
             roleId:"",
-            packTotal:1
+            packTotal:1,
+            saveRoleData:{
+                roleName:"",
+                roleType:""
+            }
         }
     },
     
@@ -182,11 +224,22 @@ export default {
                 this.$message.error(data.message)
                 return;
             }
-            this.roleTypeOpn = data.out.roleType
-            this.roleStatusOpn= data.out.status
+            this.roleTypeOpn = data.out.roleType;
+            this.roleStatusOpn= data.out.status;
+            let allData={
+                codeInfoName: "全部",
+                codeInfoValue: "",
+                codeTypeId: "",
+                insertTime: "",
+                insertUserId: "",
+                status: "",
+                updateTime: null,
+            };
+             this.roleTypeOpn.unshift(allData);
+             this.roleStatusOpn.unshift(allData);
         },
         async saveRole(){
-            await this.$store.dispatch("RoleModule/POST_SAVE_ROLE",{roleName:this.searchData.roleName,roleType:this.searchData.status});
+            await this.$store.dispatch("RoleModule/POST_SAVE_ROLE",this.saveRoleData);
             let data = this.$store.state.RoleModule.POST_SAVE_ROLE
             if(data.status != 200){
                 this.$message.error(data.msg);
@@ -201,6 +254,7 @@ export default {
                 roleName:"",
             };
             this.getRoleList();
+            this.roleVisible = false;
         },
         async delRole(roleid){
             await this.$store.dispatch("RoleModule/DEL_DELETE_ROLE",{roleId:roleid});
@@ -223,6 +277,7 @@ export default {
             this.getRoleList();
         },
         async getUserRole(roleid,type){
+            this.isRole=[];
             await this.$store.dispatch("RoleModule/GET_USER_ROLE_LIST",{roleId:roleid,roleType:type});
              let data = this.$store.state.RoleModule.GET_USER_ROLE_LIST
              if(data.status != 200){
@@ -230,8 +285,14 @@ export default {
                 return
             }
             this.myMenu = menuSetData(data.out.allMenus);
+           
             if(data.out.roleMenus){
-                this.isRole = data.out.roleMenus
+                for(let i=0;i<data.out.roleMenus.length;i++){
+                    if(data.out.roleMenus[i].nodelv!=1){
+                         this.isRole.push(data.out.roleMenus[i].menuid)
+                    }
+                }
+                // this.isRole = data.out.roleMenus
             };
             
             
@@ -244,6 +305,7 @@ export default {
                 return
             }
             this.$message.success("编辑角色菜单成功");
+            this.getRoleList();
             this.roleEditor = false;
             // this.myMenu = menuSetData(data.out.allMenus);
             
@@ -256,7 +318,7 @@ export default {
         RoleStatusClick(row){
             let _this = this;
             if(row.status =="00001001"){//正常
-                myConfirm(_this,"是否禁用该角色？",function(){
+                myConfirm(_this,"禁用后该角色下所有用户将无法登录，确认禁用？",function(){
                      _this.delRole(row.roleId);
                 })
             }else{
@@ -266,7 +328,23 @@ export default {
             }
         },
         addRoleClick(){
-            this.saveRole();
+            this.saveRoleData={
+                roleName:"",
+                roleType:""
+            };
+            this.roleVisible = true
+        },
+        addRoleSure(){
+            if(!this.saveRoleData.roleName){
+                this.$message.warning("请填写角色名称");
+                return
+            }
+             if(!this.saveRoleData.roleType){
+                this.$message.warning("请选择角色类型");
+                return
+            }
+
+            this.saveRole()
         },
         queryRoleClick(){
             this.getRoleList();
@@ -331,31 +409,19 @@ export default {
 <style lang="scss">
     .role-page{
         .role-cont{
-            background-color: #fff;
-            padding: 20px;
-            margin-top: 20px;
-             .userSearch{
-                display: inline-block;
-                vertical-align: top;
-                box-sizing: border-box;
-                height: 50px;
-                line-height: 50px;
-                margin: 0 15px;
-                .title{
-                    width: 70px;
-                    display: inline-block;
-                    vertical-align: top;
-                }
-                .search-cont{
-                    display: inline-block;
-                    vertical-align: top;
-                    width: calc(100% - 80px);
-                }
+          @extend %pagecont;
+            .userSearch{
+                @extend %topSearch;
             }
             .table-cont{
-                margin-top: 20px;
-                  @extend %tableborder;
+                @extend %tableborder;
             }
+           
+        }
+        .txt-right{
+            text-align: right;
+            line-height: 40px;
+            padding-right: 20px;
         }
     }
 </style>

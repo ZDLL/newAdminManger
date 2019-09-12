@@ -13,7 +13,7 @@
             <el-header>
                 <div class='header-cont'>
                     <span class='exit' @click="exitBtn">退出</span>
-                    <div class='exit' style="width:80px">
+                    <div class='exit' style="margin-right: 20px;width: auto;">
                         <el-dropdown @command='goUser'  trigger="click">
                         <span class="el-dropdown-link">
                             {{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -53,7 +53,6 @@ export default {
         async userLoginOut(){
             await this.$store.dispatch("LoginModule/USER_LOGIN_OUT",{})
             let data = this.$store.state.LoginModule.USER_LOGIN_OUT
-            console.log(data)
             if(data.status == 200){
                 this.$router.push({
                     path:"/login"
@@ -61,9 +60,7 @@ export default {
             }
         },
         exitBtn(){
-            console.log("退出")
             this.userLoginOut();
-
         },
         goBack(){
              this.$router.go(-1);//返回上一层
@@ -108,7 +105,7 @@ export default {
         .logo{
             height: 90px;
             width: 90px;
-            margin-left: 6px;
+            margin-left: 30px;
             display: inline-block;
             vertical-align: top;
             img{

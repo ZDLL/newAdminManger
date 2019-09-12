@@ -2,12 +2,14 @@ export const USER_GET_LOGIN = "USER_GET_LOGIN"; //用户登录
 export const USER_GET_MENU ="GET_USER_MENU";//获取用户的菜单
 export const USER_LOGIN_OUT ="USER_LOGIN_OUT";//登出
 export const USER_POST_ALERTPWD="USER_POST_ALERTPWD";//用户设置密码
+export const LOGIN_GET_CODE ="LOGIN_GET_CODE";//登录获取验证码
 
 export const MENU_GET_LIST = 'MENU_GET_LIST' ;//获取菜单
 export const GET_CODE_VALUE ='GET_CODE_VALUE';//获取码表类型
 
 export const POST_SAVE_MENU ='POST_SAVE_MENU';//添加菜单
 export const UPDAT_POST_MENU= 'UPDAT_POST_MENU';//更新菜单
+export const POST_DEL_MENU = "POST_DEL_MENU";//删除失效菜单
 
 export const GET_ROLE_LIST = 'GET_ROLE_LIST';//获取权限列表
 export const POST_SAVE_ROLE ="POST_SAVE_ROLE";//添加角色

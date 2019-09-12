@@ -7,7 +7,8 @@ const state = {
     [types.MENU_GET_LIST]:{},
     [types.GET_CODE_VALUE]:{},
     [types.POST_SAVE_MENU]:{},
-    [types.UPDAT_POST_MENU]:{}
+    [types.UPDAT_POST_MENU]:{},
+    [types.POST_DEL_MENU]:{}
 }
 // getters
 const getters = {//同步
@@ -25,6 +26,9 @@ const actions ={
     },
     async [types.UPDAT_POST_MENU](cxt,postData){
         cxt.commit(types.UPDAT_POST_MENU,await sendRequest(apiUrl.updateMenu,qs.stringify(postData),"post"))
+    },
+    async [types.POST_DEL_MENU](cxt,postData){
+        cxt.commit(types.POST_DEL_MENU,await sendRequest(apiUrl.deleteMenu,qs.stringify(postData),"post"))
     }
 }
 const mutations = {
@@ -40,6 +44,10 @@ const mutations = {
     [types.UPDAT_POST_MENU](state,data){
         state[types.UPDAT_POST_MENU]= data.data
     },
+
+    [types.POST_DEL_MENU](state,data){
+        state[types.POST_DEL_MENU]= data.data
+    }
 
 }
 

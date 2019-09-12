@@ -43,8 +43,8 @@ export default {
     border-left-color:#b3d8ff;
   }
   .el-divider--horizontal{
-    margin-bottom: 35px;
-    margin-top: 25px;
+    margin-bottom: 40px;
+    margin-top: 35px;
   }
   .my-span-notice{
     color: red;
@@ -56,6 +56,9 @@ export default {
     width: 15px;
     height: 15px;
     margin: 1px
+  }
+  .mt20{
+    margin-top: 20px;
   }
 }
 </style>

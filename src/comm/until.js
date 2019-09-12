@@ -165,6 +165,9 @@ let sendRequest = function(url,payload,method){
       endLoading()
       if(data.data.status !=200){
         Message.error(data.data.message)
+        if(data.data.status =='403'){
+          window.location.href='/'
+        }
         return;
       }
       res(data)
@@ -206,23 +209,18 @@ let menuSetData=function(data){
         if(val.parentMenuId ==''){
           val.parentMenuId ='1'
         }
-        val.menuUrl =val.menuId
-          sidebarConfig.map((subVal,ix)=>{
-            if(val.menuId == subVal.menuId){
-              val.menuUrl = subVal.url
-              return
-            }
-          })
-
-          if(val.nodeLv == 1){
-            allMenu.push(val);
-          };
-          if(val.nodeLv == 2){
-              twoMenu.push(val)
-          };
-          if(val.nodeLv == 3){
-            threeMenu.push(val)
-          }
+        if(!val.menuUrl){
+          val.menuUrl = val.menuId
+        }
+        if(val.nodeLv == 1){
+          allMenu.push(val);
+        };
+        if(val.nodeLv == 2){
+            twoMenu.push(val)
+        };
+        if(val.nodeLv == 3){
+          threeMenu.push(val)
+        }
     })
       
     }else{

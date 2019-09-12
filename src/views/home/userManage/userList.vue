@@ -4,12 +4,12 @@
          <div class="userList-cont">
             <div class="userList-top">
                <div class='userSearch'>
-                   <span class='title'> 用户名：</span>
-                   <el-input class='search-cont' v-model="params.realName" placeholder="请输入内容"></el-input>
+                   <span class='title'> 真实姓名：</span>
+                   <el-input class='search-cont' clearable v-model="params.realName" placeholder="请输入内容"></el-input>
                </div>
                <div class='userSearch'>
-                   <span class='title'> 账号：</span>
-                   <el-input class='search-cont' v-model="params.username" placeholder="请输入内容"></el-input>
+                   <span class='title'> 用户名：</span>
+                   <el-input class='search-cont' clearable v-model="params.username" placeholder="请输入内容"></el-input>
                </div>
                <div class='userSearch'>
                    <span class='title'> 用户角色：</span>
@@ -26,7 +26,7 @@
                    <!-- <el-input class='search-cont' v-model="input" placeholder="请输入内容"></el-input> -->
                </div>
                <div class='userSearch'>
-                   <span class='title'> 是否冻结：</span>
+                   <span class='title'> 角色状态：</span>
                    <div class='search-cont'>
                        <el-select v-model="params.isDel" placeholder="请选择">
                             <el-option
@@ -70,7 +70,7 @@
                             width="200">
                         <template slot-scope="scope">
                             <el-button type="text" size="small" @click="userStatusClick(scope.row)">冻结/正常</el-button>
-                            <el-button type="text" size="small" @click="userEditorClick(scope.row)">编辑</el-button>
+                            <el-button type="text" size="small" @click="userEditorClick(scope.row)">用户编辑</el-button>
                             <el-button type="text" size="small" @click="userResetPwdClick(scope.row)">重置密码</el-button>
                         </template>
                         </el-table-column>
@@ -84,36 +84,45 @@
          </div>
 
          <el-dialog
-            title="添加用户"
+            :title='userType'
             :visible.sync="dialogVisible"
-            width="50%"
-            :before-close="handleClose">
+            width="40%"
+           >
             <div class="userList-cont userList-top">
-               <div class='userSearch'>
-                   <span class='title'> 账号：</span>
-                   <el-input class='search-cont' v-model="operator.username" placeholder="请输入内容"></el-input>
+               <div class='mt20'>
+                    <el-row>
+                        <el-col :span="4"><span class='title'> <span class='my-span-notice'>*</span>用户名：</span></el-col>
+                        <el-col :span="10"><el-input :disabled="userType=='编辑用户'" class='search-cont' clearable  v-model="operator.username"  maxlength="30" show-word-limit @clear='inputClear' placeholder="请输入内容"></el-input></el-col>
+                    </el-row>
                </div>
-               <div class='userSearch'>
-                   <span class='title'> 真实姓名：</span>
-                   <el-input class='search-cont' v-model="operator.realName" placeholder="请输入内容"></el-input>
+               <div class='mt20'>
+                    <el-row>
+                        <el-col :span="4"> <span class='title'> <span class='my-span-notice'>*</span>电 话：</span></el-col>
+                        <el-col :span="10"><el-input class='search-cont' maxlength="11" show-word-limit clearable v-model="operator.phone" placeholder="请输入内容"></el-input></el-col>
+                    </el-row>
                </div>
-               <div class='userSearch'>
-                   <span class='title'> 电话：</span>
-                   <el-input class='search-cont' v-model="operator.phone" placeholder="请输入内容"></el-input>
+                <div class='mt20'>
+                     <el-row>
+                        <el-col :span="4"><span class='title'> <span class='my-span-notice'>*</span>真实姓名：</span></el-col>
+                        <el-col :span="10"><el-input class='search-cont' maxlength="30" show-word-limit clearable v-model="operator.realName" placeholder="请输入内容"></el-input></el-col>
+                    </el-row>
                </div>
-               <div class='userSearch'>
-                   <span class='title'> 用户角色：</span>
-                   <div class='search-cont'>
-                       <el-select v-model="roleIds" placeholder="请选择">
-                            <el-option
-                            v-for="item in roles"
-                            :key="item.roleId"
-                            :label="item.roleName"
-                            :value="item.roleId">
-                            </el-option>
-                        </el-select>
-                   </div>
-                   
+               <div class='mt20'>
+                    <el-row>
+                        <el-col :span="4"><span class='title'><span class='my-span-notice'>*</span> 用户角色：</span></el-col>
+                        <el-col :span="10">
+                            <div class='search-cont'>
+                                <el-select v-model="roleIds" placeholder="请选择">
+                                        <el-option
+                                        v-for="item in roles"
+                                        :key="item.roleId"
+                                        :label="item.roleName"
+                                        :value="item.roleId">
+                                        </el-option>
+                                    </el-select>
+                            </div>
+                        </el-col>
+                    </el-row>
                </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -132,6 +141,7 @@ export default {
     name:"userlist",
     data(){
         return{ 
+            userType:"添加用户",
             dialogVisible: false,
             packTotal: 1,
             operators:[],
@@ -144,13 +154,16 @@ export default {
                 roleId: '',
                 isDel: '',
             },
-            operator: {
-            },
+            editorData:{},
+            operator: {},
             isDels: [
+                 {
+                    key: '', label: '全部'
+                },
                 {
-                    key: '1', label: '是'
+                    key: '1', label: '冻结'
                 },{
-                    key: '2', label: '否'
+                    key: '2', label: '正常'
                 }],
             roleIds: '',
             tableHeader:[
@@ -200,32 +213,53 @@ export default {
         },
         userStatusClick(row){
             let _this = this;
-             myConfirm(_this,row.isDel ==2?"是否禁用该角色？":"是否启用该角色",function(){
+             myConfirm(_this,row.isDel ==2?"是否冻结该用户？冻结后用户将不能登录":"是否启用该用户",function(){
                     _this.userStatusChange(row);
             })
             
         },
         userEditorClick(row){
-            this.operator = {};
-            this.operator = row;
+            // this.operator = {};
+            // this.operator = row;
+            // console.log(row)
             this.roleIds = '';
             this.roleIds = row.roleId;
+            let newObj = Object.assign({},row)//数据挟持解绑
+            this.operator =  newObj
+            this.userType='编辑用户';
             this.dialogVisible = true;
-           
         },
         async addUsers() {
             this.operator = {};
             this.roleIds = '';
+            this.userType='添加用户'
             this.dialogVisible = true;
         },
         async addOperator() {
-            this.dialogVisible = false;
+            // this.dialogVisible = false;
             this.operator.roleIds = this.roleIds;
+            if(!this.operator.username){
+                this.$message.warning('请填写用户账号');
+                return
+            }
+            if(!this.operator.phone || this.operator.phone.length<11 ||!(this.$reg.phoneReg.test(this.operator.phone))){
+                this.$message.warning('请填写正确的手机号');
+                return
+            }
+            if(!this.operator.realName){
+                this.$message.warning('请填写用真实姓名');
+                return
+            }
+            if(!this.operator.roleIds){
+                this.$message.warning('请选择用户角色');
+                return
+            }
             await this.$store.dispatch("UserModule/USER_SAVE", this.operator);
             let  data = this.$store.state.UserModule.USER_SAVE;
             if (data.success) {
                 this.$message.success("添加用户成功")
                 this.getUsers();
+                this.dialogVisible = false;
             }
         },
         async userResetPwd(row){
@@ -238,26 +272,37 @@ export default {
         },
         userResetPwdClick(row){
             let _this = this;
-            myConfirm(_this,"是否重置该用户密码？",function(){
+            myConfirm(_this,"重置后的密码为123456，确定重置？",function(){
                 _this.userResetPwd(row)
             })
         },
          
         async queryRoles() {
-            await this.$store.dispatch("UserModule/ROLES_GET_LIST",{});
+            await this.$store.dispatch("UserModule/ROLES_GET_LIST",{status:"00001001"});
             let  data = this.$store.state.UserModule.ROLES_GET_LIST;
             //console.log(data);
             if (data.success) {
                 this.roles = data.out.list;
+                this.roles.unshift({
+                    insertTime: "",
+                    insertUserId:"",
+                    roleId: "",
+                    roleName: "全部",
+                    roleType: "",
+                    status: "",
+                    updateTime: "",
+                })
             }
         },
         handleCurrentFunc(pageNo){
-            console.log(pageNo);
             this.params.pageNo = pageNo;
             this.getUsers();
         },
         handleClose(done) {
             done();
+        },
+        inputClear(){
+            console.log("清楚")
         }
     },
     created(){
@@ -269,29 +314,15 @@ export default {
 </script>
 <style lang="scss">
     .userList-cont{
-        background-color: #fff;
-        padding: 20px;
-        margin-top: 20px;
+       @extend %pagecont;
         .userSearch{
-            display: inline-block;
-            vertical-align: top;
-            box-sizing: border-box;
-            height: 50px;
-            line-height: 50px;
-            margin: 0 15px;
-            .title{
-                width: 70px;
-                display: inline-block;
-                vertical-align: top;
-            }
-            .search-cont{
-                display: inline-block;
-                vertical-align: top;
-                width: calc(100% - 80px);
-            }
+           @extend %topSearch;
         }
         .list_table{
             @extend %tableborder;
+        }
+        .mt20{
+            margin-top: 20px;
         }
         
     }

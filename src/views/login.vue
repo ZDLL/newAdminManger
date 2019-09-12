@@ -2,11 +2,15 @@
     <div class='login-warp'>
         <div class='login-page'>
             <div class='login-title'>
-                <h3>潮上CRM后台登录</h3>
+                <h3>后台系统登录</h3>
             </div>
             <div class=''>
                 <el-input class="mt20" v-model="name"  placeholder="请输入用户名"></el-input>
-                <el-input class='mt20' v-model="pwd" show-password  @keyup.enter.native='loginBtn' placeholder="请输入密码"></el-input>
+                <el-input class='mt20' v-model="pwd" show-password  placeholder="请输入密码"></el-input>
+                <div class='mt20'>
+                    <el-input class=" codeInput" v-model="code" @keyup.enter.native='loginBtn' placeholder="请输入验证码"></el-input>
+                    <img class='codeImg' @click="imgClick" :src='codeUrl'>
+                </div>
                 <el-button class='login-btn' type="primary"  @click="loginBtn">登录</el-button>
             </div>
             
@@ -20,7 +24,9 @@ export default {
     data(){
         return{
             name:"",
-            pwd:''
+            pwd:'',
+            code:'',
+            codeUrl:'/api/login/getCode?time='+new Date().getTime()
         }
     },
     methods:{
@@ -30,10 +36,14 @@ export default {
                  this.$message.error('请输入账号和密码');
                  return
             }
-            await this.$store.dispatch("LoginModule/USER_GET_LOGIN",{username:_this.name,password:_this.pwd,authCode:''});
+            if(!_this.name){
+                this.$message.error('请输入验证码');
+                 return
+            }
+            await this.$store.dispatch("LoginModule/USER_GET_LOGIN",{username:_this.name,password:_this.pwd,authCode:_this.code});
             let data  = this.$store.state.LoginModule.USER_GET_LOGIN;
             if(!data.currentUserProfile){
-                this.$message.error('请重新登录');
+                this.$message.error(date.msg);
                 return;
             }
             let userData={
@@ -44,11 +54,12 @@ export default {
             }
             setStore('userInfo',userData)
             _this.$router.push("/home");
+        },
+        imgClick(){
+            this.codeUrl ='/api/login/getCode?time='+new Date().getTime()
         }
     },
-    created(){
-        
-    },
+    created(){},
     mounted(){
       localStorage.clear();
     },
@@ -72,7 +83,7 @@ export default {
     width: 400px;
     padding: 20px;
     padding-bottom: 30px;
-    height: 260px;
+    height: 300px;
     background: rgba(255,255,255,0.85);
     border-radius: 4px;
     overflow: hidden;
@@ -110,6 +121,16 @@ export default {
     }
     .mt20{
         margin-top: 20px;
+    }
+    .codeInput{
+        width: 200px;
+    }
+    .codeImg{
+        overflow: hidden;
+        width: 100px;
+        height: 38px;
+        border:0.5px #eee solid;
+        float: right;
     }
 }
 </style>

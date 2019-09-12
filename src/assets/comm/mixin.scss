@@ -22,10 +22,36 @@ $boder:1px #ebeef5 solid;
     background-color: #fff;
     margin-top: 20px;
 };
-%tableborder{
+%pagecont{//内容的样式
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    @include border-radius(4px);
+    // margin-bottom: 20px;
+}
+%tableborder{//table的样式
     border-top: 1px solid #ebeef5;
     border-left: 1px solid #ebeef5;
     @include border-radius(8px);
     overflow: hidden;
-    margin-top: 30px;
+    margin-top: 20px;
+}
+%topSearch{ //顶部有搜索框的样式
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 15px;
+    // width: 80%;
+    .title{
+        width: 70px;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .search-cont{
+        display: inline-block;
+        vertical-align: top;
+        width: calc(100% - 80px);
+    }
 }
