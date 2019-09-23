@@ -25,14 +25,19 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/api/': {
-                target: "http://192.168.3.253:6020",
+                target:"http://192.168.3.124",//"http://192.168.3.4:6020",
                 ws: true,
                 changOrigin: true,
                 // pathRewrite: {
                 //     '^/api': '/'
                 // }
+            },
+            '/gds/':{
+                target:"http://192.168.3.124",//"http://192.168.3.4:6020",
+                ws: true,
+                changOrigin: true,
             }
         }, // 设置代理
-        before: app => { }
+        before: app => {}
     }
 };

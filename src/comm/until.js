@@ -243,6 +243,102 @@ let menuSetData=function(data){
       });
     })
     return allMenu
+};
+let gdsTreeData =function(data){
+  let fisteMenu=[],
+  twoMenu=[],
+  threeMenu=[],
+  treeData=[]
+  if(data && data.length>0){
+    data.map((val,index)=>{
+      if(val.nodeLv == 1){
+        treeData.push(val);
+      };
+      if(val.nodeLv == 2){
+          twoMenu.push(val)
+      };
+      if(val.nodeLv == 3){
+        threeMenu.push(val)
+      }
+  })
+  }else{
+    alert("无权限！")
+    return
+    // this.$message.warning("该账号无权限")
+  }
+  treeData.map((cv,inx)=>{
+    treeData[inx].children=[];
+    twoMenu.map((nv,ix)=>{
+      if(cv.skuTypeNo == nv.parSkuTypeNo){
+            nv.children=[];
+            treeData[inx].children.push(nv)
+            threeMenu.map((ccv,ccinx)=>{
+              if(ccv.parSkuTypeNo == nv.skuTypeNo){
+                  nv.children.push(ccv)
+              }
+            })
+      }
+    });
+  })
+  return treeData
+}
+
+// let translateDataToTree =function (data) {
+//   let parents = data.filter(value => value.nodeLv == '1' || !value.parSkuTypeNo)
+//   let children = data.filter(value => value.nodeLv !== '1' && value.parSkuTypeNo)
+//   let mypars=[]
+//   let oldCurrent={};
+// //  data.filter(val=>{console.log(val)})
+//   let translator = (parents, children) => {
+//     parents.forEach((parent) => {
+//       children.forEach((current, index) => {
+//         if (current.parSkuTypeNo == parent.skuTypeNo) {
+//           // console.log(children)
+//           let temp = JSON.parse(JSON.stringify(children))
+//            temp.splice(index, 1);
+//            console.log(children)
+//           // translator([current], temp)
+//           // typeof parent.children !== 'undefined' ? parent.children.push(current) : parent.children = [current]
+//           // parent.children = [current]
+//           typeof parent.children !== 'undefined' && parent.children.nodeLv !== '4' ? parent.children.push(current) : parent.children = [current]
+//           // return;
+//         }
+//       })
+//     })
+//   }
+ 
+//   translator(parents, children)
+//   // console.log(parents)
+//   return parents
+// }
+
+let translateDataToTree = function (list,obj){
+  let temp = {};
+  let tree = [];
+  if(Object.keys(obj).length<1){
+    console.log("树状数据没有配置")
+    return;
+  }
+  if(!list || list.length<1){
+    console.log("无树状数据")
+    return;
+  }
+  let id= obj.id;
+  let parId = obj.parId
+  for(let i in list){
+      temp[list[i][id]] = list[i];//skuTypeNo
+  }
+  for(let i in temp){
+      if(temp[i][parId]) {//parSkuTypeNo
+          if(!temp[temp[i][parId]].children) {
+              temp[temp[i][parId]].children = [];
+          }
+          temp[temp[i][parId]].children.push(temp[i]);
+      } else {
+          tree.push(temp[i]);
+      }
+  }
+  return tree;
 }
 export{
   getAES,
@@ -254,5 +350,7 @@ export{
   axiosFromData,
   sendRequest,
   myConfirm,
-  menuSetData
+  menuSetData,
+  gdsTreeData,
+  translateDataToTree
 }

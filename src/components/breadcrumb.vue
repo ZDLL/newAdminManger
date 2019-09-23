@@ -1,7 +1,7 @@
 <template>
     <div class='myNav'>
         <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item v-for='(itm,inx) in nav' :key='inx' :to="{ path: itm.url }">{{itm.txt}}</el-breadcrumb-item>
+            <el-breadcrumb-item v-for='(itm,inx) in nav' :key='inx'>{{itm.txt}}</el-breadcrumb-item>
             <!-- <el-breadcrumb-item>活动管理</el-breadcrumb-item>
             <el-breadcrumb-item>活动列表</el-breadcrumb-item>
             <el-breadcrumb-item>活动详情</el-breadcrumb-item> -->

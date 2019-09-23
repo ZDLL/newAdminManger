@@ -15,6 +15,7 @@ export default new Router({
       name: 'login',
       component: ()=>import('./views/login.vue')
     },
+    
     {
       path:'/home',
       name:"home",
@@ -45,8 +46,19 @@ export default new Router({
         path: '/userCenter',
         name: 'userCenter',
         component: ()=>import('./views/home/userCenter/setPwd.vue')
-      }
+      },
+      {
+        path: '/goods',
+        name: 'goods',
+        component: ()=>import('./views/home/goodsModule/goodsIndex.vue')
+      },
 
+      // 测试页面
+      {
+        path: '/tet',
+        name: 'test',
+        component: ()=>import('./views/home/tet.vue')
+      },
     ]
     }
   ]
