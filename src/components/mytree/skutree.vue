@@ -11,6 +11,7 @@
       @enable-itm-data='selectDatafunc' 
       @add-itm-data='addBtnFunc'
       @edr-itm-data='edrBtnFunc'
+      @mod-itm-data='modBtnFunc'
     
       ></tree-item>
       <!--   @del-itm-data='delBtnFunc' -->
@@ -44,6 +45,9 @@
       edrBtnFunc(data){
         this.$emit("edr-tree-data",data)
       },
+      modBtnFunc(data){
+        this.$emit("mod-tree-data",data)
+      }
     //   delBtnFunc(data){
     //     this.$emit("del-tree-data",data)
     //   }

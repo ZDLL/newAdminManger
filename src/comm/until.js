@@ -80,7 +80,7 @@ let getUrlParams = function(name) {
   return null;
 }
 import axios from "axios"
-import { Message,confirm,Loading} from "element-ui";
+import { Message,Loading} from "element-ui";
 /*
   参数为fromdata型的axios封装
 */
@@ -189,7 +189,8 @@ let  myConfirm = function(_this,txt,fn) {
   .then((val) => {
       fn(val)
   })
-  .catch(() => {
+  .catch((err) => {
+    console.log(err)
     _this.$message({
       type: "info",
       message: "已取消操作"
@@ -319,6 +320,7 @@ let translateDataToTree = function (list,obj){
     console.log("树状数据没有配置")
     return;
   }
+  // console.log(list.length)
   if(!list || list.length<1){
     console.log("无树状数据")
     return;

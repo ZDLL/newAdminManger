@@ -119,7 +119,7 @@
                         <el-col :span="6"><span class='my-span-notice'>*</span>菜单序号:</el-col>
                         <el-col :span="16">
                             <el-input type="number" clearable v-model="menuData.menuOrder " placeholder="请输入内容"></el-input>
-                            <my-notice :tip-txt='"输入1-99的数字排序，数字越小排序越靠前"'></my-notice>
+                            <my-notice :tip-txt='"输入0-99的数字排序，数字越小排序越靠前"'></my-notice>
                         </el-col>
                     </el-row>
                     <div style="text-align: center;margin-top:40px">
@@ -327,8 +327,10 @@ export default {
                 this.$message.warning("请输入授权代码");
                 return;
             }
-            if(!this.menuData.menuOrder || this.menuData.menuOrder<0 || this.menuData.menuOrder>99){
-                this.$message.warning("菜单顺序请输入1~99的数字");
+            if(!this.menuData.menuOrder || 
+                this.menuData.menuOrder<0 || 
+                this.menuData.menuOrder>99){
+                this.$message.warning("菜单顺序请输入0~99的数字");
                 return;
             }
            let postData={

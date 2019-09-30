@@ -11,15 +11,21 @@ const state = {
     [types.POST_GDS_TYPR_DISABLE]:{},//禁用类型
     [types.POST_GDS_TYPR_ENDABLE]:{},//启用类型
    
-    [types.POST_GDS_SKU_LIST]:{},//获取sku类型列表
+    // [types.POST_GDS_SKU_LIST]:{},//获取sku类型列表
     [types.POST_GDS_SKU_SAVE]:{},//保存或修改sku
     [types.POST_GDS_SAVE_SPU]:{},//生成spu
     [types.POST_GDS_SAVE_GOODS]:{},//生成商品
     [types.POST_GDS_SAVE_GOODS_GROUP]:{},//生成商品组
     [types.POST_GDS_CODES_LIST]:{},//获取码值列表
-    [types.POST_GDS_INFO_LIST]:{},
+    // [types.POST_GDS_INFO_LIST]:{},
 
     [types.POST_GDS_CHILD_LIST]:{},
+    [types.POST_GDS_SKU_TYPE_PARNO]:{},
+    [types.POST_GDS_SUB_LIST]:{},
+    [types.POST_GDS_INFO_DISABLE]:{},//禁用sku
+    [types.POST_GDS_INFO_ENDABLE]:{},//启用sku
+    [types.POST_GDS_INFO_SUBTYPES]:{},//子集类型
+    [types.POST_GDS_INFO_SAVE]:{},
 }
 // getters
 const getters = {//同步
@@ -50,9 +56,9 @@ const actions ={
     },
 
 
-    async [types.POST_GDS_SKU_LIST](cxt,postData){
-        cxt.commit(types.POST_GDS_SKU_LIST,await sendRequest(apiUrl.gdsskulist,qs.stringify(postData),"post"))
-    },
+    // async [types.POST_GDS_SKU_LIST](cxt,postData){
+    //     cxt.commit(types.POST_GDS_SKU_LIST,await sendRequest(apiUrl.gdsskulist,qs.stringify(postData),"post"))
+    // },
     async [types.POST_GDS_SKU_SAVE](cxt,postData){
         cxt.commit(types.POST_GDS_SKU_SAVE,await sendRequest(apiUrl.gdsskusave,qs.stringify(postData),"post"))
     },
@@ -66,12 +72,34 @@ const actions ={
         cxt.commit(types.POST_GDS_SAVE_GOODS_GROUP,await sendRequest(apiUrl.gdssavegoodsgroup,qs.stringify(postData),"post"))
     },
 
-    async [types.POST_GDS_INFO_LIST](cxt,postData){
-        cxt.commit(types.POST_GDS_INFO_LIST,await sendRequest(apiUrl.gdsInfolist,qs.stringify(postData),"post"))
-    },
+    // async [types.POST_GDS_INFO_LIST](cxt,postData){
+    //     cxt.commit(types.POST_GDS_INFO_LIST,await sendRequest(apiUrl.gdsInfolist,qs.stringify(postData),"post"))
+    // },
     async [types.POST_GDS_CHILD_LIST](cxt,postData){
-        cxt.commit(types.POST_GDS_CHILD_LIST,await sendRequest(apiUrl.getSubSkuInfo,qs.stringify(postData),"post"))
+        cxt.commit(types.POST_GDS_CHILD_LIST,await sendRequest(apiUrl.getSkuInfo,qs.stringify(postData),"post"))
     },
+    async [types.POST_GDS_SKU_TYPE_PARNO](cxt,postData){
+        cxt.commit(types.POST_GDS_SKU_TYPE_PARNO,await sendRequest(apiUrl.querySkuTypeByParNo,qs.stringify(postData),"post"))
+    },
+
+    async [types.POST_GDS_SUB_LIST](cxt,postData){
+        cxt.commit(types.POST_GDS_SUB_LIST,await sendRequest(apiUrl.subInfo,qs.stringify(postData),"post"))
+    },
+
+    async [types.POST_GDS_INFO_DISABLE](cxt,postData){
+        cxt.commit(types.POST_GDS_INFO_DISABLE,await sendRequest(apiUrl.gdsdisinfo,qs.stringify(postData),"post"))
+    },
+    async [types.POST_GDS_INFO_ENDABLE](cxt,postData){
+        cxt.commit(types.POST_GDS_INFO_ENDABLE,await sendRequest(apiUrl.gdsenadleinfo,qs.stringify(postData),"post"))
+    },
+    async [types.POST_GDS_INFO_SUBTYPES](cxt,postData){
+        cxt.commit(types.POST_GDS_INFO_SUBTYPES,await sendRequest(apiUrl.getSubSkuTypes,qs.stringify(postData),"post"))
+    },
+    //POST_GDS_INFO_SAVE
+    async [types.POST_GDS_INFO_SAVE](cxt,postData){
+        cxt.commit(types.POST_GDS_INFO_SAVE,await sendRequest(apiUrl.infoSave,qs.stringify(postData),"post"))
+    },
+
 }
 const mutations = {
     [types.POST_GDS_SAVE](state,data){
@@ -102,9 +130,9 @@ const mutations = {
         state[types.POST_GDS_CODES_LIST]= data.data
     },
 
-    [types.POST_GDS_SKU_LIST](state,data){
-        state[types.POST_GDS_SKU_LIST]= data.data
-    },
+    // [types.POST_GDS_SKU_LIST](state,data){
+    //     state[types.POST_GDS_SKU_LIST]= data.data
+    // },
     [types.POST_GDS_SKU_SAVE](state,data){
         state[types.POST_GDS_SKU_SAVE]= data.data
     },
@@ -118,12 +146,31 @@ const mutations = {
         state[types.POST_GDS_SAVE_GOODS_GROUP]= data.data
     },
 
-    [types.POST_GDS_INFO_LIST](state,data){
-        state[types.POST_GDS_INFO_LIST]= data.data
-    },
+    // [types.POST_GDS_INFO_LIST](state,data){
+    //     state[types.POST_GDS_INFO_LIST]= data.data
+    // },
     [types.POST_GDS_CHILD_LIST](state,data){
         state[types.POST_GDS_CHILD_LIST]= data.data
     },
+    [types.POST_GDS_SKU_TYPE_PARNO](state,data){
+        state[types.POST_GDS_SKU_TYPE_PARNO]= data.data
+    },
+    [types.POST_GDS_SUB_LIST](state,data){
+        state[types.POST_GDS_SUB_LIST]= data.data
+    },
+    [types.POST_GDS_INFO_DISABLE](state,data){
+        state[types.POST_GDS_INFO_DISABLE]= data.data
+    },
+    [types.POST_GDS_INFO_ENDABLE](state,data){
+        state[types.POST_GDS_INFO_ENDABLE]= data.data
+    },
+    [types.POST_GDS_INFO_SUBTYPES](state,data){
+        state[types.POST_GDS_INFO_SUBTYPES]= data.data
+    },
+    [types.POST_GDS_INFO_SAVE](state,data){
+        state[types.POST_GDS_INFO_SAVE]= data.data
+    },
+    //POST_GDS_INFO_SAVE
 }
 
 export default {

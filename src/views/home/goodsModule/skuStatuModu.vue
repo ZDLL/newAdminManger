@@ -1,8 +1,11 @@
 <template>
     <div class='skuStatu-page'>
-        <el-button type="primary" @click="addSkuBtnClick">添加SKU类型</el-button>
+         <myBrea :my-nav='brea'></myBrea>
         <div class='page-cont'>
+
             <div class='page-cont-left'>
+                <el-button type="primary" style="margin-bottom:20px" @click="addSkuBtnClick">添加SKU类型</el-button>
+
                 <!-- 
                     @enable-tree-data="enableBtnClick"
                     @add-tree-data='addButnClick'
@@ -27,6 +30,8 @@
                         <el-col :span="4"><span class='title'> <span class='my-span-notice'>*</span>节点顺序：</span></el-col>
                         <el-col :span="10">
                             <el-input v-model="edrPostData.nodeOrder" placeholder="请输入节点顺序"></el-input>
+                            <my-notice :tip-txt='"数字越小排序越靠前"'></my-notice>
+
                         </el-col>
                     </el-row> 
                     <el-row class='mt20'>
@@ -94,14 +99,18 @@
 <script>
 import myTree from '../../../components/mytree/mytree.vue'
 import {myConfirm,translateDataToTree} from '../../../comm/until'
+import myBrea from "../../../components/breadcrumb.vue"
+
 export default {
     name:"skustatumodu",
     props:{},
     components:{
-        myTree
+        myTree,
+        myBrea
     },
     data(){
         return{
+            brea:[{"txt":"商品中心","url":"/goods"},{"txt":"SKU类型管理","url":"/"}], 
             addSkudialog: false,
             skuTypeOpt:[],
             addPostData:{
@@ -236,6 +245,11 @@ export default {
 </script>
 <style lang="scss">
     .skuStatu-page{
+        .page-cont{
+              @extend %pagecont;
+              overflow: hidden;
+              padding-bottom: 30px;
+        }
         .mt20{
             margin-top: 20px;
         }
@@ -262,7 +276,7 @@ export default {
                content: "";
                 left: 38%;
                 width: 1px;
-                height: 100%;
+                height: 85%;
                 background-color: #dcdcdc;
            }
         }

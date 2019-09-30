@@ -24,5 +24,10 @@ module.exports={
     "restPassword": "/api/user/restPassWord",
     // "queryRoles": "api/role/queryRoles",
     "saveUser":"api/user/saveUser",
-    "changeUserStatus": "api/user/changeUserStatus"
+    "changeUserStatus": "api/user/changeUserStatus",
+    /**
+     * 
+     * 上传的接口
+     */
+    'comUploadImg':"/gds/upload",//图片上传
 }

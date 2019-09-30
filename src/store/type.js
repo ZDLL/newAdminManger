@@ -23,3 +23,10 @@ export const USER_RESET_PWD = 'USER_RESET_PWD';//重置密码
 export const ROLES_GET_LIST = 'ROLES_GET_LIST';//查询角色
 export const USER_SAVE = 'USER_SAVE';//保存用户
 export const USER_CHANGE_STATUS = 'USER_CHANGE_STATUS';
+
+
+/**
+ * 公共的上传
+ */
+
+ export const COM_UPLOAD_IMG ='COM_UPLOAD_IMG'//公共图片上传

@@ -60,5 +60,8 @@ export default {
   .mt20{
     margin-top: 20px;
   }
+  .el-menu-item-group__title{
+    padding: 0px;
+  }
 }
 </style>

@@ -1,15 +1,16 @@
 <template>
-    <li>
+<!-- :key="data.skuTypeNo"  :skuTypeNo = 'data.skuTypeNo' -->
+    <li :key="data.skuInfoNo" :skuInfoNo = 'data.skuInfoNo'>
         <div class='tree-div'>
-            <span class='tree-icon' v-if="hasChild && data.nodeLv !=1 "  @click="toggle" :class="isOpen?'el-icon-minus':'el-icon-plus'" ></span>
+            <span class='tree-icon' v-if="hasChild "  @click="toggle" :class="isOpen?'el-icon-minus':'el-icon-plus'" ></span>
             <span v-if="!hasChild" class='tree-icon el-icon-minus'></span>  <!-- 末节点 -->
             <div class='tree-label nobor'>
-                <span  @click="edrBtnClick(data)"> {{ data[treeProps.label] }}</span>
-                <span v-if='data.nodeLv!=1' class='el-icon-circle-plus addIcon' @click="addButnClick(data)"></span>
-                <span class='enable' @click="enableBtnClick(data)">{{data.state=='00001001'?"启用":"禁用"}}</span>
-                <!-- <span class='del' @click="edrBtnClick(data)">编辑</span> -->
+                <span :skuInfoNo='data.skuInfoNo'> {{ data[treeProps.label] }} [ {{data.skuTypeName}} ]（{{data.state=='00001001'?"启用":"禁用"}}）</span>
+                <span v-if='!data.isEnd'  class='el-icon-circle-plus addIcon' @click="addButnClick(data)"></span>
+                <span class='del' @click="modifyBtnClick(data)">编辑</span>
+                <span class='enable' @click="enableBtnClick(data)">{{data.state=='00001001'?"禁用":"启用"}}</span>
+                <span style="color:#666" v-if='data.isEnd' class='del' @click="edrBtnClick(data)">查看</span>
             </div>
-            <!-- <div>有内容用</div> -->
         </div>
         <ul v-show="isOpen" v-if="hasChild" :class="{pal20:isOpen}">
             <tree-item v-for="(item, index) in data[treeProps.children]" 
@@ -19,6 +20,7 @@
             @enable-itm-data="enableBtnClick"
             @add-itm-data='addButnClick'
             @edr-itm-data='edrBtnClick'
+            @mod-itm-data='modifyBtnClick'
             ></tree-item>
             <!--    @del-itm-data='delBtnClick' -->
         </ul>
@@ -47,7 +49,7 @@ export default {
             skuInfoNo:"",
             isOpen: false,
             isDis:false,
-            isClick:false
+            isClick:''
         }
     },
     computed: {
@@ -73,11 +75,13 @@ export default {
             this.$emit("enable-itm-data",data)
         },
         edrBtnClick(data){
+            this.isClick=''
+            this.isClick = data.skuTypeNo
             this.$emit("edr-itm-data",data)
         },
-        // delBtnClick(data){
-        //     this.$emit("del-itm-data",data)
-        // }
+        modifyBtnClick(data){
+            this.$emit("mod-itm-data",data)
+        }
     }
 }
 </script>
@@ -139,7 +143,7 @@ ul {
 .tree-label{
     display: inline-block;
     vertical-align: top;
-    width: 200px;
+    min-width: 250px;
     padding-left: 10px;
     margin-left: 8px;
     margin-right: 8px;
@@ -158,6 +162,21 @@ li {
 }
 .isblod{
     font-weight: 600
+}
+.tree-chlid{
+    background:rgba(0,0,0,0.8);
+    // height: 30px;
+    overflow: hidden;
+    color: #fff;
+    margin-top: 20px;
+    border-radius: 4px;
+    padding: 8px 10px;
+    // line-height: 30px;
+    // padding: 0 10px;
+    .enable{
+        // background-color: transparent;
+        // color: #fff;
+    }
 }
 // li > span {
 //     cursor: pointer;
