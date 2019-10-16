@@ -45,7 +45,7 @@ export default new Router({
       {
         path: '/userCenter',
         name: 'userCenter',
-        component: ()=>import('./views/home/userCenter/setPwd.vue')
+        component: ()=>import("./views/home/userCenter/setPwd.vue")
       },
       // {
       //   path: '/goods',
@@ -54,8 +54,8 @@ export default new Router({
       // },
       //商品中心
       {
-        path: '/gds',
-        name: 'gds',
+        path: '/goods',
+        name: 'goods',
         component: ()=>import('./views/home/goodsModule/goodsAllmodu.vue')
       },
       {
@@ -98,12 +98,34 @@ export default new Router({
         name: 'skuType',
         component: ()=>import('./views/home/goodsModule/skuStatuModu.vue')
       },
-      // 测试页面
+      // 评分中心
       {
-        path: '/tet',
-        name: 'test',
-        component: ()=>import('./views/home/tet.vue')
+        path: '/goScore',
+        name: 'goScore',
+        component: ()=>import('./views/home/scoreModule/goScore.vue')
       },
+      //指标中心
+      {
+        path: '/allTarget',
+        name: 'allTarget',
+        component: ()=>import('./views/home/targetCenter/allTarget.vue')
+      },
+      {
+        path: '/targetDetail',
+        name: 'targetDetail',
+        component: ()=>import('./views/home/targetCenter/targetDetail.vue')
+      },
+      {
+        path: '/addTarget',
+        name: 'addTarget',
+        component: ()=>import('./views/home/targetCenter/addTarget.vue')
+      },
+      {
+        path: '/targetSet',
+        name: 'targetSet',
+        component: ()=>import('./views/home/targetCenter/targetSet.vue')
+      },
+
     ]
     }
   ]

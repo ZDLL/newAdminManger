@@ -1,3 +1,4 @@
+<!-- <h2>首页</h2> -->
 <template>
     <div class='frist-page'>
        <img class='frist-img' src="@/assets/frist.png" alt="首页">

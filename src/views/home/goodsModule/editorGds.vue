@@ -63,6 +63,8 @@
                   action="string"
                   accept="image/jpeg,image/png,image/jpg"
                   list-type="picture-card"
+                  multiple
+                  :limit="6"
                   :on-progress='uploadProgress'
                   :before-upload="onBeforeUploadImage"
                   :http-request="UploadImage"
@@ -81,14 +83,14 @@
             <span class="place-txt">关键词</span>
             <div class="place">
               <el-input placeholder="请输入内容" v-model="savePostData.keyWords" clearable></el-input>
-              <my-notice :tip-txt='"填写关键后便于用户搜索，用斜杠/隔开，最多可添加4个关键词"'></my-notice>
+              <my-notice :tip-txt='"填写关键后便于用户搜索，用斜杠/隔开"'></my-notice>
               <!-- <p>填写关键后便于用户搜索，用斜杠/隔开，最多可添加4个关键词</p> -->
             </div>
           </div>
           <div class="other">
             <span class="place-txt">权重</span>
             <div class="place">
-              <el-input placeholder="请输入内容" v-model="savePostData.weight" clearable></el-input>
+              <el-input placeholder="请输入内容" type="number" v-model="savePostData.weight" clearable></el-input>
               <my-notice :tip-txt='"数字越大越靠前"'></my-notice>
             </div>
           </div>
@@ -228,12 +230,16 @@ export default {
             }
         });
        if(skuArr.length<1){
-         this.$message.error("请选择的SKU");
+         this.$message.warning("请选择的SKU");
          return
        }
         if(this.fileList.length<1){
-         this.$message.error("请上传图片");
+         this.$message.warning("请上传图片");
          return
+       }
+       if(this.savePostData.weight<0){
+          this.$message.warning("权重请输入1以上的数字");
+          return
        }
         this.savePostData.skus =skuArr
         this.savePostData.goodsGroupNo = this.groupNo;

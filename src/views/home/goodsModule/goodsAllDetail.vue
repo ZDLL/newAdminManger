@@ -38,7 +38,7 @@
           </div>
           <div class='gdsDetail'>
             <h3>商品详情</h3>
-            <div class='gdsCont' v-if='gdsInfo.group.goodsGroupIntroduce' v-html="gdsInfo.group.goodsGroupIntroduce"></div>
+            <div class='gdsCont' v-if='gdsInfo.group && gdsInfo.group.goodsGroupIntroduce' v-html="gdsInfo.group.goodsGroupIntroduce"></div>
              <my-nocont v-else :cont-txt='"暂无数据!!"'></my-nocont>
           </div>
         </div>
@@ -75,12 +75,12 @@ export default {
             this.$message.success("操作成功");
             this.getGdsInfoDetail({goodsNo:this.goodsNo})
       },
+      
       gdsDetailAnbaleClick(state){
             let _this=this;
             let endAble = state=='00001001'?true:false;
             let st=state=='00001001'?"00001002":"00001001";
             myConfirm(_this,(endAble?'禁用后该商品组下的商品，将一起禁用？':'是否启用该商品组'),function(val){
-                console.log(val)
                 _this.getGdsInfoAble({goodsNo:_this.goodsNo,state:st})
             })
             // myConfirm(_this,(endAble?'禁用后该商品组下的商品，将一起禁用？':'是否启用该商品组'),function(){
@@ -191,9 +191,14 @@ export default {
             }
             .gdsCont{
               margin-top: 30px;
-              width: 600px;
+              width: 800px;
               border:1px #dcdcdc solid;
               padding:10px 20px;
+              img{
+                width: 100%;
+                height: auto;
+                margin: 5px 0;
+              }
             }
         }
     }

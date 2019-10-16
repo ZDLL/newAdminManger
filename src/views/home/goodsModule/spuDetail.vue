@@ -27,7 +27,7 @@
                         style="width: 100%">
                         <el-table-column
                         prop="skuInfoNo"
-                        label="SPU编号">
+                        label="SKU编号">
                         </el-table-column>
                         <el-table-column
                         prop="skuTypeName"

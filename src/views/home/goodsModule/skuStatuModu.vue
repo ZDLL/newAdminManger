@@ -171,8 +171,12 @@ export default {
             this.$message.success(date.msg)
         },
         addSkuBtnClick(){
-            this.addPostData.parSkuTypeNo ='';
-            this.addPostData={};
+            this.addPostData={
+                skuTypeName:"",
+                skuType:"",
+                nodeOrder:"",
+                parSkuTypeNo:""
+            }
             this.addSkudialog = true;
         },
         addGdsTypeBtnClick(){
@@ -217,6 +221,12 @@ export default {
            })
         },
         getAddData(data){
+            this.addPostData={
+                skuTypeName:"",
+                skuType:"",
+                nodeOrder:"",
+                parSkuTypeNo:""
+            }
             this.addSkudialog = true;
             this.addPostData.parSkuTypeNo = data.skuTypeNo;
             this.getGdsParts(data.skuType);

@@ -43,11 +43,16 @@
                     <p class="itm-chen" v-for='(im,ix) in ittm.skuInfos' :key='ix'>
                       <!-- {{itmm.skuInfoName}} -->
                       <span style="margin-left:10px">{{im.skuInfoName}}</span>
-                      <span class="infoBtn edir" @click="saveEditor(im)">编辑</span>
+                      <span class="infoBtn edir" @click="getModData(im,2)">编辑</span>
                       <span
                         class="infoBtn"
-                        @click="getSelData(im)"
-                      >( {{ittm.state=='00001001'?"禁用":'启用'}} )</span>
+                        @click="getSelData(im,2)"
+                      > {{im.state=='00001001'?"禁用":'启用'}} 
+                      </span>
+                      <span
+                       style="margin-left:10px"
+                      >( {{im.state=='00001001'?"启用":'禁用'}} )
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -59,8 +64,8 @@
       </div>
        <div class="sendbtn">
         <el-button type="primary" @click="saveSpuClick">生成SPU</el-button>
-        <el-button type="primary" plain @click="saveGdsClick">生成全部商品</el-button>
         <el-button type="primary" plain @click="saveGroupClick">生成全部商品组</el-button>
+        <el-button type="primary" plain @click="saveGdsClick">生成全部商品</el-button>
       </div>
     </div>
    
@@ -83,7 +88,7 @@
     </el-dialog>
 
     <!-- 添加的弹层 -->
-     <el-dialog title="添加KU属性" :visible.sync="addDialog" width="40%">
+     <el-dialog title="添加SKU属性" :visible.sync="addDialog" width="40%">
       <div>
           <el-select v-if="addType==1" v-model="addVal" placeholder="请选择" @change='selectChange'>
                 <el-option
@@ -217,8 +222,13 @@ export default {
         postData
       );
       let data = this.$store.state.GdsSkuTypeModule.POST_GDS_INFO_DISABLE;
-      console.log("禁用成功");
-      this.getTheCoreList({ skuType: "01021001" })
+      // console.log("禁用成功");
+     
+      if(this.addType ==2){
+        this.postSubData({ skuInfoNo: this.clickTxtData.skuInfoNo });
+      }else{
+        this.getTheCoreList({ skuType: "01021001" });
+      }
       this.$message.success("禁用成功");
     },
     async enAble(postData) { //启用
@@ -227,7 +237,13 @@ export default {
         postData
       );
       let data = this.$store.state.GdsSkuTypeModule.POST_GDS_INFO_ENDABLE;
-       this.getTheCoreList({ skuType: "01021001" })
+      if(this.addType ==2){
+        this.postSubData({ skuInfoNo: this.clickTxtData.skuInfoNo });
+      }else{
+        this.getTheCoreList({ skuType: "01021001" });
+      }
+      //  this.getTheCoreList({ skuType: "01021001" })
+      //   this.postSubData({ skuInfoNo: this.clickTxtData.skuInfoNo });
       this.$message.success("启用成功");
     },
     async getCodelist(postData, callBack) {//获取码值
@@ -236,7 +252,7 @@ export default {
         postData
       );
       let data = this.$store.state.GdsSkuTypeModule.POST_GDS_CODES_LIST;
-      console.log(data)
+      // console.log(data)
       callBack(data.out[postData.codeTypes])
     },
     async saveEditor(postData) {//编辑类型
@@ -246,7 +262,13 @@ export default {
       );
       let data = this.$store.state.GdsSkuTypeModule.POST_GDS_INFO_SAVE;
       this.$message.success("保存成功")
-      this.getTheCoreList({ skuType: "01021001" })
+      if(this.addType ==2){
+        this.postSubData({ skuInfoNo: this.clickTxtData.skuInfoNo });
+      }else{
+        this.getTheCoreList({ skuType: "01021001" });
+      }
+      // this.getTheCoreList({ skuType: "01021001" });
+      // this.postSubData({ skuInfoNo: this.clickTxtData.skuInfoNo });
       this.edtorDialog = false;
     },
     async postSubData(postData) {//获取非主要sku的数据
@@ -330,8 +352,13 @@ export default {
         var sortFun = new Function('a', 'b', 'return a.' + sortBy + ordAlpah + 'b.' + sortBy + '?1:-1');
         return sortFun;
     },
-    getSelData(tData){//启用禁用的点击事件
+    getSelData(tData,type){//启用禁用的点击事件
       let _this = this;
+      if(type==2){
+        this.addType = 2
+      }else{
+        this.addType=1
+      }
       if (tData.state == "00001001") {
         myConfirm(
           _this,
@@ -346,9 +373,15 @@ export default {
         });
       }
     },
-    getModData(tData){//编辑的点击事件
+    getModData(tData,type){//编辑的点击事件
+      // console.log("编辑")
       this.clickTxtData= tData;
       this.editorVal ='';
+      if(type==2){
+        this.addType = 2
+      }else{
+        this.addType=1
+      }
       this.edtorDialog = true
       let _this=this;
       let typeNo ='';
@@ -358,17 +391,22 @@ export default {
       })
     },
     editorBtn(){//编辑弹层确定
-      console.log("编辑确定");
+      // console.log("编辑确定");
       let ckeckData={};
+      
       this.edtorOpn.map((itm,index)=>{
         if(itm.codeInfoValue == this.editorVal){
             ckeckData = itm;
         }
       })
+      if(!ckeckData.codeInfoValue){
+        this.$message.warning("请选择属性")
+        return
+      }
       this.saveEditor({skuInfoNo:this.clickTxtData.skuInfoNo,skuInfoName:ckeckData.codeInfoValue})
     },
     getEdrData(tData){//文字点击获取详情
-      console.log("文字点击")
+      // console.log("文字点击")
       this.clickTxtData= tData;
       this.postSubData({ skuInfoNo: tData.skuInfoNo });
     },
@@ -377,8 +415,6 @@ export default {
       this.addSelcOpn =[];
       this.addDialog = true;
       let _this=this;
-      console.log(tData);
-      console.log(type)
       if(!type){
           this.addType = 1
          _this.clickTxtData = tData;
@@ -441,8 +477,7 @@ export default {
         }
       })
      
-      console.log('添加确定');
-      console.log(codeArry);
+      // console.log('添加确定');
       this.postSavesku({ skus: JSON.stringify(codeArry) });
     },
     typedelClick(data) {//类型删除
@@ -601,8 +636,9 @@ export default {
     }
   }
   .selecData{
-    display: inline-block;
+    // display: inline-block;
     min-width: 100px;
+    max-width: 350px;
     vertical-align: top;
     font-size: 14px;
     color: #333;

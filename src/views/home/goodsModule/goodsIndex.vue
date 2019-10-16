@@ -94,7 +94,6 @@ export default {
             this.brea[1].txt='商品详情'
             this.activeIndex ='';
             this.activeIndex="goodsAllModu";
-            console.log(gdsData)
             this.$router.push({query: {com: gdsData.com,goodsNo:gdsData.gdsNo}})
         },
         gdsEditorFunc(gdsErData){

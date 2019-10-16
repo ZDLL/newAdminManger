@@ -44,28 +44,28 @@ let tinymceInitFig={
         let file= blobInfo.blob()
         let formData = new FormData();
         formData.append("file",file)
-        if(file.size/(1024*1024)>1){
-          alert("上传图片不能大于1M")
-          succFun(" ");
-          return ;
-        }
+        // if(file.size/(1024*1024)>1){
+        //   alert("上传图片不能大于1M")
+        //   succFun(" ");
+        //   return ;
+        // }
         axios({
           method: 'post',
-          url: '/backend/common/uploadwords',
+          url: '/gds/upload',
           data:formData,
           // headers: {"token":window.localStorage.getItem("token")},
         }).then(data=>{
-          if(data.data.code !=10000){
+          if(data.data.status !=200){
             Message.error(data.data.msg);
             if(data.data.code =='10005' || data.data.code=='10006'){
               window.location.href='/'
               return;
             }
             succFun("")
-            failFun(data.data.msg)
+            failFun(data.data.message)
             return false
           }
-          succFun(data.data.info.path)
+          succFun(data.data.out.value)
         }).catch(err=>{
           console.log("错误");
           console.log(err)

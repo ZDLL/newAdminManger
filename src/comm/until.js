@@ -154,13 +154,15 @@ let sendRequest = function(url,payload,method){
       Message.error("请求错误");
       return
   });
+  // console.log(JSON.parse(window.localStorage.getItem("userInfo")).token)
   return new Promise((res,rej)=>{
     axios({
       method: method,
       url: url,
       data:payload,
+      
       // headers:{'Content-Type': 'application/json'}
-      // headers: {"token":window.localStorage.getItem("token")},
+      headers: {"token":window.localStorage.getItem("userInfo")?JSON.parse(window.localStorage.getItem("userInfo")).token:''},
     }).then(data=>{
       endLoading()
       if(data.data.status !=200){

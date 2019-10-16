@@ -138,7 +138,7 @@ export default {
             this.getGdsGroupList(this.pageData)
         },
         groupViewClick(row){
-            console.log(row)
+            // console.log(row)
             let data ={
                 groupNo:row.goodsGroupNo,
                 com:"gdsGruopDetail"
@@ -161,7 +161,6 @@ export default {
             let _this=this;
             let endAble = row.state=='00001001'?true:false;
             let st= row.state=='00001001'?"00001002":"00001001";
-            console.log(row.goodsGroupNo)
             myConfirm(_this,endAble?'禁用后该商品组下的商品，将一起禁用？':'是否启用该商品组',function(){
                 _this.postGroupAnble({groupNo:row.goodsGroupNo,state:st})
             })

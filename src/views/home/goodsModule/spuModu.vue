@@ -169,13 +169,12 @@ export default {
             this.$message.success(data.message)
         },
         handleNodeClick(data){
-            console.log(data)
+          
             this.skuInfoNo = data.skuInfoNo
             this.getSpuList({skuInfoNo:data.skuInfoNo,pageNo:this.pageData.pageNo,pageSize:this.pageData.pageSize})
         },
         handleCurrentFunc(val){
-            console.log("分页")
-            console.log(val)
+           
             this.pageData.pageNo =val;
             this.getSpuList(this.pageData)
         },

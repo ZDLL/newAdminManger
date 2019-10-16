@@ -12,10 +12,14 @@
               <span v-else>无图片</span>
           </span>
           <h3 v-if='gruopData.group'>{{gruopData.group.goodsGroupName}}</h3>
+          <div class='score'>
+              <span>综合评分</span>
+              <h4>{{gruopData.groupScore}}</h4>
+          </div>
             <div class="topbtns">
                 <el-button type="primary" @click="editorGruop">编辑</el-button>
                 <el-button type="primary" plain @click="isAnable(gruopData.group.state)">{{gruopData.group.state=='00001001'?'禁用':"启用"}}</el-button>
-                <!-- <el-button type="primary" plain @click="moreGdsClick">查看详情</el-button> -->
+                <el-button type="primary" @click="goScore">去评分</el-button>
             </div>
         </div>
         <div class="group-contTop-mind">
@@ -51,8 +55,12 @@
            
         </div>
       </div>
-      <div class="group-mid">
-          <el-divider content-position="left">商品列表</el-divider>
+      <el-menu :default-active='selectActive' class="el-menu-demo" mode="horizontal" @select="handleSelect">
+            <el-menu-item index="1">商品列表</el-menu-item>
+            <el-menu-item style="margin-left:30px" index="2">评分指标</el-menu-item>
+      </el-menu>
+      <div v-show='selectActive == 1' class="group-mid">
+          <!-- <el-divider content-position="left">商品列表</el-divider> -->
          <div class="grupList-table">
             <el-table
                 :data="tableData"
@@ -107,23 +115,29 @@
 
          </div>
       </div>
+      <div v-show='selectActive == 2' class='group-mid'>
+         <gradIndex v-if='groupNo' :group-no='groupNo'></gradIndex>
+           <!-- <el-divider content-position="left">评分指标</el-divider> -->
+      </div>
     </div>
     <my-nocont v-else :cont-txt='"暂无数据!!"'></my-nocont>
   </div>
 </template>
 <script>
-import { myConfirm } from "../../../comm/until";
+import { myConfirm,setStore } from "../../../comm/until";
 import myPackage from '../../../components/package.vue';
-import myBrea from "../../../components/breadcrumb.vue"
+import myBrea from "../../../components/breadcrumb.vue";
+import gradIndex from '../scoreModule/gradingIndex.vue'
 export default {
   name: "groupdetail",
   data() {
     return {
-        brea:[{"txt":"商品中心","url":"/goods"},{"txt":"商组详情","url":"/"}], 
+        brea:[{"txt":"商品中心","url":"/goods"},{"txt":"商品组详情","url":"/"}], 
         groupNo:"",
         tableData:[],
         gruopData:{},
         packTotal:1,
+        selectActive:'1',
         gdsInfoData:{
             pageSize:10,
             pageNo:1,
@@ -133,21 +147,23 @@ export default {
   },
   components: {
       myPackage,
-      myBrea
+      myBrea,
+      gradIndex
   },
   methods: {
-      async getGdsGroupDetail(postData){
+    async getGdsGroupDetail(postData){
           await this.$store.dispatch("GdsGroupModule/POST_GDS_GROUP_DETAIL",postData);
           let data = this.$store.state.GdsGroupModule.POST_GDS_GROUP_DETAIL;
           this.gruopData  = data.out
         //   console.log(data)
-      },
-     async getGdsInfoList(postData){
+    },
+    async getGdsInfoList(postData){
           await this.$store.dispatch("GdsInfoModule/POST_GDS_INFO_LIST",postData);
           let data = this.$store.state.GdsInfoModule.POST_GDS_INFO_LIST;
           this.tableData = data.out.list
-      },
-     async postGroupAnble(postData) {
+          this.packTotal = parseInt(data.out.totalSize)
+    },
+    async postGroupAnble(postData) {
             await this.$store.dispatch(
                 "GdsGroupModule/POST_GDS_GROUP_ANBLE",
                 postData
@@ -155,13 +171,18 @@ export default {
             let data = this.$store.state.GdsGroupModule.POST_GDS_GROUP_ANBLE;
             this.getGdsGroupDetail({groupNo:this.groupNo})
             this.$message.success("操作成功")
-     },
+    },
     moreGdsClick(row){
           let data={
               com:"gdsDetail",
               gdsNo:row.goodsNo
           }
-          this.$emit("show-gds-detail",data)
+         
+          this.$router.push({
+              path:"gdsDetail",
+              query:data
+          })
+        //   this.$emit("show-gds-detail",data)
     },
     editorGruop(){
           let data ={
@@ -178,8 +199,6 @@ export default {
            let _this=this;
             let endAble = state=='00001001'?true:false;
             let st= state=='00001001'?"00001002":"00001001";
-            console.log(state)
-
             myConfirm(_this,endAble?'禁用后该商品组下的商品，将一起禁用？':'是否启用该商品组',function(){
                 _this.postGroupAnble({groupNo:_this.groupNo,state:st})
             })
@@ -187,19 +206,38 @@ export default {
     handleCurrentFunc(val){
         this.gdsInfoData.pageNo = val;
         this.getGdsInfoList(this.gdsInfoData)
-    }
+    },
+    handleSelect(key, keyPath){
+        this.selectActive = key
+    },
+    goScore(){
+         let sData={
+              name:this.gruopData.group.goodsGroupName,
+              url:this.gruopData.photos.length>0?this.gruopData.photos[0].attachPath:'',
+              score:this.gruopData.groupScore,
+              groupNo:this.groupNo
+          }
+          setStore("groupData",sData)
+        this.$router.push({
+            path:"/goScore",
+            query:{
+                groupId:this.groupNo
+            }
+        })
+    },
+    
   },
   
   created() {
       if(this.$route.query.groupNo){
           this.groupNo = this.$route.query.groupNo
       }else{
-          this.$message.warning("")
+          this.$message.warning("没有该数据，请返回重新查看")
       }
-
       this.getGdsGroupDetail({groupNo:this.groupNo})
       this.gdsInfoData.goodsGroupNo = this.groupNo;
       this.getGdsInfoList(this.gdsInfoData)
+      
   }
 };
 </script>
@@ -223,7 +261,24 @@ export default {
           padding-bottom: 30px;
           h3{
               width: 300px;
-              margin-left: 100px;
+              display: inline-block;
+              vertical-align: top;
+            //   margin-left: 100px;
+          }
+          .score{
+              display: inline-block;
+              vertical-align: top;
+              overflow: hidden;
+              width: 180px;
+              text-align: center;
+              margin-left: 20px;
+              span{
+                  color: #403f4c;
+                  font-size: 14px;
+              }
+              h4{
+                 font-size: 40px; 
+              }
           }
             .top-span-img{
                width: 80px;

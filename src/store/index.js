@@ -8,7 +8,9 @@ import RoleModule from './module/roleModule.js';
 import GdsSkuTypeModule from './module/goods/goodsSkuTypeModule.js';
 import GdsSpuModule from './module/goods/goodSpuModule.js';
 import GdsGroupModule from './module/goods/goodsGroupModule.js';
-import GdsInfoModule from './module/goods/goodsInfoModule.js'
+import GdsInfoModule from './module/goods/goodsInfoModule.js';
+import ScoreModule from './module/score/scoreModule.js'
+import TargetModule from './module/target/targetModule.js'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -20,6 +22,8 @@ export default new Vuex.Store({
     GdsSkuTypeModule,
     GdsSpuModule,
     GdsGroupModule,
-    GdsInfoModule
+    GdsInfoModule,
+    ScoreModule,
+    TargetModule
   }
 })
