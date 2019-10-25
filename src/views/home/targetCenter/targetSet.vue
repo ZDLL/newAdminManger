@@ -45,7 +45,9 @@
                         </ul>
                     </div>
                     <el-button class='mt20' type="primary" style="float:right" plain @click="delGdsBtnClick">删除</el-button>
-                    <el-button class='mt20' type="primary" style="float:right;margin-right:20px" @click="showSetDialog">设置</el-button>
+                    <el-button class='mt20' type="primary" style="float:right;margin-right:10px" plain @click="editorBtnClick">编辑</el-button>
+
+                    <el-button class='mt20' type="primary" style="float:right;" @click="showSetDialog">设置</el-button>
                     
                 </div>
                 <div class="target-set-table">
@@ -140,15 +142,15 @@
            >
             <div class="set-dialog">
                  <el-row class='mt20'>
-                    <el-col :span="3">上传图标</el-col>
+                    <el-col :span="3"><span class="my-span-notice">*</span>上传图标</el-col>
                     <el-col :span="10">
-                        <proUpload @getUrl='uploadUrl'></proUpload>
+                        <proUpload :key='addTypeData.picture_url' :img-url='addTypeData.picture_url' @getUrl='uploadUrl'></proUpload>
                     </el-col>
                 </el-row>
                 <el-row class='mt20'>
-                    <el-col :span="3">SKU</el-col>
+                    <el-col :span="3"><span class="my-span-notice">*</span>SKU</el-col>
                     <el-col :span="10">
-                        <el-select v-model="addTypeData.sku_no" placeholder="请选择">
+                        <el-select v-model="addTypeData.sku_no" :disabled="skuNoDis" placeholder="请选择">
                             <el-option
                             v-for="item in skuOpn"
                             :key="item.sku_no"
@@ -160,9 +162,9 @@
                 </el-row>
                
                 <el-row class='mt20'>
-                    <el-col :span="3">类型名称</el-col>
+                    <el-col :span="3"><span class="my-span-notice">*</span>类型名称</el-col>
                     <el-col :span="10">
-                        <el-input v-model="addTypeData.type_name" maxlength="30" show-word-limit placeholder="请输入内容"></el-input>
+                        <el-input v-model="addTypeData.goods_type_name" maxlength="30" show-word-limit placeholder="请输入内容"></el-input>
                     </el-col>
                 </el-row>
             </div>
@@ -195,7 +197,8 @@ export default {
             addTypeData:{
                 sku_no:"",
                 picture:"",
-                type_name:"",
+                picture_url:'',
+                goods_type_name:"",
             },
             setData:[],
             disOpn:[],
@@ -207,6 +210,7 @@ export default {
                 current_page:"-1",
                 page_size:'10'
             },
+            skuNoDis:false,
             packTotal:1,
             allTableData:[]
         }
@@ -262,11 +266,7 @@ export default {
             let data = this.$store.state.TargetModule.POST_ADD_TYPE;
             this.getGdsList({})
             this.addDialog = false;
-            this.addTypeData={
-                sku_no:"",
-                picture:"",
-                type_name:"",
-            }
+            
         },
         async setWeight(postData) {
             await this.$store.dispatch(
@@ -290,6 +290,19 @@ export default {
             this.tableData=[];
             this.$message.success("操作成功");
         },
+        async editorGdsType(postData) {
+            await this.$store.dispatch(
+                "TargetModule/POST_EDITOR_GDS_TYPE",
+                postData
+            );
+            let data = this.$store.state.TargetModule.POST_EDITOR_GDS_TYPE;
+            // this.getIndexList({goods_type:this.actv})
+            this.getGdsList(this.seachData)
+            this.gdsData={};
+            this.tableData=[];
+            this.addDialog= false;
+            this.$message.success("操作成功");
+        },
         showSetDialog(){
             let mysetData = this.tableData;
             let _this = this;
@@ -307,6 +320,13 @@ export default {
             this.setDialog = true;
         },
         showAddDialog(){
+           this.addTypeData={
+                sku_no:"",
+                picture:"",
+                picture_url:'',
+                goods_type_name:"",
+            }
+            this.skuNoDis = false;
             this.addDialog = true;
         },
         typeClick(itm){
@@ -316,10 +336,19 @@ export default {
             this.getIndexList(this.pageDaga)
         },
         uploadUrl(url){
-            this.addTypeData.picture=url;
+            if(this.addTypeData.picture_url !=url){
+                this.addTypeData.picture = ''
+            }
+            this.addTypeData.picture_url=url;
         },
         addTypeSure(){
-            this.addType(this.addTypeData)
+          
+            if(this.addTypeData.goods_type_no){
+                this.editorGdsType(this.addTypeData)
+            }else{
+                this.addType(this.addTypeData)
+            }
+            
         },
         setBtnClick(){
             this.setWeight({config:JSON.stringify(this.setData)})
@@ -340,6 +369,18 @@ export default {
         handleCurrentFunc(val){
             this.pageDaga.current_page = val
             this.getIndexList(this.pageDaga)
+        },
+        editorBtnClick(){
+             this.addTypeData={
+                sku_no:"",
+                picture:"",
+                goods_type_name:"",
+            };
+            this.skuNoDis = true;
+            this.addDialog = true;
+            this.addTypeData = this.gdsData;
+            this.addTypeData.goods_type_no = this.gdsData.goods_type_no
+            // this.editorGdsType(this.addTypeData)
         }
     },
     created(){
@@ -429,7 +470,7 @@ export default {
             }
             .set-right-mid{
                 display: inline-block;
-                width: 500px;
+                width: 450px;
                 margin-left: 20px;
                 overflow: hidden;
                 vertical-align: top;

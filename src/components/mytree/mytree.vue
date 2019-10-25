@@ -12,7 +12,9 @@
       @add-itm-data='addBtnFunc'
       @edr-itm-data='edrBtnFunc'
       @del-itm-data='delBtnFunc'
-      ></tree-item>
+      >
+       
+      </tree-item>
     </ul>
   </div>
 </template>
@@ -20,6 +22,7 @@
 <script>
   import treeItem from './my-tree-itm.vue'
   export default {
+    name:"skutree",
     props: {
       data: {
         type: [Object, Array],

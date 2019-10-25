@@ -3,7 +3,7 @@
     
        <el-menu :router="true" :default-active='$route.path | navActive'>
         <el-menu-item-group>
-             <el-menu-item index='/index'>
+             <el-menu-item index='/homePage'>
              <i class='el-icon-s-home'></i>
                 首页
              </el-menu-item>

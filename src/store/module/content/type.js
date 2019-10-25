@@ -1,0 +1,34 @@
+export const POST_COLUMN_LIST = 'POST_COLUMN_LIST'//栏目列表
+export const POST_COLUMN_SAVE ='POST_COLUMN_SAVE'//添加栏目
+export const POST_COLUMN_ABLE_DISABLE ='POST_COLUMN_ABLE_DISABLE'//栏目的禁用启用
+export const POST_COLUMN_CONTXT_LIST ='POST_COLUMN_CONTXT_LIST'//栏目详情中的文章列表
+export const POST_COLUMN_CONTXT_SAVE='POST_COLUMN_CONTXT_SAVE'//添加文章
+export const GET_COLUMN_DETAIL='GET_COLUMN_DETAIL'//获取栏目详情
+export const POST_COLUMN_ADD_ARC='POST_COLUMN_ADD_ARC'
+//导航管理
+export const POST_NAVIGATE_SAVE='POST_NAVIGATE_SAVE'//添加导航
+export const POST_NAVIGATE_LIST ='POST_NAVIGATE_LIST'//导航列表
+export const POST_NAVGATE_ABLEORDISABLE='POST_NAVGATE_ABLEORDISABLE'//导航的禁用启用
+//轮播管理
+export const POST_BANNER_SAVE='POST_BANNER_SAVE'//添加轮播
+export const POST_BANNER_LIST='POST_BANNER_LIST'//轮播列表
+export const GET_BANNER_DETAIL='GET_BANNER_DETAIL'//轮播详情
+export const POST_BANNER_CHANGE='POST_BANNER_CHANGE'//轮播状态改变
+
+
+
+//频道管理
+export const POST_TEMPLATE_LIST='POST_TEMPLATE_LIST'//模版列表
+export const POST_CHANNEL_SAVE ='POST_CHANNEL_SAVE'//保存模版
+export const POST_CHANNERL_LIST ='POST_CHANNERL_LIST'//获取频道列表
+export const GET_CHANNEL_DETAIL ='GET_CHANNEL_DETAIL'//频道详情
+export const POST_CHANNEL_CONT_LIST='POST_CHANNEL_CONT_LIST'//频道详情内容列表
+export const POST_CHANNEL_ADD_ARC='POST_CHANNEL_ADD_ARC'//频道添加文章
+export const POST_WEIGHT_SAVE='POST_WEIGHT_SAVE'//权重修改
+/**
+ * 
+ * @param {*} 数据管理文章选择公用
+ * @param {*}  
+ */
+export const POST_SUBJECT_LIST ='POST_SUBJECT_LIST'//数据选择的列表
+export const GET_CATEGORY_LIST ='GET_CATEGORY_LIST'//获取专栏列表

@@ -1,8 +1,8 @@
 <template>
-<!-- :key="data.skuTypeNo"  :skuTypeNo = 'data.skuTypeNo' -->
     <li :key="data.skuInfoNo" :skuInfoNo = 'data.skuInfoNo'>
         <div class='tree-div'>
-            <span class='tree-icon' v-if="hasChild "  @click="toggle" :class="isOpen?'el-icon-minus':'el-icon-plus'" ></span>
+           
+           <span class='tree-icon' v-if="hasChild "  @click="toggle" :class="isOpen?'el-icon-minus':'el-icon-plus'" ></span>
             <span v-if="!hasChild" class='tree-icon el-icon-minus'></span>  <!-- 末节点 -->
             <div class='tree-label nobor'>
                 <span :skuInfoNo='data.skuInfoNo'> {{ data[treeProps.label] }} [ {{data.skuTypeName}} ]（{{data.state=='00001001'?"启用":"禁用"}}）</span>
@@ -10,9 +10,14 @@
                 <span class='del' @click="modifyBtnClick(data)">编辑</span>
                 <span class='enable' @click="enableBtnClick(data)">{{data.state=='00001001'?"禁用":"启用"}}</span>
                 <span style="color:#666" v-if='data.isEnd' class='del' @click="edrBtnClick(data)">查看</span>
+                <!-- <p class='info' v-for='(itm,inx) in data.infoList' :key='inx'>
+                    {{itm.skuInfoName}}
+                   
+                </p> -->
             </div>
         </div>
         <ul v-show="isOpen" v-if="hasChild" :class="{pal20:isOpen}">
+            
             <tree-item v-for="(item, index) in data[treeProps.children]" 
             :data="item" 
             :key="index" 
@@ -21,7 +26,9 @@
             @add-itm-data='addButnClick'
             @edr-itm-data='edrBtnClick'
             @mod-itm-data='modifyBtnClick'
-            ></tree-item>
+            >
+            </tree-item>
+            <slot name="navBar"></slot>
             <!--    @del-itm-data='delBtnClick' -->
         </ul>
     </li>
@@ -147,10 +154,16 @@ ul {
     padding-left: 10px;
     margin-left: 8px;
     margin-right: 8px;
+    border:1px #e2e2e2e2 solid;
     // border:1px #dcdcdd solid;
     border-radius: 4px;
     overflow: hidden;
-    padding: 8px 10px
+    padding: 8px 10px;
+    .info{
+        padding: 8px;
+        padding-left: 0px;
+
+    }
 }
 .nobor{
     border: none;

@@ -145,6 +145,11 @@ export default {
         children: "children",
         label: "skuInfoName"
       },
+      treeDataInfo: [],
+      treeDataInfoProps: {
+        children: 'children',
+        label: 'skuTypeName'
+      },
       clickTxtData:{},
       //编辑
       edtorDialog:false,
@@ -195,7 +200,8 @@ export default {
       addVal:'',
       addOpn:[],
       addSelcOpn:[],
-      addType:1//1 left 2 right
+      addType:1,//1 left 2 right
+      testData:[]
     }
   },
   components: {
@@ -209,13 +215,52 @@ export default {
         "GdsSkuTypeModule/POST_GDS_CHILD_LIST",
         postData
       );
+      // await this.$store.dispatch('GdsSkuTypeModule/POST_GDS_LIST',postData);
+      // let data2 = this.$store.state.GdsSkuTypeModule.POST_GDS_LIST
+
       let data = this.$store.state.GdsSkuTypeModule.POST_GDS_CHILD_LIST;
+      // let list = data2.out.list;
+      // let info = data.out.list;
+      // this.testData = data.out.list
+      // console.log(data.out.list)
       if (data.out.list && data.out.list.length > 0) {
+        this.testData = data.out.list
         this.treeData = translateDataToTree(data.out.list, {
           id: "skuInfoNo",
           parId: "parSkuInfoNo"
         });
       }
+      //  list.map((itm,inx)=>{
+      //    itm.infoList=[];
+      //     info.map((ittm,innx)=>{ 
+      //       if(itm.skuTypeNo == ittm.skuTypeNo){
+      //           itm.infoList.push(ittm);
+      //       }
+      //        return;
+      //     })
+      //   })
+      //   this.treeDataInfo = translateDataToTree(list,{id:"skuTypeNo",parId:"parSkuTypeNo"});
+    },
+    async getGdsList(postData){
+        await this.$store.dispatch('GdsSkuTypeModule/POST_GDS_LIST',postData);
+        let data = this.$store.state.GdsSkuTypeModule.POST_GDS_LIST
+        // await this.$store.dispatch(
+        //   "GdsSkuTypeModule/POST_GDS_CHILD_LIST",
+        //   postData
+        // );
+        let data2 = this.$store.state.GdsSkuTypeModule.POST_GDS_CHILD_LIST;
+        let list = data.out.list;
+        // let info = data2.out.list
+       
+        //  list.map((itm,inx)=>{
+        //    itm.infoList=[];
+        //   info.map((ittm,innx)=>{
+        //     if(itm.skuTypeNo == ittm.skuTypeNo){
+        //       itm.infoList.push(ittm)
+        //     }
+        //   })
+        // })
+        this.treeDataInfo = translateDataToTree(list,{id:"skuTypeNo",parId:"parSkuTypeNo"});
     },
     async disAble(postData) { //禁用
       await this.$store.dispatch(
@@ -509,6 +554,7 @@ export default {
   },
   created(){
     this.getTheCoreList({ skuType: "01021001" })
+    // this.getGdsList();
     this.otherSkuAll = this.otherSkuAll.sort(this.getSortFun('asc','sort'))// 'desc':'降序'; 'asc':'升序'
   }
 };

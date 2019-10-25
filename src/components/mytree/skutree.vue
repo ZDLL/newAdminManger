@@ -6,15 +6,27 @@
  -->
   <div class='sku-min-tree'>
     <ul v-for="(item,index) in data" :key="index">
+      
       <tree-item :data="item" 
       :treeProps="treeProps"  
       @enable-itm-data='selectDatafunc' 
       @add-itm-data='addBtnFunc'
       @edr-itm-data='edrBtnFunc'
       @mod-itm-data='modBtnFunc'
-    
-      ></tree-item>
-      <!--   @del-itm-data='delBtnFunc' -->
+      >
+      </tree-item>
+       <!-- <slot name="itmtree">
+          <template slot="navBar">
+                <tree-item 
+                :data="item"
+                :treeProps="prosmm"
+                @enable-itm-data='selectDatafunc' 
+                @add-itm-data='addBtnFunc'
+                @edr-itm-data='edrBtnFunc'
+                @mod-itm-data='modBtnFunc'
+                ></tree-item>
+          </template>
+       </slot> -->
     </ul>
   </div>
 </template>
@@ -33,6 +45,14 @@
           children: 'children',
           label: 'label'
         })
+      }
+    },
+    data(){
+      return{
+        prosmm:{
+           children: 'children',
+          label: 'skuTypeName'
+        }
       }
     },
     methods:{

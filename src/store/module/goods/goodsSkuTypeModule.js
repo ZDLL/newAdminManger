@@ -83,7 +83,7 @@ const actions ={
     },
 
     async [types.POST_GDS_SUB_LIST](cxt,postData){
-        cxt.commit(types.POST_GDS_SUB_LIST,await sendRequest(apiUrl.subInfo,qs.stringify(postData),"post"))
+        cxt.commit(types.POST_GDS_SUB_LIST,await sendRequest(apiUrl.infoSubInfo,qs.stringify(postData),"post"))
     },
 
     async [types.POST_GDS_INFO_DISABLE](cxt,postData){

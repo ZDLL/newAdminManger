@@ -10,3 +10,4 @@ export const POST_GET_INDEX_LIST ='POST_GET_INDEX_LIST'//根据指标获取商�
 export const POST_ADD_TYPE ='POST_ADD_TYPE'//添加类型
 export const POST_SET_WEIGHT = 'POST_SET_WEIGHT'//设置权重
 export const POST_DEL_GDS_TYPE ='POST_DEL_GDS_TYPE'//删除商品类型
+export const POST_EDITOR_GDS_TYPE ='POST_EDITOR_GDS_TYPE'//修改商品类型

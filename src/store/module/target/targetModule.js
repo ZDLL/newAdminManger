@@ -14,7 +14,8 @@ import qs from 'qs'
       [types.POST_GET_INDEX_LIST]:{},
       [types.POST_ADD_TYPE]:{},
       [types.POST_SET_WEIGHT]:{},
-      [types.POST_DEL_GDS_TYPE]:{}
+      [types.POST_DEL_GDS_TYPE]:{},
+      [types.POST_EDITOR_GDS_TYPE]:{}
    }
    // getters
    const getters = {//同步
@@ -58,6 +59,10 @@ import qs from 'qs'
     async [types.POST_DEL_GDS_TYPE](cxt,postData){
         cxt.commit(types.POST_DEL_GDS_TYPE,await sendRequest(apiUrl.delgoodstype,qs.stringify(postData),'post'))
     },
+   
+    async [types.POST_EDITOR_GDS_TYPE](cxt,postData){
+        cxt.commit(types.POST_EDITOR_GDS_TYPE,await sendRequest(apiUrl.edittype,qs.stringify(postData),'post'))
+    },
    }
    // mutations
    const mutations = {//同步
@@ -97,6 +102,10 @@ import qs from 'qs'
         [types.POST_DEL_GDS_TYPE](state,data){
             state[types.POST_DEL_GDS_TYPE]= data.data
         },
+        [types.POST_EDITOR_GDS_TYPE](state,data){
+            state[types.POST_EDITOR_GDS_TYPE]= data.data
+        },
+         //POST_EDITOR_GDS_TYPE
    }
    
    export default {

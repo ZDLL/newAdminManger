@@ -6,11 +6,13 @@ import MenuModule from './module/menuModule.js';
 import UserModule from './module/userModule.js';
 import RoleModule from './module/roleModule.js';
 import GdsSkuTypeModule from './module/goods/goodsSkuTypeModule.js';
+import GdsSkuModule from './module/goods/goodsSkuModul.js'
 import GdsSpuModule from './module/goods/goodSpuModule.js';
 import GdsGroupModule from './module/goods/goodsGroupModule.js';
 import GdsInfoModule from './module/goods/goodsInfoModule.js';
 import ScoreModule from './module/score/scoreModule.js'
 import TargetModule from './module/target/targetModule.js'
+import ContentModule from './module/content/contentModule.js'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -20,10 +22,12 @@ export default new Vuex.Store({
     UserModule,
     RoleModule,
     GdsSkuTypeModule,
+    GdsSkuModule,
     GdsSpuModule,
     GdsGroupModule,
     GdsInfoModule,
     ScoreModule,
-    TargetModule
+    TargetModule,
+    ContentModule
   }
 })

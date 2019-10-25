@@ -154,6 +154,7 @@ let sendRequest = function(url,payload,method){
       Message.error("请求错误");
       return
   });
+  
   // console.log(JSON.parse(window.localStorage.getItem("userInfo")).token)
   return new Promise((res,rej)=>{
     axios({
@@ -165,6 +166,7 @@ let sendRequest = function(url,payload,method){
       headers: {"token":window.localStorage.getItem("userInfo")?JSON.parse(window.localStorage.getItem("userInfo")).token:''},
     }).then(data=>{
       endLoading()
+     
       if(data.data.status !=200){
         Message.error(data.data.message)
         if(data.data.status =='403'){

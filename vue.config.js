@@ -25,20 +25,22 @@ module.exports = {
         hotOnly: false,
         proxy: {
             '/api/': {
-                target:"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+                target:'http://47.106.155.169:8081',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
                 ws: true,
                 changOrigin: true,
-                // pathRewrite: {
-                //     '^/api': '/'
-                // }
             },
             '/gds/':{
-                target:"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+                target:'http://47.106.155.169:8081',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
                 ws: true,
                 changOrigin: true,
             },
             '/index/':{
-                target:"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+                target:'http://47.106.155.169:8081',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+                ws: true,
+                changOrigin: true,
+            },
+            '/cnt/':{
+                target:'http://47.106.155.169:8081',//'http://192.168.3.119:8083',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
                 ws: true,
                 changOrigin: true,
             }

@@ -62,12 +62,16 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <myPackage v-if='packTotal' :key='packTotal' :pageTotal='packTotal' @handleCurrent="handleCurrentFunc"></myPackage>
+
          </div>
       </div>
   </div>
 </template>
 <script>
 import { myConfirm,getStore } from "../../../comm/until";
+import myPackage from '../../../components/package.vue'
+
 export default {
     name:"grad",
      props:{
@@ -79,16 +83,24 @@ export default {
     data(){
         return{
             tableData:[],
-          
-            gruopId:this.groupNo
+            packTotal:0,
+            gruopId:this.groupNo,
+            search:{
+                goods_group_no:"",
+                current_page:1,
+                page_size:10
+            }
         }
     },
-   
+   components:{
+       myPackage
+   },
     methods:{
         async getScoreList(postData){
             await this.$store.dispatch('ScoreModule/POST_SCORE_LIST',postData);
             let data = this.$store.state.ScoreModule.POST_SCORE_LIST;
             this.tableData = data.out.result;
+            this.packTotal = parseInt(data.out.total)
         },
          async scoreChangeStatus(postData) {//禁用启用
             await this.$store.dispatch(
@@ -100,7 +112,6 @@ export default {
             this.$message.success("操作成功")
         },
         scoreChangeStatusBtn(row){
-            console.log(row)
             let pData={
                 index_no:row.index_no,
                 status:row.status =="00001001"?"00001002":"00001001" ,
@@ -116,8 +127,12 @@ export default {
                 _this.scoreChangeStatus(pData)
             })
 
+        },
+        handleCurrentFunc(val){
+            this.search.current_page = val
+            this.search.goods_group_no = this.groupNo
+            this.getScoreList(this.search)
         }
-
     },
     created(){
         this.getScoreList({goods_group_no:this.groupNo})

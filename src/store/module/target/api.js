@@ -11,5 +11,5 @@ module.exports={
     'addtype':"/index/goodstype/addtype",//添加商品类型
     'setindexweight':'/index/goodsindex/setindexweight',//设置权重
     "delgoodstype":"/index/goodstype/delgoodstype",//删除商品类型
-
+    "edittype":"/index/goodstype/edittype"//修改商品类型
 }

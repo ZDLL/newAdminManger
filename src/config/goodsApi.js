@@ -20,7 +20,7 @@ module.exports={
     "gdssavegoodsgroup":"/gds/sku/info/goodsgroup",//生成商品组
     "getSkuInfo":'/gds/sku/info/list',//获取数据
     'querySkuTypeByParNo':'/gds/sku/type/querySkuTypeByParNo',
-    // "subInfo":"/gds/sku/info/getSubSkuInfo",//获取下级数据
+    "infoSubInfo":"/gds/sku/info/getSubSkuInfo",//获取下级数据
     "subInfo":'/gds/sku/info/getSubClassifySku',
     "gdsdisinfo":"/gds/sku/info/disable",//sku禁用
     "gdsenadleinfo":"/gds/sku/info/enable",//sku启用

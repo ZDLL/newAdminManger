@@ -12,6 +12,7 @@
   */
  export const POST_GDS_SKU_LIST='POST_GDS_SKU_LIST'//获取sku类型列表
  export const POST_GDS_SKU_SAVE='POST_GDS_SKU_SAVE'//保存或修改sku
+ 
  export const POST_GDS_SAVE_SPU='POST_GDS_SAVE_SPU'//生成spu
  export const POST_GDS_SAVE_GOODS='POST_GDS_SAVE_GOODS'//生成商品
  export const POST_GDS_SAVE_GOODS_GROUP='POST_GDS_SAVE_GOODS_GROUP'//生成商品组

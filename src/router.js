@@ -20,11 +20,11 @@ export default new Router({
       path:'/home',
       name:"home",
       component:()=>import('./views/home/index.vue'),
-      redirect:"/index",
+      redirect:"/homePage",
       children:[
         {
-          path: '/index',
-          name: 'index',
+          path: '/homePage',
+          name: 'homePage',
           component: ()=>import('./views/home/frist.vue')
         },
         {
@@ -125,7 +125,53 @@ export default new Router({
         name: 'targetSet',
         component: ()=>import('./views/home/targetCenter/targetSet.vue')
       },
-
+      //内容中心管理
+      {
+        path: '/column',
+        name: 'column',
+        component: ()=>import('./views/home/contentCenter/column.vue')
+      },
+      {
+        path: '/columnDetail',
+        name: 'columnDetail',
+        component: ()=>import('./views/home/contentCenter/columnDetail.vue')
+      },
+      {
+        path: '/navigation',
+        name: 'navigation',
+        component: ()=>import('./views/home/contentCenter/navigation.vue')
+      },
+      {
+        path: '/carousel',
+        name: 'carousel',
+        component: ()=>import('./views/home/contentCenter/carousel.vue')
+      },
+      {
+        path: '/carouselAdd',
+        name: 'carouselAdd',
+        component: ()=>import('./views/home/contentCenter/carouselAdd.vue')
+      },
+      {
+        path: '/channel',
+        name: 'channel',
+        component: ()=>import('./views/home/contentCenter/channel.vue')
+      },
+      {
+        path: '/channelDetail',
+        name: 'channelDetail',
+        component: ()=>import('./views/home/contentCenter/channelDetail.vue')
+      },
+      // 模版管理
+      {
+        path: '/temp',
+        name: 'temp',
+        component: ()=>import('./views/home/templateModule/template.vue')
+      },
+      {
+        path: '/tempAdd',
+        name: 'tempAdd',
+        component: ()=>import('./views/home/templateModule/templateAdd.vue')
+      },
     ]
     }
   ]
