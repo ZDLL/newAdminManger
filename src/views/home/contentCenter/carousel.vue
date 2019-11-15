@@ -61,6 +61,8 @@
                                     <!-- <el-button type="text" size="small">删除</el-button>  {{scope.row.state == '00001001'?'停用':"启用"}}-->
                                     <el-button type="text" size="small" @click="bannerEditorBtn(scope.row)">编辑 </el-button>
                                     <el-button type="text" size="small" @click="bannerStatusChange(scope.row)">{{scope.row.state == '00001001'?'停用':"启用"}}</el-button>
+                                    <el-button type="text" size="small" @click="delBannerBtn(scope.row)">删除</el-button>
+
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -141,6 +143,15 @@ export default {
                 })
             })
             
+        },
+        delBannerBtn(row){
+            let _this = this;
+            myConfirm(_this,'是否删除该轮播图？',function(){
+                _this.getBannerChange({
+                    bannerNo:row.bannerNo,
+                    state:'00001003'
+                })
+            })
         },
         clearBtn(){
             this.seacData.bannerName='';

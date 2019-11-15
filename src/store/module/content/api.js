@@ -41,5 +41,6 @@ module.exports={
      */
     'subjectList':'/cnt/subject/list',//数据选择的列表
     'categoryList':"/cnt/category/list",//专栏列表
+    'getContCpltId':"/api/cplt/getCodeValueList",//新增内容中心导航跳转
 
 }

@@ -66,7 +66,9 @@
                                     <!-- <el-button type="text" size="small">删除</el-button>  {{scope.row.state == '00001001'?'停用':"启用"}}-->
                                     <el-button type="text" size="small" @click="channelEdi(scope.row)">编辑 </el-button>
                                     <el-button type="text" size="small" @click="channelStatusChange(scope.row)">{{scope.row.state == '00001001'?'停用':"启用"}}</el-button>
-                                     <el-button type="text" size="small" @click='channelView(scope.row)'>查看</el-button>
+                                    <br/>
+                                    <el-button type="text" size="small" @click='channelView(scope.row)'>查看</el-button>
+                                    <el-button type="text" size="small" @click="delChannel(scope.row)">删除</el-button>
                                 </template>
                             </el-table-column>
                     </el-table>
@@ -83,7 +85,7 @@
                 <el-row class='mt20'>
                     <el-col :span="4"><span class="my-span-notice">*</span>频道名称</el-col>
                     <el-col :span="10">
-                        <el-input v-model="addChannel.channelName" clearable maxlength="32" show-word-limit placeholder="请输入内容"></el-input>
+                        <el-input v-model="addChannel.channelName" clearable maxlength="4" show-word-limit placeholder="请输入内容"></el-input>
                     </el-col>
                 </el-row>
                 <el-row class='mt20'>
@@ -260,9 +262,15 @@ export default {
             })
         },
         channelStatusChange(row){
-             let _this = this;
+            let _this = this;
             myConfirm(_this,`是否进行${row.state=='00001001'?'禁用该频道':'启用该频道'}操作？`,function(){
                 _this.channelSave({channelNo:row.channelNo,state:row.state=='00001001'?'00001002':'00001001'})
+            })
+        },
+        delChannel(row){
+            let _this = this;
+            myConfirm(_this,`删除该频道？`,function(){
+                _this.channelSave({channelNo:row.channelNo,state:'00001003'})
             })
         },
         channelSeachBtn(){

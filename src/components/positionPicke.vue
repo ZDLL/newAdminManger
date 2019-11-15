@@ -12,7 +12,7 @@ export default {
     name:"position",
     data(){
         return{
-            actKey:"1",
+            actKey:'',
             positionArr:[
                 {
                     name:"居左",
@@ -23,17 +23,33 @@ export default {
                     key:"2"
                 },
                  {
-                    name:"巨左",
+                    name:"居右",
                     key:"3"
                 }
             ]
         }
     },
+    props:{
+        valueKey:{
+            type:String,
+            default:"key"
+        },
+        defVale:{
+            type:String,
+            default:''
+        }
+    },
     methods:{
         positionLiBtn(itm){
             this.actKey =parseInt(itm.key)-1;
-            this.$emit("getActposition",{id:itm.key})
+            let newObj={};
+            newObj[this.valueKey]=itm.key
+            
+            this.$emit("getActposition",newObj)
         }
+    },
+    created(){
+        this.actKey =this.defVale?parseInt(this.defVale)-1:"-1"
     }
 }
 </script>

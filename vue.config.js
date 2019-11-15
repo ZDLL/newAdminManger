@@ -43,6 +43,11 @@ module.exports = {
                 target:'http://47.106.155.169:8081',//'http://192.168.3.119:8083',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
                 ws: true,
                 changOrigin: true,
+            },
+            '/template/':{
+                target:'http://47.106.155.169:8081',//'http://192.168.3.119:8083',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+                ws: true,
+                changOrigin: true,
             }
         }, // 设置代理
         before: app => {}

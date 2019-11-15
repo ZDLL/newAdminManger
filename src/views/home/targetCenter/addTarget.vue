@@ -197,9 +197,9 @@ export default {
 </script>
 <style lang="scss">
     .addTarget-page{
-        .mt20{
-            margin-top: 20px;
-        }
+        // .mt20{
+        //     margin-top: 20px;
+        // }
         .addTarget-cont{
             padding:30px;
             h2{

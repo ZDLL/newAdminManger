@@ -327,7 +327,7 @@ export default {
                 this.$message.warning("请输入授权代码");
                 return;
             }
-            if(!this.menuData.menuOrder || 
+            if( 
                 this.menuData.menuOrder<0 || 
                 this.menuData.menuOrder>99){
                 this.$message.warning("菜单顺序请输入0~99的数字");

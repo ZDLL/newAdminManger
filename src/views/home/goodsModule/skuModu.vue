@@ -2,38 +2,43 @@
 <!-- <div>SKU管理</div> -->
   <div class="skuModu-page">
     <myBrea :my-nav='brea'></myBrea>
-     <div class="skuModu-cont" v-if='Object.keys(skuLinkAgeData).length>0'>
-         <ul class='typeUl' v-for='(itm,inx) in Object.keys(skuLinkAgeData)' :key='inx'>
-            <!-- <div class='seInp'>
-                <input type="text" >
-            </div> -->
-             <div v-if='Object.keys(skuLinkAgeData[itm]).length>0' >
-                
-                <div v-for='(ittm,innx) in skuLinkAgeData[itm]' :key='innx'>
-                    <div class='isScoll' v-if='ittm.skus && ittm.skus.length>0'>
-                        <li :class='actLi == im.skuInfoNo?"liAct":""' v-for='(im,ix) in ittm.skus' :key='ix'>
-                            <!-- {{itm}} -->
-                            <span>{{im.skuInfoName}}</span>
-                            <span class='floatR' @click="infoClick(im)">
-                                <i  class='el-icon-arrow-right'></i>
-                            </span>
-                            <div class='floatR'>
-                                <span @click="statusChange(im,inx)">{{im.state=='00001001'?"禁用":"启用"}}</span>
-                                <span style="margin-left:10px" @click="typeEditor(ittm,im,inx)">编辑</span>
-                            </div>
-                        </li>
-                    </div>
-                    <p style="height:50px;text-align: center;line-height: 50px;" v-else>暂无数据</p>
-                    <el-button class='seBtn' @click="typeAddBtn(ittm,inx)">添加</el-button>
+     
+     <div class="skuModu-cont">
+       <h2 class='hT' v-if='allName.length>0'>已选属性：{{allName.join("-")}}</h2>
+       <div v-if='Object.keys(skuLinkAgeData).length>0'>
+          <ul class='typeUl' v-for='(itm,inx) in Object.keys(skuLinkAgeData)' :key='inx'>
+              <!-- <div class='seInp'>
+                  <input type="text" >
+              </div> -->
+              <div v-if='Object.keys(skuLinkAgeData[itm]).length>0' >
+                  <div v-for='(ittm,innx) in skuLinkAgeData[itm]' :key='innx'>
+                      <div class='isScoll' v-if='ittm.skus && ittm.skus.length>0'>
+                          <li :class='actLi == im.skuInfoNo?"liAct":""' 
+                            v-for='(im,ix) in ittm.skus' 
+                            :key='ix'
+                            @click.stop="infoClick(im)"
+                            >
+                              <!-- {{itm}} -->
+                              <span>{{im.skuInfoName}}</span>
+                              <span class='floatR' >
+                                  <i  class='el-icon-arrow-right'></i>
+                              </span>
+                              <div class='floatR'>
+                                  <span @click.stop="statusChange(im,inx)">{{im.state=='00001001'?"禁用":"启用"}}</span>
+                                  <span style="margin-left:10px" @click.stop="typeEditor(ittm,im,inx)">编辑</span>
+                              </div>
+                          </li>
+                      </div>
+                      <p style="height:50px;text-align: center;line-height: 50px;" v-else>暂无数据</p>
+                      <el-button class='seBtn' @click="typeAddBtn(ittm,inx)">添加</el-button>
 
-                </div>
-             </div>
-             <p style="height:50px;text-align: center;line-height: 50px;" v-else>暂无数据</p>
-            
-        </ul>
-
+                  </div>
+              </div>
+              <p style="height:50px;text-align: center;line-height: 50px;" v-else>暂无数据</p>
+              
+          </ul>
+        </div>
         <h2 class='hT'>规格属性</h2>
-        <h3>已选择：{{allName.join("-")}}</h3>
         <ul class='typeUl' :key='showOther' v-show='showOther' style="width:300px">
              <!-- <div class='seInp'>
                    <input type="text" >
@@ -43,15 +48,22 @@
                     <el-collapse v-model="activeName" accordion>
                         <el-collapse-item  v-for='(itm,inx) in otherSku' :key='inx' :name="inx">
                             <template slot="title">
-                            {{itm.skuTypeName}}<i @click="addTypeBtn(itm)" class="header-icon el-icon-circle-plus"></i>
+                              <span @click.stop="addTypeBtn(itm)">
+                                 {{itm.skuTypeName}}<i class="header-icon el-icon-circle-plus"></i>
+                              </span>
                             </template>
                             <div v-if='itm.arry.length>0'>
-                                <div class='pad10' :class='actLi == ittm.skuTypeNo?"liAct":""' v-for='(ittm,innx) in itm.arry' :key='innx'>
+                                <div class='pad10' 
+                                  :class='actLi == ittm.skuTypeNo?"liAct":""' 
+                                  v-for='(ittm,innx) in itm.arry' 
+                                  :key='innx'
+                                  @click="otherInfoClick(ittm)"
+                                  >
                                     <span >{{ittm.skuTypeName}}</span>
-                                    <span class='floatR' @click="otherInfoClick(ittm)" >
+                                    <span class='floatR' >
                                         <i  class='el-icon-arrow-right'></i>
                                     </span>
-                                    <span class="floatR" @click="infoDel(ittm)">删除</span>
+                                    <span class="floatR" @click.stop="infoDel(ittm,inx,innx)">删除</span>
                                     <!-- <span class="floatR">启用</span>
                                     <span class="floatR" style="margin-left:10px" @click="editorTwo(ittm)">编辑</span> -->
                                 </div>
@@ -62,6 +74,7 @@
                 </div>
              </div>
         </ul>
+        <p v-show='!showOther'>暂无数据</p>
         <ul class='typeUl' v-show='lastShow' style="width:300px;">
              <!-- <div class='seInp'>
                    <input type="text" >
@@ -70,12 +83,12 @@
                  <li v-for="(itm,inx) in otherSkuList" :key='inx'>
                     <span>{{itm.skuInfoName}}</span>
                     <div class='floatR'>
-                        <span @click="statusChange(itm,inx)">{{itm.state=="00001001"?"禁用":"启用"}}</span>
-                        <span style="margin-left:10px" @click="otherInfoEditor(itm,inx)">编辑</span>
+                        <span @click.stop="statusChange(itm,inx)">{{itm.state=="00001001"?"禁用":"启用"}}</span>
+                        <span style="margin-left:10px" @click.stop="otherInfoEditor(itm,inx)">编辑</span>
                     </div>
                 </li>
              </div>
-             <p v-else style="text-align: center;height: 40px;line-height: 40px;">点击重新获取</p>
+             <p v-else style="text-align: center;height: 40px;line-height: 40px;">暂无数据，重新获取</p>
              <el-button class='seBtn' @click="addLastInfo">添加</el-button>
         </ul>
         <div class="sendbtn">
@@ -118,7 +131,11 @@
        >
         <div>
             <ul class='chooseUl'>
-                <li :class='itm.isUsed==1?"liActive":""' v-for='(itm,inx) in subTypeList' :key='inx'  @click="typeAddLi(itm,inx)">
+                <li 
+                :class='itm.isUsed==1?"liActive":""' 
+                v-for='(itm,inx) in subTypeList' 
+                :key='inx'  
+                @click="typeAddLi(itm,inx)">
                     {{itm.skuTypeName}}
                     <i class='el-icon-check liCheck'></i>
                 </li>
@@ -205,11 +222,13 @@ export default {
       clickLiData:{},
       subTypeList:[],
       fLiData:{},
+      fliArry:[],
       otherClickData:{},
       lastShow:false,
       leftAdd:1,
       actLi:'',
-      allName:['','','']
+      allName:['','',''],
+      pusData:{}
     }
   },
   components: {
@@ -236,7 +255,8 @@ export default {
         let data = this.$store.state.GdsSkuModule.POST_SKUINFO_SUB_LIST;
         this.skuLinkAgeData={};
         if(Object.keys(data.out).length==0){
-            this.oldData[inx] ={};
+            // this.oldData[inx] ={};
+            // return
         }
         if(data.out['01021001'] && Object.keys(data.out['01021001']).length>0){
             this.skuLinkAgeData[inx] = data.out['01021001'];
@@ -270,7 +290,8 @@ export default {
         if(this.leftAdd==1){
             this.getInfoSub({skuInfoNo:_this.clickLiData.skuInfoNo})
         }else{
-             this.getInfoSub({skuInfoNo:postData.parSkuInfoNo?postData.parSkuInfoNo:""},_this.activeInx)
+          //  this.getInfoSub({skuInfoNo:postData.skuInfoNo?postData.skuInfoNo:""},postData.skuInfoNo?_this.activeInx:0)
+            this.getInfoSub({skuInfoNo:postData.parSkuInfoNo?postData.parSkuInfoNo:""},postData.parSkuInfoNo?_this.activeInx:0)
         }
         this.skuTypeAdd = false;
         this.$message.success("操作成功")
@@ -307,7 +328,7 @@ export default {
         postData
       );
         let data = this.$store.state.GdsSkuModule.POST_SKUINFO_DEL;
-        this.getInfoSub({skuInfoNo:this.clickLiData.skuInfoNo})
+        // this.getInfoSub({skuInfoNo:this.clickLiData.skuInfoNo})
         this.$message.success("操作成功")
     },
 
@@ -331,6 +352,9 @@ export default {
     },
     
     infoClick(liData){
+        if(liData.nodeLv==1){
+          this.allName=['','','']
+        }
          this.allName[liData.nodeLv-1]=liData.skuInfoName
          this.clickLiData = liData
          this.actLi = liData.skuInfoNo
@@ -347,11 +371,16 @@ export default {
           skuInfoNo:''
         //   parSkuInfoNo:this.clickLiData.skuInfoNo?this.clickLiData.skuInfoNo:null
       }
+      // console.log(data)
+      // this.addTypeData.skuInfoNo = data.skus &&Object.keys(data.skus[0]).length>0?data.skus[0].parSkuInfoNo:this.clickLiData.skuInfoNo
        if(this.clickLiData.skuInfoNo){
-            this.addTypeData.parSkuInfoNo = this.clickLiData.skuInfoNo
+          this.addTypeData.parSkuInfoNo = data.skus &&Object.keys(data.skus[0]).length>0?data.skus[0].parSkuInfoNo:this.clickLiData.skuInfoNo
+          // this.addTypeData.skuInfoNo = data.skus &&Object.keys(data.skus[0]).length>0?data.skus[0].parSkuInfoNo:this.clickLiData.skuInfoNo
         }else{
-            delete(this.addTypeData["parSkuInfoNo"]);
+          this.addTypeData.parSkuInfoNo='';
+            // delete(this.addTypeData["parSkuInfoNo"]);
         }
+        // console.log(this.addTypeData)
       this.activeInx = inx
       this.leftAdd = 2;
       this.skuTypeAdd= true;
@@ -368,11 +397,13 @@ export default {
           skuInfoNo:data.skuInfoNo
         //   parSkuInfoNo:this.clickLiData.skuInfoNo?this.clickLiData.skuInfoNo:null
       }
-       if(this.clickLiData.skuInfoNo){
-            this.addTypeData.parSkuInfoNo = this.clickLiData.skuInfoNo
-        }else{
-            delete(this.addTypeData["parSkuInfoNo"]);
-        }
+      // console.log(data)
+      this.addTypeData.parSkuInfoNo = data.parSkuInfoNo
+      //  if(this.clickLiData.skuInfoNo){
+      //       this.addTypeData.parSkuInfoNo = this.clickLiData.skuInfoNo
+      //   }else{
+      //       delete(this.addTypeData["parSkuInfoNo"]);
+      //   }
       this.activeInx = inx
       this.leftAdd = 2;
       this.skuTypeAdd= true;
@@ -397,36 +428,64 @@ export default {
         this.getSkuTypeSub({skuType:itm.skuType,skuInfoNo:this.clickLiData.skuInfoNo});
         this.chooseSku= true
     },
-    infoDel(itm){
+    infoDel(itm,inx,innx){
         let mm={
             skuTypeNo:itm.skuTypeNo,
             parSkuInfoNo:this.clickLiData.skuInfoNo
+        };
+         let _this = this;
+      
+        if(itm.skus.length>0){
+           myConfirm(_this,'是否删除该类型？',function(){
+              _this.skuInfoDel(mm);
+              _this.otherSku[inx].arry.splice(innx,1)
+          })
+        }else{
+           myConfirm(_this,'是否删除该类型？',function(){
+             _this.otherSku[inx].arry.splice(innx,1)
+          })
+          //  itm.arry.split(inx,1)
         }
-        let _this = this;
-        myConfirm(_this,'是否删除该类型？',function(){
-            _this.skuInfoDel(mm)
-        })
         
     },
     typeAddLi(data,inx){
-        // console.log(data);
-        let newAry=[];
-        newAry=this.subTypeList;
-        newAry[inx].isUsed =1;
+        let neAr=this.subTypeList;
+        neAr[inx].isUsed =1
         this.subTypeList=[];
-        this.subTypeList = newAry;
-        let pus=true
-        this.fLiData.arry.map((itm,inx)=>{
-            if(itm.skuTypeNo==data.skuTypeNo){
-                pus= false;
-            }
-        });
-        if(pus){
-             this.fLiData.arry.push(data)
+        this.subTypeList = neAr;
+        // this.fliArry =[];
+        let isPus=true;
+        
+        this.pusData=data;
+        this.fliArry.map((itm,inx)=>{
+          if(itm.skuTypeNo == data.skuTypeNo){
+            isPus=false;
+          }
+        })
+        if(isPus){
+          data.skus=data.skus&&data.skus.length>0?data.skus:[];
+          this.fliArry.push(data)
         }
+
+    },
+    arrayUnique2(arr, name) {
+      let hash = {};
+      return arr.reduce(function (item, next) {
+        hash[next[name]] ? '' : hash[next[name]] = true && item.push(next);
+        return item;
+      }, []);
     },
     chooseBtnClick(){
+      let newAr=[];
+      let _this= this;
+      let all=[];
+      _this.fliArry.map((itm,inx)=>{
+        //  all.push(itm)
+         _this.fLiData.arry.push(itm)
+      })
+        _this.fLiData.arry=this.arrayUnique2(_this.fLiData.arry,"skuTypeNo")
         this.chooseSku= false;
+        _this.fliArry=[];
     },
     addLastInfo(){
         this.addTypeData={
@@ -540,7 +599,8 @@ export default {
   }
   .isScoll{
       height: 300px;
-      overflow-y: scroll;
+      overflow-y: auto;
+      overflow-x: hidden;
   }
   .typeUl{
       display: inline-block;
@@ -566,6 +626,10 @@ export default {
       }
       .pad10{
           padding:5px;
+      }
+      .el-button{
+        border-radius: 0px;
+         border: 1px #409eff solid;
       }
   }
   .floatR{

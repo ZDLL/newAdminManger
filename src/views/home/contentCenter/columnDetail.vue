@@ -18,7 +18,7 @@
         
         <div>
              <span>名称：</span><el-input
-                placeholder="请关键词"
+                placeholder="请填写名称关键词搜索"
                 v-model="searchData.title"
                 clearable
                 style="width:200px;margin-left:20px"

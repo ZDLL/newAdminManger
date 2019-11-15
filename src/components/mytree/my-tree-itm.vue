@@ -6,7 +6,7 @@
             <div class='tree-label'>
                 <span :class='{isblod:isClick}' @click="edrBtnClick(data)"> {{ data[treeProps.label] }}</span>
                 <span class='el-icon-circle-plus addIcon' @click="addButnClick(data)"></span>
-                <span class='enable' @click="enableBtnClick(data)">{{data.state=='00001001'?"启用":"禁用"}}</span>
+                <span class='enable' @click="enableBtnClick(data)">{{data.state=='00001001'?"禁用":"启用"}}</span>
                     <span class='del' @click="delBtnClick(data)">删除</span>
             </div>
         </div>[{{data.skuTypeNameCn}}]

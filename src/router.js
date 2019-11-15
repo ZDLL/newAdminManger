@@ -27,6 +27,7 @@ export default new Router({
           name: 'homePage',
           component: ()=>import('./views/home/frist.vue')
         },
+        //系统中心
         {
         path: '/menu',
         name: 'menu',
@@ -47,6 +48,22 @@ export default new Router({
         name: 'userCenter',
         component: ()=>import("./views/home/userCenter/setPwd.vue")
       },
+      {
+        path: '/simpleCode',
+        name: 'simpleCode',
+        component: ()=>import("./views/home/codeModule/simpleCode.vue")
+      },
+      {
+        path: '/complexCode',
+        name: 'complexCode',
+        component: ()=>import("./views/home/codeModule/complexCode.vue")
+      },
+      {
+        path: '/parameter',
+        name: 'parameter',
+        component: ()=>import("./views/home/codeModule/parameter.vue")
+      },
+
       // {
       //   path: '/goods',
       //   name: 'goods',
@@ -171,6 +188,32 @@ export default new Router({
         path: '/tempAdd',
         name: 'tempAdd',
         component: ()=>import('./views/home/templateModule/templateAdd.vue')
+      },
+      {
+        path: '/comp',
+        name: 'comp',
+        component: ()=>import('./views/home/templateModule/comp.vue')
+      },
+      //用户中心模块
+      {
+        path: '/appUser',//普通用户
+        name: 'appUser',
+        component: ()=>import('./views/home/allUserManage/appUser.vue')
+      },
+      {
+        path: '/contUser',//内容用户
+        name: 'contUser',
+        component: ()=>import('./views/home/allUserManage/contentUser.vue')
+      },
+      {
+        path: '/firmUser',//企业用户
+        name: 'firmUser',
+        component: ()=>import('./views/home/allUserManage/firmUser.vue')
+      },
+      {
+        path: '/firmUserDetail',//企业详情
+        name: 'firmUserDetail',
+        component: ()=>import('./views/home/allUserManage/firmUserDetail.vue')
       },
     ]
     }

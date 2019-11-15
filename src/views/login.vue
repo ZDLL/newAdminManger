@@ -119,9 +119,9 @@ export default {
         width: 100%;
         margin-top: 40px;
     }
-    .mt20{
-        margin-top: 20px;
-    }
+    // .mt20{
+    //     margin-top: 20px;
+    // }
     .codeInput{
         width: 200px;
     }

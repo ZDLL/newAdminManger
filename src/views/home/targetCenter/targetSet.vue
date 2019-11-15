@@ -396,9 +396,9 @@ export default {
 </script>
 <style lang="scss">
 .targetSet{
-    .mt20{
-        margin-top: 20px;
-    }
+    // .mt20{
+    //     margin-top: 20px;
+    // }
     .targetSet-top{
         @extend %pagecont; 
     }

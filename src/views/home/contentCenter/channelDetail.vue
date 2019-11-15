@@ -8,6 +8,7 @@
                     <li class="CDet-li">频道名称：{{channelInfoData.channelName || '--'}}</li>
                     <li class="CDet-li">频道编号：{{channelInfoData.channelNo || '--'}}</li>
                     <li class="CDet-li">频道顺序：{{channelInfoData.channelOrder || '--'}}</li>
+                    <li v-if='channelInfoData.channelType =="07001004"' class="CDet-li">模版编号：{{channelInfoData.templateNo || '--'}}</li>
                     <li class="CDet-li">频道类型：{{channelInfoData.channelTypeName || '--'}}</li>
                     <li class="CDet-li">创建时间：{{channelInfoData.insTime | dateformat}}</li>
                     <li class="CDet-li">创 建 人：{{channelInfoData.realName || '--'}}</li>
@@ -16,7 +17,23 @@
             </div>
             <div class='channelDet-mid'>
                 <div v-if='channelInfoData.channelType =="07001004"' class='temp'>
-                    <p>暂无数据</p>
+                     <div class="addTel-left">
+                        
+                        <div class='addTel-left-tmp'>
+                            <h2>
+                                {{template_name}}
+                            </h2>
+                            <ul v-if='allData.length>0'>
+                                <li v-for='(itm,inx) in allData' 
+                                    :key='inx'
+                                    >
+                                    <img v-if='itm.turl' :src='itm.turl' alt="">
+                                    <img v-if='itm.url' :src='itm.url' alt="">
+                                </li>
+                            </ul>
+                        </div> 
+                       
+                    </div>
                 </div>
                 <div v-if='channelInfoData.channelType !="07001004"' class='channelDet-table'>
                     <!-- <el-divider content-position="left">文章列表</el-divider> -->
@@ -36,7 +53,7 @@
                             <el-table-column
                             label="类型">
                                 <template slot-scope="scope">
-                                   {{channelInfoData.channelTypeName}}
+                                   {{scope.row.publishTypeName || '--'}}
                                 </template>
                             </el-table-column>
 
@@ -113,6 +130,7 @@ import myBrea from "../../../components/breadcrumb.vue"
 import arcSelec from "./articleSelect.vue";
 import { myConfirm } from '../../../comm/until';
 import myPackage from '../../../components/package.vue'
+import {addTempCon,styelConf} from '../templateModule/tepCon.js'
 export default {
     name:"channelDet",
     components:{
@@ -146,6 +164,9 @@ export default {
             },
             packTotal:1,
             clickData:{},
+            allData:[],
+            imgConfig:styelConf(),
+            template_name:""
         }
     },
     methods:{
@@ -155,7 +176,11 @@ export default {
                 postData
             );
             let data = this.$store.state.ContentModule.GET_CHANNEL_DETAIL;
-            this.channelInfoData= data.out.value
+            this.channelInfoData= data.out.value;
+            if(this.channelInfoData.channelType=='07001004'){
+                 this.getTempDetail({template_no:data.out.value.templateNo})
+            }
+           
         },
         async channelDetailList(postData) {
             await this.$store.dispatch(
@@ -184,6 +209,77 @@ export default {
             this.channelDetailList(this.searchData)
             this.weightDia = false;
             this.$message.success("操作成功")
+        },
+        async getTempDetail(postData){
+            await this.$store.dispatch("TemplateModule/POST_TE_DETAIL",postData);
+            let data = this.$store.state.TemplateModule.POST_TE_DETAIL;
+            let tempConfig = addTempCon();
+            let backArr=data.out.attr;
+            let mm =[];
+            let _this = this;
+            let myarr=[];
+            this.template_name = data.out.template_name
+            backArr.map((itm,inx)=>{
+                // console.log(Object.keys(itm))
+                let newObj={
+                    element_name:"",
+                    element_no:"",
+                    element_type:"",
+                    conf:{},
+                };
+                if(itm.element_name){
+                    newObj.element_name=itm.element_name;
+                }
+                 if(itm.element_no){
+                    newObj.element_no=itm.element_no;
+                } 
+                if(itm.element_type){
+                    newObj.element_type=itm.element_type;
+                }
+                // _this.$set(newObj.conf,)
+                newObj.conf=itm;
+                myarr.push(newObj)
+            })
+            myarr.map((itm,inx)=>{
+                Object.keys(_this.imgConfig).map((ittm,innx)=>{
+                    if(itm.element_type == ittm){
+                        let type='';
+                        let cont=''
+                         switch(itm.element_type){
+                            case '0101':
+                                type ='SEARCH_STYLE'
+                                break
+                            case '0102':
+                                type ='BANNER_STYLE'
+                                break
+                            case '0103':
+                                type ='NAVIGATE_STYLE'
+                                break
+                            case '0104':
+                                cont ='TITLE_STYLE';
+                                type='COLUMN_STYLE'
+                                break
+                            case '0105':
+                                type ='CHANNEL_STYLE'
+                                break
+                        }
+                        itm.selecKey=type
+                        itm.titleKey=cont;
+                        let confKey='';
+                        let titleKey='';
+                        confKey=itm.conf[type]?itm.conf[type]:"1";
+                        titleKey = ''
+                       
+                        itm.url=_this.imgConfig[ittm].styleArr[parseInt(confKey)-1].imgUrl;
+                        itm.turl =''
+                        if(itm.element_type=='0104'){
+                            titleKey=itm.conf[cont]?itm.conf[cont]:'1'
+                            itm.turl=_this.imgConfig[ittm].titleArr[parseInt(titleKey)-1].imgUrl
+                        }
+                    }
+                })
+            })
+            this.allData = myarr;
         },
         //POST_WEIGHT_SAVE
         addArcBtn(){
@@ -234,7 +330,6 @@ export default {
         this.channelDetail({channelNo:this.channelNo});
         this.searchData.channelNo = this.channelNo
         this.arcSeac.channelNo=this.channelNo;
-        console.log(this.searchData)
         this.channelDetailList(this.searchData)
     }
 }
@@ -260,6 +355,42 @@ export default {
                 margin-top: 20px;
                 .el-table__header{
                     margin-top: 20px;
+                }
+                 .addTel-left{
+                    width: 450px;
+                    overflow: hidden;
+                    margin: 20px auto;
+                    h2{
+                        font-size: 18px;
+                        font-weight: 500;
+                        text-align: center;
+                        // padding: 20px 0;
+                        height: 66px;
+                        line-height: 66px;
+                        border-bottom: 1px #e2e2e2 solid;
+                        // border-radius: 20px;
+                    }
+                    .addTel-left-tmp{
+                       
+                        border: 1px #e2e2e2 solid;
+                        border-radius: 20px;
+                        height: 667px;
+                        overflow-y: auto;
+                    }
+                    ul{
+                        margin-top: 20px auto;
+                        padding:20px;
+                        margin: 0px;
+                        li{
+                            width: 100%;
+                            margin-bottom: 10px;
+                            overflow: hidden;
+                            // height: 40px;
+                            img{
+                                width: 100%;
+                            }
+                        }
+                    }
                 }
             }
         }

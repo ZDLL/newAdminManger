@@ -166,7 +166,6 @@ let sendRequest = function(url,payload,method){
       headers: {"token":window.localStorage.getItem("userInfo")?JSON.parse(window.localStorage.getItem("userInfo")).token:''},
     }).then(data=>{
       endLoading()
-     
       if(data.data.status !=200){
         Message.error(data.data.message)
         if(data.data.status =='403'){
@@ -335,6 +334,8 @@ let translateDataToTree = function (list,obj){
       temp[list[i][id]] = list[i];//skuTypeNo
   }
   for(let i in temp){
+    
+    // console.log(parId)
       if(temp[i][parId]) {//parSkuTypeNo
           if(!temp[temp[i][parId]].children) {
               temp[temp[i][parId]].children = [];
@@ -345,6 +346,42 @@ let translateDataToTree = function (list,obj){
       }
   }
   return tree;
+}
+
+let transAeaTree=function(data){
+   data.forEach(function (item) {
+        delete item.children;
+    });
+
+    // 将数据存储为以 id 为 KEY 的 map 索引数据列
+    var map = {};
+    data.forEach(function (item) {
+      item.Children = []   // 看情况加这一步
+      map[item.codeValueCpltId] = item;
+    });
+    //console.log(map);
+    var DataInfo = [];
+    data.forEach(function (item) {
+        //如果需要对特定字段进行处理，那么这里做对应处理，会存在一定数据冗余
+        //item.label = item.name;
+        // 以当前遍历项，的pid,去map对象中找到索引的id
+        var parent = map[item.parCodeValCpltId];
+        // 如果找到索引，那么说明此项不在顶级当中,那么需要把此项添加到，他对应的父级中
+        if (parent) {
+            (parent.children || ( parent.children = [] )).push(item);
+              parent.Children.push(item)  //看情况要这一步，不要上一步
+        } else {
+            //如果没有在map中找到对应的索引ID,那么直接把 当前的item添加到 val结果集中，作为顶级
+            
+            DataInfo.push(item);
+        }
+    });
+    return DataInfo;
+}
+
+import moment from 'moment'
+let getNowDate =function(){
+  return moment(new Date()).add('year',0).format("YYYY-MM-DD HH:mm:ss")
 }
 export{
   getAES,
@@ -358,5 +395,7 @@ export{
   myConfirm,
   menuSetData,
   gdsTreeData,
-  translateDataToTree
+  getNowDate,
+  translateDataToTree,
+  transAeaTree
 }

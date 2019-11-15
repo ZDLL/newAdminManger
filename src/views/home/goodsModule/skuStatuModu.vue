@@ -155,20 +155,20 @@ export default {
         async postGdsDel(postData){
             await this.$store.dispatch('GdsSkuTypeModule/POST_GDS_TYPE_DEL',postData);
             let data = this.$store.state.GdsSkuTypeModule.POST_GDS_TYPE_DEL
-            this.$message.success(data.msg)
+            this.$message.success(data.message)
             this.getGdsList()
         },
         async postGdsDis(postData){
             await this.$store.dispatch('GdsSkuTypeModule/POST_GDS_TYPR_DISABLE',postData);
             let data = this.$store.state.GdsSkuTypeModule.POST_GDS_TYPR_DISABLE
             this.getGdsList()
-            this.$message.success(date.msg)
+            this.$message.success(data.message)
         },
         async postGdsEnd(postData){
             await this.$store.dispatch('GdsSkuTypeModule/POST_GDS_TYPR_ENDABLE',postData);
             let data = this.$store.state.GdsSkuTypeModule.POST_GDS_TYPR_ENDABLE
             this.getGdsList()
-            this.$message.success(date.msg)
+            this.$message.success(data.message)
         },
         addSkuBtnClick(){
             this.addPostData={
@@ -238,7 +238,7 @@ export default {
         delBtnClick(data){
             let _this = this;
             if(data.state =='00001001'){
-                _this.$message.warning("改SKU类型可能正在使用，请禁用后删除");
+                _this.$message.warning("该SKU类型可能正在使用，请禁用后删除");
                 return
             }
            myConfirm(_this,"是否删除该SKU类型？删除后所有子类将不能使用!",function(){

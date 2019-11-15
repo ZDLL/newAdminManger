@@ -39,7 +39,7 @@
           <span class="my-span-notice">*</span>链接类型
         </el-col>
         <el-col :span="10">
-          <el-select v-model="saveBannerData.urlType" placeholder="请选择">
+          <el-select v-model="saveBannerData.urlType" @change='changeSel' placeholder="请选择">
             <el-option
               v-for="item in typeUrlOpn"
               :key="item.codeInfoValue"
@@ -56,7 +56,7 @@
         </el-col>
         <el-col :span="10">
           <el-button type="primary" plain @click="addActBtn">添加内容</el-button>
-          <!-- <p style="margin-top:10px" :key='artData.name' v-show='artData.name'>内容名称：{{artData.name}}</p> -->
+          <p style="margin-top:10px" :key='artData.name' v-show='artData.name'>内容名称：{{artData.name}}</p>
         </el-col>
       </el-row>
       <el-row class="mt30">
@@ -129,7 +129,7 @@ export default {
         attachUrl:"",
         attachId:"",
         businessNo:""//内容id
-      }
+      },
     };
   },
   props: {},
@@ -159,6 +159,7 @@ export default {
         await this.$store.dispatch('ContentModule/GET_BANNER_DETAIL',postData);
         let data = this.$store.state.ContentModule.GET_BANNER_DETAIL;
         this.saveBannerData = data.out.value
+        this.artData.name=data.out.value.subjectTitle
     },
 
     getImgUrl(url){
@@ -201,9 +202,14 @@ export default {
         this.$message.warning("请上传图片");
         return;
       }
-      if(this.saveBannerData.bannerType =='07001201'){
+     
+      if(this.saveBannerData.bannerType =='07001201'){//内部
         this.saveBannerData.url='';
-      }else if(this.saveBannerData.bannerType =='07001202'){
+        if(!this.artData.name){
+          this.$message.warning("请选择内容");
+          return;
+        }
+      }else if(this.saveBannerData.bannerType =='07001202'){//外部
         this.saveBannerData.urlType ='';
         this.saveBannerData.businessNo ='';
         this.artData={
@@ -212,6 +218,9 @@ export default {
         }
       };
       this.bannerSave(this.saveBannerData)
+    },
+    changeSel(){
+      this.artData.name =''
     }
   },
   created(){

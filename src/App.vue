@@ -60,6 +60,25 @@ export default {
   .mt20{
     margin-top: 20px;
   }
+  .ml20{
+    margin-left: 20px;
+  }
+  .mr20{
+    margin-right: 20px;
+  }
+  .mb20{
+    margin-bottom: 20px;
+  }
+  .fl{
+    float: left;
+  }
+  .fr{
+    float: right;
+  }
+  .dis_inl_blo{
+    display: inline-block;
+    vertical-align: top;
+  }
   .el-menu-item-group__title{
     padding: 0px;
   }

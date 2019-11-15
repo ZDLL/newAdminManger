@@ -53,7 +53,9 @@
                                     <!-- <el-button type="text" size="small">删除</el-button>  {{scope.row.state == '00001001'?'停用':"启用"}}-->
                                     <el-button type="text" size="small" @click="editorBtnClick(scope.row)">编辑 </el-button>
                                     <el-button type="text" size="small" @click="columnView(scope.row)">查看</el-button>
+                                    <br/>
                                     <el-button type="text" size="small" @click="columnChange(scope.row)">{{scope.row.state == '00001001'?'停用':"启用"}}</el-button>
+                                    <el-button type="text" size="small" @click='delColum(scope.row)'>删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -228,6 +230,12 @@ export default {
                 _this.statusChange({columnNo:row.columnNo,state:row.state=='00001001'?'00001002':'00001001'})
             })
             // this.statusChange()
+        },
+        delColum(){
+            let _this = this;
+            myConfirm(_this,"是否要删除该栏目？",function(){
+                _this.statusChange({columnNo:row.columnNo,state:'00001003'})
+            })
         },
         searchBtnClick(){
             this.getColumnList(this.searhData)

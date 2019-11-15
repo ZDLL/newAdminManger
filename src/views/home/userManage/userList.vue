@@ -321,9 +321,9 @@ export default {
         .list_table{
             @extend %tableborder;
         }
-        .mt20{
-            margin-top: 20px;
-        }
+        // .mt20{
+        //     margin-top: 20px;
+        // }
         
     }
 </style>

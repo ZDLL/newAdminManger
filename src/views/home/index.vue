@@ -12,17 +12,22 @@
         <el-container>
             <el-header>
                 <div class='header-cont'>
-                    <span class='exit' @click="exitBtn">退出</span>
+                    <span class='heade_home' @click="goHome">
+                        <img src="@/assets/home.png" alt="">
+                    </span>
                     <div class='exit' style="margin-right: 20px;width: auto;">
                         <el-dropdown @command='goUser'  trigger="click">
                         <span class="el-dropdown-link">
-                            {{userName}}<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{userName}}<i class="el-icon-caret-bottom el-icon--right"></i>
                         </span>
                         <el-dropdown-menu style="top:30px" slot="dropdown">
                             <el-dropdown-item command='/userCenter'>修改密码</el-dropdown-item>
                         </el-dropdown-menu>
                         </el-dropdown>
                     </div>
+                    <span style="margin-right:30px" class='exit' @click="exitBtn">
+                        <img style="width:20px" src="@/assets/exit.png" alt="">
+                    </span>
                 </div>
             </el-header>
             <el-main>
@@ -68,6 +73,11 @@ export default {
         goUser(command){
             this.$router.push({
                 path:command
+            })
+        },
+        goHome(){
+            this.$router.push({
+                path:"/homePage"
             })
         }
     },
@@ -120,6 +130,16 @@ export default {
         .el-menu-item{
             padding: 0px;
            
+        }
+        .heade_home{
+            margin-left: 20px;
+            width: 40px;
+            height: 60px;
+            display: inline-block;
+            img{
+                width: 20px;
+                
+            }
         }
         .header-cont{
             line-height: 60px;

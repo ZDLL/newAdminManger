@@ -13,6 +13,8 @@ import GdsInfoModule from './module/goods/goodsInfoModule.js';
 import ScoreModule from './module/score/scoreModule.js'
 import TargetModule from './module/target/targetModule.js'
 import ContentModule from './module/content/contentModule.js'
+import TemplateModule from './module/temp/tempModule.js'
+import CodeModule from './module/code/codeModule.js'
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -28,6 +30,8 @@ export default new Vuex.Store({
     GdsInfoModule,
     ScoreModule,
     TargetModule,
-    ContentModule
+    ContentModule,
+    TemplateModule,
+    CodeModule
   }
 })

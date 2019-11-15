@@ -12,7 +12,7 @@ export default {
     name:"shape",
     data(){
         return{
-            actKey:"1",
+            actKey:"",
             shapeArr:[
                 {
                     name:"圆形",
@@ -29,11 +29,26 @@ export default {
             ]
         }
     },
+    props:{
+        valueKey:{
+            type:String,
+            default:"key"
+        },
+         defVale:{
+            type:String,
+            default:''
+        }
+    },
     methods:{
         shapeLiBtn(itm){
             this.actKey =parseInt(itm.key)-1;
-            this.$emit("getActShape",{id:itm.key})
+            let newObj={};
+            newObj[this.valueKey]=itm.key
+            this.$emit("getActShape",newObj)
         }
+    },
+    created(){
+        this.actKey =this.defVale?parseInt(this.defVale)-1:"-1"
     }
 }
 </script>

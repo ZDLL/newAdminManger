@@ -14,6 +14,7 @@ import qs from 'qs'
       [types.POST_NAVIGATE_SAVE]:{},
       [types.POST_NAVIGATE_LIST]:{},
       [types.POST_NAVGATE_ABLEORDISABLE]:{},
+      [types.POST_NAVGATE_TPLC]:{},
       //轮播
       [types.POST_BANNER_SAVE]:{},
       [types.POST_BANNER_LIST]:{},   
@@ -27,6 +28,7 @@ import qs from 'qs'
       [types.POST_CHANNEL_CONT_LIST]:{},
       [types.POST_CHANNEL_ADD_ARC]:{},
       [types.POST_WEIGHT_SAVE]:{},
+     
     /**
      *  文章列表
      * 专栏列表
@@ -66,8 +68,12 @@ import qs from 'qs'
     async [types.POST_COLUMN_ADD_ARC](cxt,postData){
       cxt.commit(types.POST_COLUMN_ADD_ARC,await sendRequest(apiUrl.columnAddArc,qs.stringify(postData),'post'))
     },
+    async [types.POST_NAVGATE_TPLC](cxt,postData){
+      cxt.commit(types.POST_NAVGATE_TPLC,await sendRequest(apiUrl.getContCpltId,qs.stringify(postData),'post'))
+    },
+
     
-    //GET_COLUMN_DETAIL
+    //POST_NAVGATE_TPLC
 
     /**
      * 
@@ -231,7 +237,11 @@ import qs from 'qs'
       [types.POST_WEIGHT_SAVE](state,data){
         state[types.POST_WEIGHT_SAVE]= data.data
       }, 
+      [types.POST_NAVGATE_TPLC](state,data){
+        state[types.POST_NAVGATE_TPLC]= data.data
+      }, 
 
+      //POST_NAVGATE_TPLC
       /**
        * 
        * @param {*} 文章选择公用 

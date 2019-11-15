@@ -51,6 +51,26 @@ const myFilter={
     },
     dateformat(dataStr, pattern = 'YYYY-MM-DD HH:mm:ss'){
       return moment(dataStr).format(pattern)
+    },
+    codeStatus(val){
+      if(!val){
+        return
+      }
+      if(val == '00001001'){
+        return '启用'
+      }else{
+        return '禁用'
+      }
+    },
+    statusBtnTxt(val){
+      if(!val){
+        return
+      }
+      if(val == '00001001'){
+        return '禁用'
+      }else{
+        return '启用'
+      }
     }
 
 }
