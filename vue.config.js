@@ -3,7 +3,7 @@ module.exports = {
     // 基本路径
     baseUrl: "./",
     // 输出文件目录
-    outputDir: "/web/dist",
+    outputDir: "/dist",
     // webpack-dev-server 相关配置
     productionSourceMap: false,
     lintOnSave: false,
