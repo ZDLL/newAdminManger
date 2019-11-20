@@ -1,0 +1,31 @@
+module.exports={
+    "busList":"/appuser/business/getlist",//企业列表
+    'busAdd':"/appuser/business/addbusiness",//添加企业用户
+    'busEdit':"/appuser/business/editbusiness",//编辑企业用户
+    'busDet':"/appuser/business/getbusinessdetail",//编辑企业用户
+    'busChangeStatus':"/appuser/business/changestatus",//编辑企业用户
+    'comGetArea':'/appuser/common/getarea',//获取省市区
+    //员工列表
+    "staList":"appuser/staff/getlist",//员工列表
+    'staAdd':"/appuser/staff/addstaff",//添加员工
+    "staEdit":"/appuser/staff/editstaff",//编辑员工
+    'staDet':"/appuser/staff/getdetail",//员工详情
+    "staChangeStatus":"/appuser/staff/changestatus",//员工状态改变
+    'storeSelecList':"/appuser/store/getselectlist",//获取下拉门店列表
+    //门店
+    "storeAdd":"/appuser/store/addstore",//添加门店
+    'storeList':"/appuser/store/getlist",//门店列表
+    'storeEdit':"/appuser/store/editstore",//编辑门店
+    'storeDet':"/appuser/store/getdetail",//门店详情
+    'storeChangeStatus':"/appuser/store/changestatus",//门店禁用启用
+    //普通用户
+    'genUser':'/appuser/users/getlist',//普通用户列表
+    'genUserForbidden':'/appuser/users/changestatus',//"/appuser/users/forbidden",//普通用户冻结或启用
+    'genUserDet':"/appuser/users/getdetail",//普通用户的详情
+    //内容用户
+    'contUserList':"/appuser/users/getcontentuser",//内容用户列表
+    'addContUser':"/appuser/users/addcontentuser",//添加内容用户
+    'contUserChangeStatus':"/appuser/users/changestatus",//内容用户禁用启用
+
+
+}

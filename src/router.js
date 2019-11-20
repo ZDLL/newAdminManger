@@ -201,9 +201,19 @@ export default new Router({
         component: ()=>import('./views/home/allUserManage/appUser.vue')
       },
       {
+        path: '/appUserDet',//普通用户
+        name: 'appUserDet',
+        component: ()=>import('./views/home/allUserManage/appUserDet.vue')
+      },
+      {
         path: '/contUser',//内容用户
         name: 'contUser',
         component: ()=>import('./views/home/allUserManage/contentUser.vue')
+      },
+      {
+        path: '/contUserAdd',//添加内容用户
+        name: 'contUserAdd',
+        component: ()=>import('./views/home/allUserManage/contUserAdd.vue')
       },
       {
         path: '/firmUser',//企业用户
@@ -214,6 +224,11 @@ export default new Router({
         path: '/firmUserDetail',//企业详情
         name: 'firmUserDetail',
         component: ()=>import('./views/home/allUserManage/firmUserDetail.vue')
+      },
+      {
+        path: '/firmUserAdd',//添加企业用户
+        name: 'firmUserAdd',
+        component: ()=>import('./views/home/allUserManage/firmUserAdd.vue')
       },
     ]
     }
