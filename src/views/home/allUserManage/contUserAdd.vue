@@ -121,7 +121,7 @@ export default {
             return
         }
         if(!this.addContUserData.idcard){
-            this.$message.warning("请输入身份证");
+            this.$message.warning("请输入身份证号");
             return
         }
         if(!this.addContUserData.username){

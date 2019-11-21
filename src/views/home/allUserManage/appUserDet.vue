@@ -8,7 +8,7 @@
       <div class="userInfo">
         <h2>
           {{userAppInfo.nickname}}
-          <span class="isOk">{{userAppInfo.status_name}}</span>
+          <span class="isOk">{{userAppInfo.status | codeStatus}}</span>
         </h2>
         <ul class="userInfo-ul">
           <li>用户ID：{{userAppInfo.user_id}}</li>
