@@ -3,7 +3,7 @@
     <myBrea :my-nav="brea"></myBrea>
     <div class="appUser-cont">
       <span class="userPhoto">
-        <img :src='userAppInfo.head_portrait' alt="用户头像" />
+        <img v-if='userAppInfo.head_portrait' :src='userAppInfo.head_portrait' alt="用户头像" />
       </span>
       <div class="userInfo">
         <h2>
@@ -12,13 +12,15 @@
         </h2>
         <ul class="userInfo-ul">
           <li>用户ID：{{userAppInfo.user_id}}</li>
+          <li v-if='userAppInfo.type=="03000003"'>真实姓名：{{userAppInfo.realname}}</li>
+          <li v-if='userAppInfo.type=="03000003"'>身份证号：{{userAppInfo.idcard}}</li>
           <li>注册时间：{{userAppInfo.register_time}}</li>
           <li>手机号：{{userAppInfo.username}}</li>
           <li>所在地：{{userAppInfo.area || '--'}}</li>
           <li>用户标签：{{userAppInfo.cert || '--'}}</li>
         </ul>
       </div>
-      <div class="dynamic">
+      <div v-if='userAppInfo.type!="03000003"' class="dynamic">
         <div class="dyaTxt">动态数</div>
         <div class="dyas">
           {{userAppInfo.publish_num}}

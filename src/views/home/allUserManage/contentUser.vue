@@ -163,9 +163,9 @@ export default {
     },
     contDetView(row){
       this.$router.push({
-        path:"/contUserAdd",
+        path:"/appUserDet",
         query:{
-          contUserId:row.user_id
+          user_id:row.user_id
         }
       })
     }
