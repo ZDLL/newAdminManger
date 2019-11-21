@@ -40,12 +40,14 @@
           <el-table :data="tableData" stripe style="width: 100%">
             <el-table-column prop="user_id" label="用户ID"></el-table-column>
             <el-table-column prop="nickname" label="昵称"></el-table-column>
+            <el-table-column prop="cert" label='用户标签'></el-table-column>
             <el-table-column label="性别">
               <template slot-scope="scope">
                 {{scope.row.gender==1?"男":"女"}}
               </template>
             </el-table-column>
              <el-table-column prop="area" label="所在地"></el-table-column>
+             
             <!-- <el-table-column prop="codeTypeCpltName" label="所在地"></el-table-column> -->
             <el-table-column label="状态">
               <template slot-scope="scope">{{scope.row.status | codeStatus}}</template>

@@ -110,8 +110,6 @@ export default {
       );
       let data = this.$store.state.AllUserModule.POST_GENUSER_DET;
       this.addContUserData = data.out
-      console.log(this.addContUserData)
-      console.log(data)
     },
     contUserAddBtn(){
         if(!this.addContUserData.realname){
@@ -130,7 +128,6 @@ export default {
             this.$message.warning("请输入登录账号");
             return
         }
-        console.log(this.addContUserData)
         this.addContUser(this.addContUserData)
     }
   },
@@ -138,6 +135,7 @@ export default {
       this.contId=this.$route.query.contUserId;
       if(this.contId){
           this.contUserDet({user_id:this.contId})
+          this.brea[1].txt='内容用户详情'
       }
   }
 };

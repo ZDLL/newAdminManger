@@ -4,7 +4,7 @@
     <myBrea :my-nav="brea"></myBrea>
     <div class="firmUser-cont">
       <div class="firmTop">
-        <h2>企业信息</h2>
+        <h2>企业信息  <el-button class='fr' type="primary" plain @click="changStatusBtn">{{busInfo.status | statusBtnTxt}}</el-button></h2>
         <div class="firmInfo">
           <el-row>
             <el-col :span="8">
@@ -405,6 +405,15 @@ export default {
       this.shopKey++
       this.shopDia=false
     },
+    async busChangeStatus(postData){
+      await this.$store.dispatch(
+            "AllUserModule/POST_BUS_CHNAGE_STATUS",
+            postData
+        );
+        let data = this.$store.state.AllUserModule.POST_BUS_CHNAGE_STATUS;
+        this.$message.success("操作成功")
+        this.getBusList();
+    },
     clearBtn() {},
     handleCurrentFunc(val) {},
     navBtn(val) {
@@ -495,7 +504,7 @@ export default {
       });
       this.addStorffData.store_id = store_id_Ary.join(",")
       this.addStorffData.business_id=this.bus_id;
-      console.log(this.addStorffData)
+      // console.log(this.addStorffData)
       if(this.addStorffData.id){
          this.straffEdit(this.addStorffData)
       }else{
@@ -524,6 +533,15 @@ export default {
       }
       this.sfAddSp = true;
       this.shopDia=true
+    },
+    changStatusBtn(){
+      let _this = this;
+      myConfirm(_this,`是否${_this.busInfo.status=='00001001'?'禁用':'启用'}该企业用户？`,function(){
+        _this.busChangeStatus({
+          id:_this.busInfo.id,
+          status:_this.busInfo.status=='00001001'?'00001002':'00001001'
+        })
+      })
     }
   },
   created() {
