@@ -44,8 +44,9 @@
             <span :class="nacAct == 'empList'?'actSpan':''" @click="navBtn('empList')">员工列表</span>
             <span :class="nacAct == 'storeList'?'actSpan':''" @click="navBtn('storeList')">门店列表</span>
           </nav>
-          <el-button type="primary" class="fr ml20" @click="addStaffBtn">添加员工</el-button>
-          <el-button type="primary" class="fr" @click="addShopBtn">添加门店</el-button>
+            <el-button type="primary" class="fr" @click="addShopBtn">添加门店</el-button>
+
+          <el-button type="primary" class="fr mr20" @click="addStaffBtn">添加员工</el-button>
         </div>
         <div class="frimCnt mt20">
           <!-- <component :is="comAct"></component> -->
@@ -55,14 +56,19 @@
       </div>
     </div>
     <!-- 添加门店 -->
-    <el-dialog title="添加门店" :visible.sync="shopDia" width="55%">
+    <el-dialog :title="shopAddData.id?'编辑门店':'添加门店'" :visible.sync="shopDia" width="55%">
       <div class="add-shop-cont">
         <el-row :gutter="10" class="mt20">
           <el-col :span="4">
             <span class="my-span-notice">*</span>门店名称：
           </el-col>
           <el-col :span="12">
-            <el-input v-model="shopAddData.store_name" clearable placeholder="请输入内容"></el-input>
+            <el-input 
+            v-model="shopAddData.store_name" 
+            clearable 
+             maxlength="20"
+            show-word-limit
+            placeholder="请输入内容"></el-input>
           </el-col>
         </el-row>
         <el-row :gutter="10" class="mt20">
@@ -165,7 +171,7 @@
       </span>
     </el-dialog>
     <!-- 添加员工 -->
-    <el-dialog title="添加员工" :visible.sync="staffDia" width="55%">
+    <el-dialog :title="addStorffData.id?'编辑员工':'添加员工'" :visible.sync="staffDia" width="55%">
       <div class="add-staff-cont">
         <el-row :gutter="10" class="mt20">
           <el-col :span="5">
@@ -272,7 +278,9 @@ export default {
       sfAddSp:false
     };
   },
-  computed: {},
+  computed: {
+    
+  },
   components: {
     myBrea,
     proUpload,
