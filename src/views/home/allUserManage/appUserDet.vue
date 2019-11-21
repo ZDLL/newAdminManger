@@ -13,8 +13,9 @@
         <ul class="userInfo-ul">
           <li>用户ID：{{userAppInfo.user_id}}</li>
           <li>注册时间：{{userAppInfo.register_time}}</li>
-          <li>手机号：{{userAppInfo.phone}}</li>
+          <li>手机号：{{userAppInfo.username}}</li>
           <li>所在地：{{userAppInfo.area || '--'}}</li>
+          <li>用户标签：{{userAppInfo.cert || '--'}}</li>
         </ul>
       </div>
       <div class="dynamic">
@@ -24,6 +25,21 @@
           <span style="font-size:16px">条</span>
         </div>
       </div>
+      <div class="dynamic">
+        <div class="dyaTxt">文章数</div>
+        <div class="dyas">
+          {{userAppInfo.subject_num}}
+          <span style="font-size:16px">条</span>
+        </div>
+      </div>
+      <div class="dynamic">
+        <div class="dyaTxt">视频数</div>
+        <div class="dyas">
+          {{userAppInfo.video_num}}
+          <span style="font-size:16px">条</span>
+        </div>
+      </div>
+
       <el-button class="fr mt20" type="primary" @click="appUserChangeBtn">{{userAppInfo.status | statusBtnTxt}}</el-button>
     </div>
   </div>
@@ -63,6 +79,7 @@ export default {
       );
       let data = this.$store.state.AllUserModule.POST_GENUSER_CHNAGE_STATUS;
       this.$message.success("操作成功")
+      this.getAppUserDet();
     },
     appUserChangeBtn(){
         let _this = this;
@@ -103,7 +120,7 @@ export default {
       }
     }
     .userInfo {
-      width: 388px;
+      width: 330px;
       .isOk {
         padding: 2px 10px;
         background-color: #5377fd;
@@ -133,7 +150,7 @@ export default {
       }
     }
     .dynamic {
-      width: 200px;
+      width: 150px;
       text-align: center;
       .dyaTxt {
         position: relative;
@@ -145,16 +162,16 @@ export default {
         margin-top: 10px;
         height: 32px;
         line-height: 32px;
-        &::after {
-          content: "";
-          position: absolute;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          overflow: hidden;
-          background-color: #d8d8d8;
-          left: 36px;
-        }
+        // &::after {
+        //   content: "";
+        //   position: absolute;
+        //   width: 32px;
+        //   height: 32px;
+        //   border-radius: 50%;
+        //   overflow: hidden;
+        //   background-color: #d8d8d8;
+        //   left: 36px;
+        // }
       }
       .dyas {
         color: #333;
