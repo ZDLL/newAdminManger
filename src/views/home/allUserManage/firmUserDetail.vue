@@ -50,8 +50,8 @@
         </div>
         <div class="frimCnt mt20">
           <!-- <component :is="comAct"></component> -->
-          <empList :key='empKey' @strfEdit='strfEditBtn' v-if='comAct=="empList"'></empList>
-          <storeList :key='shopKey' @storeEdit='storeEditBtn' v-if='comAct=="storeList"'></storeList>
+          <empList :key='empKey' v-if='comAct=="empList" && bus_id' :busId='bus_id' @strfEdit='strfEditBtn'></empList>
+          <storeList :key='shopKey' v-if='comAct=="storeList" && bus_id' :busId='bus_id' @storeEdit='storeEditBtn'></storeList>
         </div>
       </div>
     </div>

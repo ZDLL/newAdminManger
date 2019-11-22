@@ -73,6 +73,12 @@ import proUpload from "../../../components/proUpload.vue";
 import myPackage from "../../../components/package.vue";
 import { myConfirm } from "../../../comm/until";
 export default {
+  props:{
+    busId:{
+       type:String,
+       default:""
+    }
+  },
   data() {
     return {
       value: "",
@@ -82,6 +88,7 @@ export default {
       brea: [{ txt: "用户中心", url: "/" }, { txt: "企业用户", url: "/" }],
       tableData:[],
       searchData:{
+        business_id:"",
         store_name:"",
         type:"",
         status:"",
@@ -147,7 +154,7 @@ export default {
     }
   },
   created() {
-    this.getStoreList()
+   
     let _this = this;
      this.getCodelist({codeTypes:"storeType"},function(callData){
       _this.storeTypeOpn=callData
@@ -155,6 +162,9 @@ export default {
      this.getCodelist({codeTypes:"status"},function(callData){
       _this.statusOpn=callData
     })
+    this.searchData.business_id = this.busId;
+    console.log(this.busId)
+    this.getStoreList()
   }
 };
 </script>

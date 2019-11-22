@@ -66,6 +66,12 @@ import proUpload from "../../../components/proUpload.vue";
 import myPackage from "../../../components/package.vue";
 import { myConfirm } from "../../../comm/until";
 export default {
+  props:{
+    busId:{
+       type:String,
+      default:""
+    }
+  },
   data() {
     return {
       value: "",
@@ -74,6 +80,7 @@ export default {
       packTotal:1,
       tableData:[],
       searchData:{
+        business_id:"",
         staff_name:"",
         user_id:"",
         status:"",
@@ -140,11 +147,13 @@ export default {
     }
   },
   created() {
-    this.getStaList();
+  
     let _this =this;
     this.getCodelist({codeTypes:"status"},function(callData){
       _this.statusOpn=callData
-    })
+    });
+    this.searchData.business_id = this.busId
+    this.getStaList();
   }
 };
 </script>

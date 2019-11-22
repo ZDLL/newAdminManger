@@ -42,7 +42,7 @@
             <el-table-column prop="type_name" label="企业类型"></el-table-column>
             <el-table-column prop="store_num" label="门店数量"></el-table-column>
             <el-table-column prop="staff_num" label="员工数量"></el-table-column>
-            <el-table-column prop="create_time" label="入住时间"></el-table-column>
+            <el-table-column prop="create_time" label="入驻时间"></el-table-column>
             <el-table-column prop="status_name" label="状态">
               <!-- <template slot-scope="scope">{{scope.row.state | codeStatus}}</template> -->
             </el-table-column>

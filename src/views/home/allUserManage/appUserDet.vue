@@ -20,21 +20,21 @@
           <li>用户标签：{{userAppInfo.cert || '--'}}</li>
         </ul>
       </div>
-      <div v-if='userAppInfo.type!="03000003"' class="dynamic">
+      <div class="dynamic">
         <div class="dyaTxt">动态数</div>
         <div class="dyas">
           {{userAppInfo.publish_num}}
           <span style="font-size:16px">条</span>
         </div>
       </div>
-      <div class="dynamic">
+      <div v-if='userAppInfo.type=="03000003"' class="dynamic">
         <div class="dyaTxt">文章数</div>
         <div class="dyas">
           {{userAppInfo.subject_num}}
           <span style="font-size:16px">条</span>
         </div>
       </div>
-      <div class="dynamic">
+      <div v-if='userAppInfo.type=="03000003"' class="dynamic">
         <div class="dyaTxt">视频数</div>
         <div class="dyas">
           {{userAppInfo.video_num}}
