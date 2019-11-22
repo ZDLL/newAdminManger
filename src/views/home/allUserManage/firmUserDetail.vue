@@ -412,7 +412,8 @@ export default {
         );
         let data = this.$store.state.AllUserModule.POST_BUS_CHNAGE_STATUS;
         this.$message.success("操作成功")
-        this.getBusList();
+        this.busDet({id:this.bus_id});
+        // this.getBusList();
     },
     clearBtn() {},
     handleCurrentFunc(val) {},
