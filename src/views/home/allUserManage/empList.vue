@@ -5,7 +5,7 @@
       <div class="user-table">
         <div class="seachTop">
           <div class="seachlist dis_inl_blo mr20">
-            <span>姓名：</span>
+            <span>员工姓名：</span>
             <el-input style="width:200px" v-model="searchData.staff_name" clearable @clear="clearBtn('staff_name')" placeholder="请输入内容"></el-input>
           </div>
           <div class="seachlist dis_inl_blo mr20">
