@@ -20,14 +20,14 @@ module.exports = {
     devServer: {
         open: process.platform === 'darwin',
         // host: '127.0.0.1',
-        port: 8890,
-        https: false,
-        hotOnly: false,
-        proxy: {
-            '/api/': {
-                target:'http://47.106.155.169:8081',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+        port: 8890,//本地的端口 
+        https: false,//是否开启https
+        hotOnly: false, //是否指定端口号访问
+        proxy: {//代理
+            '/api/': {//关键词
+                target:'http://47.106.155.169:8081',//代理到服务器
                 ws: true,
-                changOrigin: true,
+                changOrigin: true,//是否基于虚拟托管网站
             },
             '/gds/':{
                 target:'http://47.106.155.169:8081',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
@@ -48,7 +48,18 @@ module.exports = {
                 target:'http://47.106.155.169:8081',//'http://192.168.3.119:8083',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
                 ws: true,
                 changOrigin: true,
-            }
+            },
+            '/appuser/':{
+                target:'http://47.106.155.169:8081',//'http://192.168.3.119:8083',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+                ws: true,
+                changOrigin: true,
+            },
+            '/community/':{
+                target:'http://47.106.155.169:8081',//'http://192.168.3.119:8083',//"http://192.168.3.207:8081",//"http://192.168.3.252:6021",
+                ws: true,
+                changOrigin: true,
+            },
+            
         }, // 设置代理
         before: app => {}
     }

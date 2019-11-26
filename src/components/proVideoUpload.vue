@@ -2,7 +2,10 @@
     <div class="el-upload">
         <span class='proUpload-span' @click="spanClick">
             <i class='el-icon-plus'></i>
-            <img v-if='url' :src='url' alt="上传">
+            <video class='myVideo' v-if='url' controls="controls">
+                <source :src='url' type="video/mp4" />
+            </video>
+            <!-- <img v-if='url' :src='url' alt="上传"> -->
         </span>
         <input style="display:none" type="file" @change="changeFile" ref="proUpload" id="proUpload" />
         <el-progress v-if='showPer' :percentage='per'></el-progress>
@@ -12,7 +15,7 @@
 <script>
 import axios from "axios"
 export default {
-    name:"elupload",
+    name:"videoupload",
     props:{
         imgUrl:{
             type:String,
@@ -25,8 +28,8 @@ export default {
             per:0,
             url:this.imgUrl,
             showPer:false,
-            token:"",
             bucket:"car-public-source",
+            token:""
         }
     },
     methods:{
@@ -51,7 +54,6 @@ export default {
                  _this.$message.err("生成上传token失败")
              })
         },
-
         changeFile(){
             let _this = this;
             _this.showPer = true
@@ -65,7 +67,7 @@ export default {
             formData.append("file",file);
             axios({
                 method: 'post',
-                 url: 'http://up-z2.qiniup.com',
+                url: 'http://up-z2.qiniup.com',
                 onUploadProgress:function(progressEvent){
                     if(progressEvent.lengthComputable){
                         _this.per = (progressEvent.loaded/progressEvent.total)*96
@@ -75,7 +77,10 @@ export default {
             }).then((data)=>{
                 _this.per=100;
                 _this.url = "http://source.zhiqu2019.com/"+data.data.name; 
-                _this.$emit("getUrl", _this.url)
+                let h=data.data.video.height;
+                let w = data.data.video.width,
+                    d = data.data.video.duration
+                _this.$emit("getUrl",{url:_this.url,width:w,height:h,duration:d})
                 setTimeout(()=>{
                     _this.showPer=false;
                     _this.per = 0;
@@ -86,7 +91,7 @@ export default {
         }
     },
     created(){
-         this.getUploadToken();
+        this.getUploadToken();
         // console.log(this.imgUrl)
     }
 }

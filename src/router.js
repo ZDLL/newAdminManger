@@ -230,6 +230,68 @@ export default new Router({
         name: 'firmUserAdd',
         component: ()=>import('./views/home/allUserManage/firmUserAdd.vue')
       },
+      //社交中心
+      {
+        path:"/article",//文章管理
+        name:"articleMange",
+        component:()=>import('./views/home/socialCenter/articleMange/articleList.vue'),
+      },
+      // {
+      //   path:"/articledetail",//文章详情
+      //   name:"articleDetail",
+      //   component:()=>import('./views/home/socialCenter/articleMange/articleDetail.vue'),
+      // },
+      {
+        path:"/addarticle",//添加文章
+        name:"addarticle",
+        component:()=>import('./views/home/socialCenter/articleMange/articleAdd.vue'),
+      },
+      {
+        path:"/draft",//草稿箱
+        name:"draft",
+        component:()=>import('./views/home/socialCenter/draftMange/draftList.vue'),
+      },
+      {
+        path:"/comment",
+        name:"comment",
+        component:()=>import('./views/home/socialCenter/commentMange/commentList.vue')
+      },
+      {
+        path:"/topic",//话题管理
+        name:"topicManage",
+        component:()=>import('./views/home/socialCenter/topicManage/topicList.vue'),
+      },{
+        path:"/topicdetail",//话题管理
+        name:"topicDetail",
+        component:()=>import('./views/home/socialCenter/topicManage/topicDetail.vue'),
+      },
+      {
+        path:"/banner",//广告位管理
+        name:"banner",
+        component:()=>import('./views/home/socialCenter/bannerMange/bannerList.vue')
+      },{
+        path:"/addbanner",//添加广告
+        name:"addbanner",
+        component:()=>import('./views/home/socialCenter/bannerMange/bannerAdd.vue')
+      },
+      {
+        path:"/dynamic",//动态管理
+        name:"dynamicManage",
+        component:()=>import('./views/home/socialCenter/dynamicManage/dynamicList.vue'),
+      },{
+        path:"/dynamicdetail",//动态详情
+        name:"dynamicdetails",
+        component:()=>import('./views/home/socialCenter/dynamicManage/dynamicDetails.vue'),
+      },
+      {
+        path:'/socialColumn',//专栏管理
+        name:"columnMange",
+        component:()=>import('./views/home/socialCenter/columnMange/columnList.vue'),
+      },{
+        path:'/socialColumndetail',//专栏详情
+        name:"columndetail",
+        component:()=>import('./views/home/socialCenter/columnMange/columDetail.vue'),
+      },
     ]
     }
   ]

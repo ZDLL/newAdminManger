@@ -166,13 +166,19 @@ let sendRequest = function(url,payload,method){
       headers: {"token":window.localStorage.getItem("userInfo")?JSON.parse(window.localStorage.getItem("userInfo")).token:''},
     }).then(data=>{
       endLoading()
-      if(data.data.status !=200){
-        Message.error(data.data.message)
-        if(data.data.status =='403'){
-          window.location.href='/'
+      if( data.data.code && data.data.code!='10000'){
+          Message.error(data.data.msg);
+          return
+      }else{
+        if(data.data.status && data.data.status !=200){
+          Message.error(data.data.message)
+          if(data.data.status =='403'){
+            window.location.href='/'
+          }
+          return;
         }
-        return;
       }
+      
       res(data)
     }).catch(err=>{
       endLoading()

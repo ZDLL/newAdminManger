@@ -16,6 +16,17 @@ import ContentModule from './module/content/contentModule.js'
 import TemplateModule from './module/temp/tempModule.js'
 import CodeModule from './module/code/codeModule.js'
 import AllUserModule from './module/allUser/userModule.js'
+//社交中心
+import articleModule from './module/social/articleModule.js'
+import colunModule from './module/social/columModule.js'
+import comentModule from './module/social/commentModule.js'
+import topicModule from './module/social/topicModule.js'
+import draftModule from './module/social/draftModule.js'
+import bannerModule from './module/social/bannerModule.js'
+import dynamicModule from './module/social/dynamicModule.js'
+// import colunModule from './modulesocial//columModule'
+
+
 Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
@@ -34,6 +45,13 @@ export default new Vuex.Store({
     ContentModule,
     TemplateModule,
     CodeModule,
-    AllUserModule
+    AllUserModule,
+    articleModule,
+    draftModule,
+    colunModule,
+    comentModule,
+    topicModule,
+    bannerModule,
+    dynamicModule
   }
 })
